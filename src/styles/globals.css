@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-login: #003f72;
+  --bg-white: #fff;
+  --bg-sidebar: #fff;
+  --bg-main: #e3e3e3;
+  --bg-dark-sidebar: rgb(30, 41, 59);
+  --bg-dark-main: rgb(51, 65, 85);
+  --bg-button-user: rgb(203, 213, 225);
+  --bg-button-user-dark: rgb(71, 85, 105);
+  --bg-dark-options: rgb(71, 85, 105);
+  --text-footer: #c3c3c3;
+  --text-white: #fff;
+  --text-title-login: #4480da;
+  --text-label-login: #303030;
+  --text-placeholder-login: #b6b6b6;
+  --text-input-dark: rgb(241, 245, 249);
+  --text-button-login: #4685fe;
+  --text-title-profile: rgb(71, 85, 105);
+  --text-subTitle-profile: rgb(148, 163, 184);
+  --text-alert: rgb(250, 204, 21);
+  --focus-input-login: #4480da;
+  --border-error: rgb(239, 68, 68);
+  --border-select: rgb(226, 232, 240);
+  --border-dark: rgb(100, 116, 139);
+  --label-color-error: rgb(248, 113, 113);
+  --light-blue-opacity: rgb(96, 165, 250, 0.8);
+  --light-blue: rgb(96, 165, 250);
+  --dark-blue: rgb(59, 130, 246);
+  --hover-dark-logout: rgb(248, 113, 113);
+  --hover-dark-theme: rgb(96, 165, 250);
+  --hover-light-route: rgb(226, 232, 240);
+  --hover-dark-route: rgb(71, 85, 105);
+}
