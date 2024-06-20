@@ -70,7 +70,7 @@ export const secondRoutes: Array<SecondRoutes> = [
         name: "Agenda",
         level: 8,
         permissions: [1, 2, 3, 4],
-        route: "/monitoring/agenda",
+        route: "/monitoring/schedule-monitoring",
     },
     {
         name: "Monitorias realizadas",
