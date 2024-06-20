@@ -19,8 +19,6 @@ export async function getRelationQuestions<T>(object: T) {
         .then(async (value) => {
             const data = await value.json()
 
-            console.log(data)
-
             if (value.status != 200) {
                 return {
                     data: null,

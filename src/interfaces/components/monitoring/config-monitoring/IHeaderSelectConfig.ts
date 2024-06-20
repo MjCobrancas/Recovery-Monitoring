@@ -4,6 +4,9 @@ import { z } from "zod";
 interface IHeaderSelectConfigProps {
     creditors: ICreditorGetAllCreditors[]
     setValueQuestionList: (value: IQuestionsResponse, showQuestions: boolean) => void
+    setValuesHeader: (id_creditor: number, id_ocorrence: number, id_aging: number) => void
+    setValueDisableAllButtons: (value: boolean) => void
+    disableAllButtons: boolean
 }
 
 interface IHeaderSelectConfigForm {
@@ -57,25 +60,31 @@ export const IHeaderSelectConfigSchema = z.object({
 })
 
 interface IQuestionsResponse {
-    behavioral: {
-        question: string
-        idQuestion: number
-        position: number
-        note: number
-        isBehavioral: boolean
-    }[]
-    generic: {
-        question: string
-        idQuestion: number
-        isBehavioral: boolean
-    }[]
-    questions: {
-        question: string
-        idQuestion: number
-        position: number
-        note: number
-        isBehavioral: false
-    }[]
+    behavioral: IQuestionsBehavioral[]
+    generic: IQuestionsGeneric[]
+    questions: IQuestionsNegotiation[]
 }
 
-export type { IHeaderSelectConfigProps, IHeaderSelectConfigForm, IQuestionsResponse }
+interface IQuestionsBehavioral {
+    question: string
+    idQuestion: number
+    position: number
+    note: number
+    isBehavioral: boolean
+}
+
+interface IQuestionsGeneric {
+    question: string
+    idQuestion: number
+    isBehavioral: boolean
+}
+
+interface IQuestionsNegotiation {
+    question: string
+    idQuestion: number
+    position: number
+    note: number
+    isBehavioral: boolean
+}
+
+export type { IHeaderSelectConfigProps, IHeaderSelectConfigForm, IQuestionsResponse, IQuestionsNegotiation, IQuestionsBehavioral, IQuestionsGeneric }
