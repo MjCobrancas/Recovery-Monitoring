@@ -1,5 +1,5 @@
 import { ICreditors } from "@/interfaces/generics/ICreditors"
-import { IFilterSchedule, IFilterScheduleOcorrences } from "./IFilterSchedule"
+import { IFilterScheduleOcorrences } from "./IFilterSchedule"
 
 interface ISchedules {
     agendas: {

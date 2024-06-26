@@ -11,12 +11,14 @@ export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
 
 	if (!token) {
+		console.log("a")
 		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 	}
 
 	const tokenUserValues: ITokenUserValues | null = parseJWT(token)
 
 	if (tokenUserValues == null) {
+		console.log("b")
 		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 	}
 
@@ -48,6 +50,7 @@ export function middleware(request: NextRequest) {
 		})
 
 		if (!validRoute) {
+			console.log("c")
 			return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 		}
 	}
