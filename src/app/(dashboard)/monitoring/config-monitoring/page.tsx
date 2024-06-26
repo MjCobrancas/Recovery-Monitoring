@@ -1,5 +1,4 @@
 import { getAllCreditors } from "@/api/generics/getAllCreditors";
-import { getAllOcorrences } from "@/api/generics/getAllOcorrences";
 import { Ancora } from "@/components/Ancora";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";

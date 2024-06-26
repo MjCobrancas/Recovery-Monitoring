@@ -14,6 +14,7 @@ export async function getAgingByCreditorAndOcorrence(idCreditor: number, idOcorr
             "Content-Type": "application/json",
             Authorization: "Bearer " + userParse.accessToken,
         },
+        cache: "no-cache"
     })
         .then(async (value) => {
             const data = await value.json()

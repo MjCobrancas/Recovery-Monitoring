@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
-export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderSelectConfigProps) {
+export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesHeader, setValueDisableAllButtons, disableAllButtons }: IHeaderSelectConfigProps) {
 
     const [ocorrences, setOcorrences] = useState<IGetAllOcorrences[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
@@ -31,6 +31,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
     async function handleGetRelations(data: FieldValues) {
         setNotFoundMessage("")
         setDisableButton(true)
+        setValueDisableAllButtons(true)
 
         if (data.id_aging != "disabled") {
             const configObject = {
@@ -42,6 +43,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
             const getQuestions: IResultDefaultResponse<IQuestionsResponse | null> = await getRelationQuestions<typeof configObject>(configObject)
 
             setDisableButton(false)
+            setValueDisableAllButtons(false)
 
             if (!getQuestions.status) {
                 setNotFoundMessage("questions")
@@ -51,6 +53,8 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
 
             setValueQuestionList(getQuestions.data!, true)
 
+            setValuesHeader(Number(data.id_creditor), Number(data.id_ocorrence), Number(data.id_aging))
+
             return
         }
 
@@ -58,6 +62,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
             const getAgings = await getAgingByCreditorAndOcorrence(Number(data.id_creditor), Number(data.id_ocorrence))
 
             setDisableButton(false)
+            setValueDisableAllButtons(false)
 
             if (!getAgings.status) {
                 setNotFoundMessage("agings")
@@ -74,6 +79,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
         const getOcorrences = await getOcorrencesByCreditor(Number(data.id_creditor))
 
         setDisableButton(false)
+        setValueDisableAllButtons(false)
 
         if (!getOcorrences.status) {
             setNotFoundMessage("ocorrences")
@@ -90,16 +96,19 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
         setValue("id_aging", "disabled")
         setOcorrences([])
         setAgings([])
+        setValuesHeader(0, 0, 0)
         setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
     }
 
     function changedOcorrences() {
         setValue("id_aging", "disabled")
         setAgings([])
+        setValuesHeader(0, 0, 0)
         setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
     }
 
     function changedAgings() {
+        setValuesHeader(0, 0, 0)
         setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
     }
 
@@ -120,6 +129,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
                             register={register}
                             value={watch("id_creditor")}
                             styles={errors.id_creditor ? "border-red-500" : ""}
+                            disabled={disableAllButtons}
                         >
                             <Option value={"0"} firstValue={"Selecione um credor"} />
                             {creditors.map((creditor, index) => {
@@ -142,10 +152,10 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
                             styles={`w-fit min-w-full ${errors.id_ocorrence && "border-red-500"}`}
                             required
                             OnChange={() => changedOcorrences()}
-                            disabled={ocorrences.length == 0}
+                            disabled={ocorrences.length == 0 || disableAllButtons}
                             onForm={true}
                             register={register}
-                            value={watch("id_ocorrence")}
+                            value={watch("id_ocorrence")}   
                         >
                             {getValues("id_ocorrence") == "disabled" ? (
                                 <Option value="disabled" firstValue="Selecione uma ocorrência" />
@@ -173,7 +183,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
                             name="id_aging"
                             id="fase"
                             styles={`w-fit min-w-full ${errors.id_aging && "border-red-500"}`}
-                            disabled={agings.length == 0}
+                            disabled={agings.length == 0 || disableAllButtons}
                             onForm={true}
                             value={watch("id_aging")}
                             register={register}
@@ -203,7 +213,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList }: IHeaderS
                         type="submit"
                         text="Buscar"
                         styles={`w-24 h-10 text-md`}
-                        disabled={disableButton}
+                        disabled={disableButton || disableAllButtons}
                     />
                 </form>
 

@@ -1,13 +1,13 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics"
-import { IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { GetUserToken } from "@/utils/GetUserToken"
 
-export async function getRelationQuestions<T>(object: T) {
+export async function saveOptionsAndQuestions<T>(object: T) {
+
     const userParse: ITokenUserInitialValues = GetUserToken()
 
-    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/get-questions-config`, {
+    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/relation-questions`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -19,23 +19,14 @@ export async function getRelationQuestions<T>(object: T) {
         .then(async (value) => {
             const data = await value.json()
 
-            if (value.status != 200) {
-                return {
-                    data: null,
-                    status: false
-                }
+            if (value.status == 400 && data.message != "Ok") {
+                return false
             }
 
-            return {
-                data: data as IQuestionsResponse,
-                status: true
-            }
+            return true
         })
         .catch((error) => {
-            return {
-                data: null,
-                status: false
-            }
+            return false
         })
 
     return resp
