@@ -1,7 +1,8 @@
-import { IScheduleTable } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { IScheduleTable } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { getDateOfString } from "@/utils/GetDateOfString";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export function TableSchedule({ schedules, filter }: IScheduleTable) {
 
@@ -59,12 +60,12 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
                             </td>
 
                             <td className={`p-2 text-center`}>
-                                <a
+                                <Link
                                     className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white rounded-md px-2 py-[5px]`}
                                     href={`/monitoring/answer-monitoring/${filtered.id_quantity}`}
                                 >
                                     <FontAwesomeIcon icon={faPaperPlane} fontSize={14} />
-                                </a>
+                                </Link>
                             </td>
                         </tr>
                     )
@@ -93,12 +94,12 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
                                 </td>
 
                                 <td className={`p-2 text-center`}>
-                                    <a
+                                    <Link
                                         className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white rounded-md px-2 py-[5px]`}
                                         href={`/monitoring/answer-monitoring/${schedule.id_quantity}`}
                                     >
                                         <FontAwesomeIcon icon={faPaperPlane} fontSize={14} />
-                                    </a>
+                                    </Link>
                                 </td>
                             </tr>
                         )

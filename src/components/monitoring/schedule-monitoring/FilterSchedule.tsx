@@ -6,7 +6,7 @@ import { FieldForm } from "@/components/FieldForm";
 import { Input } from "@/components/Input";
 import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
-import { IFilterSchedule, scheduleMonitorinSchema, scheduleMonitoringData } from "@/interfaces/components/monitoring/schedule-monitoring/IFilterSchedule";
+import { IFilterSchedule, scheduleMonitorinSchema, scheduleMonitoringData } from "@/interfaces/monitoring/schedule-monitoring/IFilterSchedule";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";

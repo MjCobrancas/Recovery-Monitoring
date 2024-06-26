@@ -4,8 +4,8 @@ import { getAllSchedule } from "@/api/monitoring/schedule-monitoring/getAllSched
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
 import { ContainerSchedule } from "@/components/monitoring/schedule-monitoring/ContainerSchedule";
-import { IFilterScheduleOcorrences } from "@/interfaces/components/monitoring/schedule-monitoring/IFilterSchedule";
-import { ISchedules } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { IFilterScheduleOcorrences } from "@/interfaces/monitoring/schedule-monitoring/IFilterSchedule";
+import { ISchedules } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { ICreditors } from "@/interfaces/generics/ICreditors";
 
 export default async function Home() {
@@ -13,8 +13,6 @@ export default async function Home() {
     const schedules: ISchedules = await getAllSchedule()
     const creditors: ICreditors[] = await getAllCreditors()
     const ocorrences: IFilterScheduleOcorrences = await getAllOcorrences()
-
-    console.log(ocorrences)
 
     return (
         <PaperBlock styles={``}>

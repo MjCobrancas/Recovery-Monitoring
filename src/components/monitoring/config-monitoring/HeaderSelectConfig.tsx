@@ -6,7 +6,7 @@ import { FieldForm } from "@/components/FieldForm";
 import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { IResultDefaultResponse } from "@/interfaces/Generics";
-import { IHeaderSelectConfigForm, IHeaderSelectConfigProps, IHeaderSelectConfigSchema, IQuestionsResponse } from "@/interfaces/components/monitoring/config-monitoring/IHeaderSelectConfig";
+import { IHeaderSelectConfigForm, IHeaderSelectConfigProps, IHeaderSelectConfigSchema, IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig";
 import { IAgings } from "@/interfaces/generics/IAgings";
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
 import { zodResolver } from "@hookform/resolvers/zod";

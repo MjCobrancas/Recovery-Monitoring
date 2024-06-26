@@ -1,7 +1,7 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics"
-import { IQuestionsResponse } from "@/interfaces/components/monitoring/config-monitoring/IHeaderSelectConfig"
+import { IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { GetUserToken } from "@/utils/GetUserToken"
 
 export async function getRelationQuestions<T>(object: T) {

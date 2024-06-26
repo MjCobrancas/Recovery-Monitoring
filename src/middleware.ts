@@ -11,12 +11,14 @@ export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
 
 	if (!token) {
+		console.log("a")
 		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 	}
 
 	const tokenUserValues: ITokenUserValues | null = parseJWT(token)
 
 	if (tokenUserValues == null) {
+		console.log("b")
 		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 	}
 
@@ -33,6 +35,8 @@ export function middleware(request: NextRequest) {
 	})
 
 	if (!validRoute) {
+		const pathNameWithRegex = pathname.match(/\/[\w-]+\/[\w-]+/g)
+		const pathNameWithRegex2 = pathNameWithRegex != null ? pathNameWithRegex.join('') : ""
 		const validActionRoutes: Array<ActionRoutes> = actionRoutes.filter((e) => {
 			return e.permissions.some((e: number) => {
 				return e == Number(tokenUserValues.permission)
@@ -40,12 +44,13 @@ export function middleware(request: NextRequest) {
 		})
 
 		validActionRoutes.map((item: ActionRoutes) => {
-			if (item.route == pathname) {
+			if (item.route == pathNameWithRegex2) {
 				validRoute = true
 			}
 		})
 
 		if (!validRoute) {
+			console.log("c")
 			return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 		}
 	}

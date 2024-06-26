@@ -1,4 +1,4 @@
-import { IConfigQuestionsProps } from "@/interfaces/components/monitoring/config-monitoring/IConfigQuestions";
+import { IConfigQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IConfigQuestions";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

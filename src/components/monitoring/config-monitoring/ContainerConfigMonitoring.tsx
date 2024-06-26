@@ -1,10 +1,10 @@
 'use client'
 
-import { IContainerMonitoringProps } from "@/interfaces/components/monitoring/config-monitoring/IContainerConfigMonitoring"
+import { IContainerMonitoringProps } from "@/interfaces/monitoring/config-monitoring/IContainerConfigMonitoring"
 import { HeaderSelectConfig } from "./HeaderSelectConfig"
 import { useState } from "react"
 import { ConfigQuestions } from "./ConfigQuestions"
-import { IQuestionsResponse } from "@/interfaces/components/monitoring/config-monitoring/IHeaderSelectConfig"
+import { IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 
 export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringProps) {
     const [questionsList, setQuestionsList] = useState<IQuestionsResponse>({questions: [], behavioral: [], generic: []})
