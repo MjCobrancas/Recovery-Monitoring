@@ -1,4 +1,4 @@
-import { IScheduleTable } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { IScheduleTable } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { getDateOfString } from "@/utils/GetDateOfString";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

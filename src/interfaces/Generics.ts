@@ -3,8 +3,8 @@ interface IResult {
 }
 
 interface IResultDefaultResponse<T> {
-    data?: T
-    status?: boolean
+    data: T
+    status: boolean
 }
 
 interface ITokenUserInitialValues {

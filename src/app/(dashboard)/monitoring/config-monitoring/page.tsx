@@ -14,7 +14,7 @@ export default async function page() {
 
             <ContainerConfigMonitoring creditors={creditors} />
 
-            <Ancora title="Voltar" toGo="/monitoring" styles="ml-1 mb-1 w-16" />
+            <Ancora title="Voltar" toGo="/monitoring/schedule-monitoring" styles="ml-1 mb-1 w-16" />
         </PaperBlock>
     )
 }

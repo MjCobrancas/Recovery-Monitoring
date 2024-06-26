@@ -1,6 +1,6 @@
 'use client'
 
-import { IScheduleDataContainer, ISchedulesData, ISchedulesResponse } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { IScheduleDataContainer, ISchedulesData, ISchedulesResponse } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { HeaderSchedule } from "./HeaderSchedule";
 import { TableSchedule } from "./TableSchedule";
 import { FilterSchedule } from "./FilterSchedule";

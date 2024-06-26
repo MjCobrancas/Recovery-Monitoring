@@ -1,42 +1,46 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics"
-import { IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { GetUserToken } from "@/utils/GetUserToken"
+import { revalidateTag } from "next/cache"
 
-export async function getRelationQuestions<T>(object: T) {
+export async function saveMonitoryFeedback(idForm: number, idResponsable: number) {
+
     const userParse: ITokenUserInitialValues = GetUserToken()
 
-    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/get-questions-config`, {
-        method: "POST",
+    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/update-monitoring-feedback`, {
+        method: "PUT",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + userParse.accessToken,
         },
-        body: JSON.stringify(object),
+        body: JSON.stringify({
+            id_form: idForm,
+            id_responsable: idResponsable
+        })
     })
         .then(async (value) => {
             const data = await value.json()
 
-            if (value.status != 200) {
+            if (!data.status) {
                 return {
-                    data: null,
                     status: false
                 }
             }
 
             return {
-                data: data as IQuestionsResponse,
                 status: true
             }
         })
         .catch((error) => {
             return {
-                data: null,
                 status: false
             }
         })
+
+    revalidateTag("getAllMonitoringRealizedUsers")
+    revalidateTag("filterRealizedMonitoring")
 
     return resp
 }

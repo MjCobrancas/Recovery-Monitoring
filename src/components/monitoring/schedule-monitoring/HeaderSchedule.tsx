@@ -1,5 +1,5 @@
 import { Ancora } from "@/components/Ancora";
-import { ISchedulesData } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { ISchedulesData } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 
 export function HeaderSchedule({ schedules }: ISchedulesData) {
 

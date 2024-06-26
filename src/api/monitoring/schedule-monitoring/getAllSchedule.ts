@@ -1,7 +1,7 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics";
-import { ISchedulesQuantity, ISchedulesResponse } from "@/interfaces/components/monitoring/schedule-monitoring/ISchedules";
+import { ISchedulesQuantity, ISchedulesResponse } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { GetUserToken } from "@/utils/GetUserToken";
 
 export async function getAllSchedule(skip: string = "0", take: string = "15") {

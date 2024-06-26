@@ -1,7 +1,7 @@
 import { saveOptionsAndQuestions } from "@/api/monitoring/config-monitoring/saveOptionsAndQuestions";
 import { Button } from "@/components/Button";
-import { IConfigFormSchema, IConfigQuestionsProps } from "@/interfaces/components/monitoring/config-monitoring/IConfigQuestions";
-import { IQuestionsBehavioral, IQuestionsGeneric, IQuestionsNegotiation } from "@/interfaces/components/monitoring/config-monitoring/IHeaderSelectConfig";
+import { IConfigFormSchema, IConfigQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IConfigQuestions";
+import { IQuestionsBehavioral, IQuestionsGeneric, IQuestionsNegotiation } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig";
 import { faAnglesLeft, faAnglesRight, faArrowDown, faArrowLeft, faArrowRight, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
