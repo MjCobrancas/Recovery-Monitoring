@@ -1,24 +1,27 @@
-import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence";
-import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor";
-import { getRelationQuestions } from "@/api/monitoring/config-monitoring/getRelationQuestions";
-import { Button } from "@/components/Button";
-import { FieldForm } from "@/components/FieldForm";
-import { Option } from "@/components/Option";
-import { SelectField } from "@/components/SelectField";
-import { IResultDefaultResponse } from "@/interfaces/Generics";
-import { IHeaderSelectConfigForm, IHeaderSelectConfigProps, IHeaderSelectConfigSchema, IQuestionsResponse } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig";
-import { IAgings } from "@/interfaces/generics/IAgings";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { deleteQuestions } from "@/api/monitoring/config-monitoring/deleteQuestions"
+import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence"
+import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor"
+import { saveOptionsAndQuestions } from "@/api/monitoring/config-monitoring/saveOptionsAndQuestions"
+import { Button } from "@/components/Button"
+import { FieldForm } from "@/components/FieldForm"
+import { Option } from "@/components/Option"
+import { SelectField } from "@/components/SelectField"
+import { IAgings } from "@/interfaces/generics/IAgings"
+import { IDialogCloneQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IDialogCloneQuestions"
+import { IHeaderSelectConfigForm, IHeaderSelectConfigSchema } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { FieldValues, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 
-export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesHeader, setValueDisableAllButtons, disableAllButtons }: IHeaderSelectConfigProps) {
+export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, headerObject, creditors }: IDialogCloneQuestionsProps) {
 
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
+    const [disableAllButtons, setDisableAllButtons] = useState(false)
     const [notFoundMessage, setNotFoundMessage] = useState("")
-    const [disableButton, setDisableButton] = useState(false)
-    const { register, handleSubmit, watch, formState: { errors }, getValues, setValue } = useForm<IHeaderSelectConfigForm>({
+
+    const { register, handleSubmit, watch, formState: { errors }, reset, clearErrors, setValue, getValues } = useForm<IHeaderSelectConfigForm>({
         defaultValues: {
             id_creditor: "0",
             id_ocorrence: "disabled",
@@ -27,32 +30,75 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
         resolver: zodResolver(IHeaderSelectConfigSchema)
     })
 
-    async function handleGetRelations(data: FieldValues) {
+    async function handleCloneQuestions(data: FieldValues) {
         setNotFoundMessage("")
-        setDisableButton(true)
-        setValueDisableAllButtons(true)
+        setDisableAllButtons(true)
+
+        console.log(data)
 
         if (data.id_aging != "disabled") {
-            const configObject = {
-                creditor: Number(data.id_creditor),
-                ocorrence: Number(data.id_ocorrence),
-                fase: Number(data.id_aging)
-            }
 
-            const getQuestions: IResultDefaultResponse<IQuestionsResponse | null> = await getRelationQuestions<typeof configObject>(configObject)
+            if (headerObject.id_creditor == Number(data.id_creditor) && headerObject.id_ocorrence == Number(data.id_ocorrence) && headerObject.id_aging == Number(data.id_aging)) {
+                toast.error("Não é possível clonar os mesmos valores de credor, ocorrência e fase que você selecionou no cabeçário da configuração de monitoria!", {
+                    duration: 5000
+                })
 
-            setDisableButton(false)
-            setValueDisableAllButtons(false)
-
-            if (!getQuestions.status) {
-                setNotFoundMessage("questions")
+                setDisableAllButtons(false)
 
                 return
             }
 
-            setValueQuestionList(getQuestions.data!, true)
+            const questionsAll = [...questionsList.questions, ...questionsList.behavioral]
+            const questions = []
 
-            setValuesHeader(Number(data.id_creditor), Number(data.id_ocorrence), Number(data.id_aging))
+            for (let i = 0; i < questionsAll.length; i++) {
+                const item = questionsAll[i]
+                questions.push({
+                    idQuestion: Number(item.idQuestion),
+                    note: Number(item.note),
+                    position: Number(i + 1),
+                    isBehavioral: Boolean(item.isBehavioral)
+                })
+            }
+
+            const object = {
+                idCreditor: Number(data.id_creditor),
+                idOcorrence: Number(data.id_ocorrence),
+                idAging: Number(data.id_aging),
+                questions
+            }
+
+            const deleteQuestionsStatus = await deleteQuestions({ id_creditor: Number(data.id_creditor), id_ocorrence: Number(data.id_ocorrence), id_aging: Number(data.id_aging) })
+
+            if (!deleteQuestionsStatus) {
+                toast.error("Houve um erro ao clonar as perguntas da monitoria, revise os valores e tente novamente!", {
+                    duration: 5000
+                })
+
+                setDisableAllButtons(false)
+
+                return
+            }
+
+            const setMonitoryStatus = await saveOptionsAndQuestions<typeof object>(object)
+
+            setDisableAllButtons(false)
+
+            if (!setMonitoryStatus) {
+                toast.error("Houve um erro ao clonar as perguntas da monitoria, revise os valores e tente novamente!", {
+                    duration: 5000
+                })
+
+                return
+            }
+
+            toast.success("As perguntas foram clonadas com sucesso!", {
+                duration: 5000
+            })
+
+            reset()
+
+            dialogCloneQuestions.current?.close()
 
             return
         }
@@ -60,8 +106,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
         if (data.id_ocorrence != "disabled") {
             const getAgings = await getAgingByCreditorAndOcorrence(Number(data.id_creditor), Number(data.id_ocorrence))
 
-            setDisableButton(false)
-            setValueDisableAllButtons(false)
+            setDisableAllButtons(false)
 
             if (!getAgings.status) {
                 setNotFoundMessage("agings")
@@ -77,8 +122,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
 
         const getOcorrences = await getOcorrencesByCreditor(Number(data.id_creditor))
 
-        setDisableButton(false)
-        setValueDisableAllButtons(false)
+        setDisableAllButtons(false)
 
         if (!getOcorrences.status) {
             setNotFoundMessage("ocorrences")
@@ -95,29 +139,28 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
         setValue("id_aging", "disabled")
         setOcorrences([])
         setAgings([])
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
     }
 
     function changedOcorrences() {
         setValue("id_aging", "disabled")
         setAgings([])
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
     }
 
-    function changedAgings() {
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ generic: [], questions: [], behavioral: [] }, false)
+    function closeDialog() {
+        reset()
+        dialogCloneQuestions.current?.close()
+        setOcorrences([])
+        setAgings([])
     }
 
     return (
-        <section className={`flex items-end justify-center gap-2 mb-8 mx-28`}>
-            <div className={`flex flex-col gap-2`}>
-                <form
-                    className={`flex items-end gap-2`}
-                    onSubmit={handleSubmit(handleGetRelations)}
-                >
+        <>
+            <h2 className="text-2xl text-center text-slate-500 font-bold ">Clonar questões para outro Credor</h2>
+            <form
+                className="flex flex-col justify-center items-center"
+                onSubmit={handleSubmit(handleCloneQuestions)}
+            >
+                <div className="flex justify-center items-center my-10 gap-2">
                     <FieldForm label="credor" name="Credor:" obrigatory={false} error={errors.id_creditor && "Inválido"}>
                         <SelectField
                             name="id_creditor"
@@ -154,7 +197,7 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
                             disabled={ocorrences.length == 0 || disableAllButtons}
                             onForm={true}
                             register={register}
-                            value={watch("id_ocorrence")}   
+                            value={watch("id_ocorrence")}
                         >
                             {getValues("id_ocorrence") == "disabled" ? (
                                 <Option value="disabled" firstValue="Selecione uma ocorrência" />
@@ -186,7 +229,6 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
                             onForm={true}
                             value={watch("id_aging")}
                             register={register}
-                            OnChange={() => changedAgings()}
                         >
                             {getValues("id_aging") == "disabled" ? (
                                 <Option value={"disabled"} firstValue="Selecione uma fase" />
@@ -196,10 +238,10 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
 
                                     {agings.map((aging, index) => {
                                         return (
-                                            <Option 
-                                                key={index} 
-                                                value={aging.Id_Aging} 
-                                                firstValue={aging.Description} 
+                                            <Option
+                                                key={index}
+                                                value={aging.Id_Aging}
+                                                firstValue={aging.Description}
                                             />
                                         )
                                     })}
@@ -209,15 +251,13 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
                     </FieldForm>
 
                     <Button
-                        type="submit"
+                        styles="w-fit px-4 py-[5px] self-end"
                         text="Buscar"
-                        styles={`w-24 h-10 text-md`}
-                        disabled={disableButton || disableAllButtons}
+                        disabled={disableAllButtons || agings.length > 0}
                     />
-                </form>
-
+                </div>
                 {notFoundMessage != "" && (
-                    <div className={`p-2 bg-red-400 rounded-md`}>
+                    <div className={`w-[80%] p-2 bg-red-400 rounded-md`}>
                         {notFoundMessage == "ocorrences" && (
                             <p className={`text-white font-medium`}>
                                 Não foi possível trazer as ocorrências
@@ -237,7 +277,20 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
                         )}
                     </div>
                 )}
-            </div>
-        </section>
+                <div className="flex justify-center items-center self-end gap-2 mt-20">
+                    <Button
+                        type="button"
+                        styles="w-fit px-4 py-1 text-red-500 border-red-500 hover:bg-red-500 focus:bg-red-500"
+                        text="Fechar"
+                        OnClick={() => closeDialog()}
+                    />
+                    <Button
+                        styles="w-fit px-4 py-1"
+                        text="Clonar perguntas"
+                        disabled={agings.length == 0 || disableAllButtons}
+                    />
+                </div>
+            </form>
+        </>
     )
 }

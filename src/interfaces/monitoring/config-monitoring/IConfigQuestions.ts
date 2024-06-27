@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { IQuestionsResponse } from "./IHeaderSelectConfig";
+import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllCreditors";
 
 interface IConfigQuestionsProps {
     questionsList: IQuestionsResponse
@@ -9,6 +10,7 @@ interface IConfigQuestionsProps {
     resetAllValues: Function
     setValueDisableAllButtons: (value: boolean) => void
     disableAllButtons: boolean
+    creditors: ICreditorGetAllCreditors[]
 }
 
 export const IConfigFormSchema = z.object({

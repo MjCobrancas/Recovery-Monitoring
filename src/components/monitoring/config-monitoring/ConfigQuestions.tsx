@@ -2,14 +2,15 @@ import { saveOptionsAndQuestions } from "@/api/monitoring/config-monitoring/save
 import { Button } from "@/components/Button";
 import { IConfigFormSchema, IConfigQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IConfigQuestions";
 import { IQuestionsBehavioral, IQuestionsGeneric, IQuestionsNegotiation } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig";
-import { faAnglesLeft, faAnglesRight, faArrowDown, faArrowLeft, faArrowRight, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faAnglesRight, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { DialogCloneQuestions } from "./DialogCloneQuestions";
 
-export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons }: IConfigQuestionsProps) {
+export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons, creditors }: IConfigQuestionsProps) {
     const [totalOfNotes, setTotalOfNotes] = useState(questionsList.questions.reduce((sum, { note = 0 }) => sum + note, 0))
     const [totalOfNotesBehavioral, setTotalOfNotesBehavioral] = useState(questionsList.behavioral.reduce((sum, { note = 0 }) => sum + note, 0))
 
@@ -44,6 +45,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         control,
         name: "generic"
     })
+
+    const dialogCloneQuestions = useRef<HTMLDialogElement>(null)
 
     useEffect(() => {
         reset({ questions: questionsList.questions, behavioral: questionsList.behavioral, generic: questionsList.generic })
@@ -173,7 +176,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         }
 
         const negotiationValues = fieldsQuestions.filter((_item, indexNumber) => indexNumber != index)
-        const sumNegotiation = negotiationValues.length > 0 ? negotiationValues.reduce((sum, { note = 0 }) => Number(sum) + Number(note), 0) : 0 
+        const sumNegotiation = negotiationValues.length > 0 ? negotiationValues.reduce((sum, { note = 0 }) => Number(sum) + Number(note), 0) : 0
 
         setTotalOfNotes(sumNegotiation)
     }
@@ -297,14 +300,13 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
             })
         }
 
-
         const object = {
             idCreditor,
             idOcorrence,
             idAging,
             questions
         }
-        
+
         const setMonitoryStatus = await saveOptionsAndQuestions<typeof object>(object)
 
         setValueDisableAllButtons(false)
@@ -325,279 +327,299 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
     }
 
     return (
-        <form onSubmit={handleSubmit(handleSaveMonitoryQuestions)}>
-            <div className={`flex items-center justify-center gap-10`}>
+        <>
+            <dialog
+                id="open-dialog"
+                ref={dialogCloneQuestions}
+                className={`w-[80%] h-fit p-2 rounded-lg dark:bg-slate-700 max-sm:w-full`}
+            >
+                <DialogCloneQuestions 
+                    questionsList={questionsList}
+                    dialogCloneQuestions={dialogCloneQuestions} 
+                    creditors={creditors}
+                    headerObject={{ id_creditor: idCreditor, id_ocorrence: idOcorrence, id_aging: idAging }}
+                />
+            </dialog>
+            <form onSubmit={handleSubmit(handleSaveMonitoryQuestions)}>
                 <button
                     type="button"
-                    onClick={() => allDroppedQuestionsToOtherSide()}
-                    title="Mover tudo para o lado direito"
-                    disabled={disableAllButtons}
+                    className="flex justify-center items-center"
+                    onClick={() => dialogCloneQuestions.current?.showModal()}
                 >
-                    <FontAwesomeIcon icon={faAnglesRight} className="text-blue-500 cursor-pointer hover:text-white duration-200 hover:bg-blue-400 p-2 rounded-full" />
+                    <FontAwesomeIcon icon={faPlus} className="text-white border-2 bg-emerald-400 border-emerald-400 mx-4 px-2 py-2 font-bold hover:bg-emerald-500 rounded-md transition" />
+                    Clonar questões para outro credor
                 </button>
+                <div className={`flex items-center justify-center gap-10`}>
+                    <button
+                        type="button"
+                        onClick={() => allDroppedQuestionsToOtherSide()}
+                        title="Mover tudo para o lado direito"
+                        disabled={disableAllButtons}
+                    >
+                        <FontAwesomeIcon icon={faAnglesRight} className="text-blue-500 cursor-pointer hover:text-white duration-200 hover:bg-blue-400 p-2 rounded-full" />
+                    </button>
 
-                <button
-                    type="button"
-                    onClick={() => allQuestionsToOtherSide()}
-                    title="Mover tudo para o lado esquerdo"
-                    disabled={disableAllButtons}
-                >
-                    <FontAwesomeIcon icon={faAnglesLeft} className="text-blue-500 cursor-pointer hover:text-white duration-200 hover:bg-blue-400 p-2 rounded-full" />
-                </button>
-            </div>
-            <div className={`flex justify-between gap-2 p-2 px-4`}>
-                <article
-                    className={`w-1/2 h-[25rem] p-2 gap-2 border border-slate-300 rounded-md flex flex-col overflow-y overflow-x-hidden`}
-                >
-                    {fieldsQuestions.length > 0 || fieldsBehavioral.length > 0 ? (
-                        <>
-                            {fieldsQuestions.length > 0 && (
-                                <>
-                                    <h2 className="font-bold">Negociação:</h2>
-                                    {fieldsQuestions.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={item.id}
-                                                className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
+                    <button
+                        type="button"
+                        onClick={() => allQuestionsToOtherSide()}
+                        title="Mover tudo para o lado esquerdo"
+                        disabled={disableAllButtons}
+                    >
+                        <FontAwesomeIcon icon={faAnglesLeft} className="text-blue-500 cursor-pointer hover:text-white duration-200 hover:bg-blue-400 p-2 rounded-full" />
+                    </button>
+                </div>
+                <div className={`flex justify-between gap-2 p-2 px-4`}>
+                    <article
+                        className={`w-1/2 h-[25rem] p-2 gap-2 border border-slate-300 rounded-md flex flex-col overflow-y overflow-x-hidden`}
+                    >
+                        {fieldsQuestions.length > 0 || fieldsBehavioral.length > 0 ? (
+                            <>
+                                {fieldsQuestions.length > 0 && (
+                                    <>
+                                        <h2 className="font-bold">Negociação:</h2>
+                                        {fieldsQuestions.map((item, index) => {
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
                                                  dark:odd:bg-slate-500 dark:even:bg-slate-600 relative`}
-                                            >
-                                                <span
-                                                    className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
                                                 >
-                                                    {index + 1}
-                                                </span>
+                                                    <span
+                                                        className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
+                                                    >
+                                                        {index + 1}
+                                                    </span>
 
-                                                <article
-                                                    id={String(index)}
-                                                    className={`flex w-[70%] gap-2 p-2`}
-                                                >
-                                                    <p id={String(index)}>
-                                                        {item.question}
-                                                    </p>
-                                                </article>
+                                                    <article
+                                                        id={String(index)}
+                                                        className={`flex w-[70%] gap-2 p-2`}
+                                                    >
+                                                        <p id={String(index)}>
+                                                            {item.question}
+                                                        </p>
+                                                    </article>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    disabled={index == 0 || disableAllButtons}
-                                                    onClick={() => positionGoUp(index, false)}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowUp} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        disabled={index == 0 || disableAllButtons}
+                                                        onClick={() => positionGoUp(index, false)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowUp} />
+                                                    </button>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    disabled={index + 1 == fieldsQuestions.length || disableAllButtons}
-                                                    onClick={() => positionGoDown(index, false)}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowDown} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        disabled={index + 1 == fieldsQuestions.length || disableAllButtons}
+                                                        onClick={() => positionGoDown(index, false)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowDown} />
+                                                    </button>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    onClick={() => moveToGenericQuestions(index, false)}
-                                                    disabled={disableAllButtons}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowRight} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        onClick={() => moveToGenericQuestions(index, false)}
+                                                        disabled={disableAllButtons}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowRight} />
+                                                    </button>
 
-                                                <input
-                                                    className={
-                                                        `absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${
-                                                            errors.questions && errors.questions[index]?.note ? "border-red-400 border-2" : ""
-                                                        }`
-                                                    }
-                                                    type="number"
-                                                    max="1000"
-                                                    min="0"
-                                                    {...register(`questions.${index}.note`, {
-                                                        onChange(event) {
-                                                            if (event.target.value.length == 0) {
-                                                                const questionNote = fieldsQuestions[index]
-                                                                questionNote.note = 0
-                                                                updateQuestions(index, questionNote)
-                                                                setTimeout(() => {
-                                                                    setFocus(`questions.${index}.note`)
-                                                                }, 50);
-                                                            }
+                                                    <input
+                                                        className={
+                                                            `absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${errors.questions && errors.questions[index]?.note ? "border-red-400 border-2" : ""
+                                                            }`
+                                                        }
+                                                        type="number"
+                                                        max="1000"
+                                                        min="0"
+                                                        {...register(`questions.${index}.note`, {
+                                                            onChange(event) {
+                                                                if (event.target.value.length == 0) {
+                                                                    const questionNote = fieldsQuestions[index]
+                                                                    questionNote.note = 0
+                                                                    updateQuestions(index, questionNote)
+                                                                    setTimeout(() => {
+                                                                        setFocus(`questions.${index}.note`)
+                                                                    }, 50);
+                                                                }
 
-                                                            if (String(Number(event.target.value)) == "NaN") {
-                                                                return
-                                                            }
+                                                                if (String(Number(event.target.value)) == "NaN") {
+                                                                    return
+                                                                }
 
-                                                            calculateNotesWithSetValue(index, Number(event.target.value), false)
-                                                        },
-                                                    })}
-                                                    value={watch(`questions.${index}.note`)}
-                                                />
-                                            </div>
-                                        )
-                                    })}
-                                </>
-                            )}
+                                                                calculateNotesWithSetValue(index, Number(event.target.value), false)
+                                                            },
+                                                        })}
+                                                        value={watch(`questions.${index}.note`)}
+                                                    />
+                                                </div>
+                                            )
+                                        })}
+                                    </>
+                                )}
 
-                            {fieldsBehavioral.length > 0 && (
-                                <>
-                                    <h2 className="font-bold">Comportamental:</h2>
-                                    {fieldsBehavioral.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={item.id}
-                                                className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
+                                {fieldsBehavioral.length > 0 && (
+                                    <>
+                                        <h2 className="font-bold">Comportamental:</h2>
+                                        {fieldsBehavioral.map((item, index) => {
+                                            return (
+                                                <div
+                                                    key={item.id}
+                                                    className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
                                                  dark:odd:bg-slate-500 dark:even:bg-slate-600 relative`}
-                                            >
-                                                <span
-                                                    className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
                                                 >
-                                                    {index + 1}
-                                                </span>
+                                                    <span
+                                                        className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
+                                                    >
+                                                        {index + 1}
+                                                    </span>
 
-                                                <article
-                                                    id={String(index)}
-                                                    className={`flex w-[70%] gap-2 p-2`}
-                                                >
-                                                    <p id={String(index)}>
-                                                        {item.question}
-                                                    </p>
-                                                </article>
+                                                    <article
+                                                        id={String(index)}
+                                                        className={`flex w-[70%] gap-2 p-2`}
+                                                    >
+                                                        <p id={String(index)}>
+                                                            {item.question}
+                                                        </p>
+                                                    </article>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    disabled={index == 0 || disableAllButtons}
-                                                    onClick={() => positionGoUp(index, true)}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowUp} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        disabled={index == 0 || disableAllButtons}
+                                                        onClick={() => positionGoUp(index, true)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowUp} />
+                                                    </button>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    disabled={index + 1 == fieldsBehavioral.length || disableAllButtons}
-                                                    onClick={() => positionGoDown(index, true)}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowDown} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        disabled={index + 1 == fieldsBehavioral.length || disableAllButtons}
+                                                        onClick={() => positionGoDown(index, true)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowDown} />
+                                                    </button>
 
-                                                <button
-                                                    type="button"
-                                                    className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                                    onClick={() => moveToGenericQuestions(index, true)}
-                                                    disabled={disableAllButtons}
-                                                >
-                                                    <FontAwesomeIcon icon={faArrowRight} />
-                                                </button>
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        onClick={() => moveToGenericQuestions(index, true)}
+                                                        disabled={disableAllButtons}
+                                                    >
+                                                        <FontAwesomeIcon icon={faArrowRight} />
+                                                    </button>
 
-                                                <input
-                                                    className={`absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${
-                                                        errors.behavioral && errors.behavioral[index]?.note ? "border-red-400 border-2" : ""
-                                                    }`}
-                                                    type="number"
-                                                    max="1000"
-                                                    min="0"
-                                                    value={watch(`behavioral.${index}.note`)}
-                                                    {...register(`behavioral.${index}.note`, {
-                                                        onChange(event) {
-                                                            if (event.target.value.length == 0) {
-                                                                const questionNote = fieldsBehavioral[index]
-                                                                questionNote.note = 0
-                                                                updateBehavioral(index, questionNote)
-                                                                setTimeout(() => {
-                                                                    setFocus(`behavioral.${index}.note`)
-                                                                }, 50);
-                                                            }
+                                                    <input
+                                                        className={`absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${errors.behavioral && errors.behavioral[index]?.note ? "border-red-400 border-2" : ""
+                                                            }`}
+                                                        type="number"
+                                                        max="1000"
+                                                        min="0"
+                                                        value={watch(`behavioral.${index}.note`)}
+                                                        {...register(`behavioral.${index}.note`, {
+                                                            onChange(event) {
+                                                                if (event.target.value.length == 0) {
+                                                                    const questionNote = fieldsBehavioral[index]
+                                                                    questionNote.note = 0
+                                                                    updateBehavioral(index, questionNote)
+                                                                    setTimeout(() => {
+                                                                        setFocus(`behavioral.${index}.note`)
+                                                                    }, 50);
+                                                                }
 
-                                                            if (String(Number(event.target.value)) == "NaN") {
-                                                                return
-                                                            }
+                                                                if (String(Number(event.target.value)) == "NaN") {
+                                                                    return
+                                                                }
 
-                                                            calculateNotesWithSetValue(index, Number(event.target.value), true)
-                                                        },
-                                                    })}
-                                                />
-                                            </div>
-                                        )
-                                    })}
-                                </>
-                            )}
+                                                                calculateNotesWithSetValue(index, Number(event.target.value), true)
+                                                            },
+                                                        })}
+                                                    />
+                                                </div>
+                                            )
+                                        })}
+                                    </>
+                                )}
 
-                        </>
-                    ) : (
-                        <p className="flex justify-center items-center self-center h-full"><strong>Coloque aqui suas perguntas!</strong></p>
-                    )}
-                </article>
+                            </>
+                        ) : (
+                            <p className="flex justify-center items-center self-center h-full"><strong>Coloque aqui suas perguntas!</strong></p>
+                        )}
+                    </article>
 
-                <article
-                    className={`w-1/2 h-[25rem] p-2 flex flex-col gap-2 border border-slate-300 rounded-md overflow-y-auto ${fieldsGeneric?.length > 0
-                        ? "items-start"
-                        : "items-center justify-center"
-                        }`}
-                >
-                    {fieldsGeneric.length > 0 ? fieldsGeneric.map((item, index) => {
-                        return (
-                            <article
-                                key={item.id}
-                                className={`relative flex w-full gap-2 p-2 rounded-md odd:bg-slate-200 even:bg-slate-300
+                    <article
+                        className={`w-1/2 h-[25rem] p-2 flex flex-col gap-2 border border-slate-300 rounded-md overflow-y-auto ${fieldsGeneric?.length > 0
+                            ? "items-start"
+                            : "items-center justify-center"
+                            }`}
+                    >
+                        {fieldsGeneric.length > 0 ? fieldsGeneric.map((item, index) => {
+                            return (
+                                <article
+                                    key={item.id}
+                                    className={`relative flex w-full gap-2 p-2 rounded-md odd:bg-slate-200 even:bg-slate-300
                                 dark:odd:bg-slate-500 dark:even:bg-slate-600
                                 `}
-                            >
-                                <p className="w-[92%]">{item.question}</p>
-
-                                <button
-                                    type="button"
-                                    className="absolute bottom-1 right-1 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-                                    onClick={() => moveToSelectQuestions(index)}
-                                    disabled={disableAllButtons}
                                 >
-                                    <FontAwesomeIcon icon={faArrowLeft} />
-                                </button>
-                            </article>
-                        )
-                    }) : (
-                        <p className="font-bold">Nenhuma pergunta!</p>
-                    )}
-                </article>
-            </div>
+                                    <p className="w-[92%]">{item.question}</p>
 
-            <div className={`flex items-end justify-end gap-2 mx-4 mb-6`}>
-                <div className={`flex gap-2 items-end`}>
-                    <p className={`font-medium`}>
-                        Nota de negociação:
-                        <span
-                            className={`ml-1 font-bold text-lg ${Number(totalOfNotes) != 1000
-                                ? `text-red-400`
-                                : `text-green-500`
-                                }`}
-                        >
-                            {totalOfNotes}
-                        </span>
-                    </p>
-
-                    <p className={`font-medium`}>
-                        Nota comportamental:
-                        <span
-                            className={`ml-1 font-bold text-lg ${Number(totalOfNotesBehavioral) != 1000
-                                ? `text-red-400`
-                                : `text-green-500`
-                                }`}
-                        >
-                            {totalOfNotesBehavioral}
-                        </span>
-                    </p>
-
-                    <Button
-                        type="submit"
-                        name="value"
-                        text="Salvar e voltar"
-                        styles={`w-15 h-12 text-md`}
-                        disabled={Number(totalOfNotes) != 1000 ||
-                            Number(totalOfNotesBehavioral) != 1000 ||
-                            disableAllButtons}
-                    />
+                                    <button
+                                        type="button"
+                                        className="absolute bottom-1 right-1 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                        onClick={() => moveToSelectQuestions(index)}
+                                        disabled={disableAllButtons}
+                                    >
+                                        <FontAwesomeIcon icon={faArrowLeft} />
+                                    </button>
+                                </article>
+                            )
+                        }) : (
+                            <p className="font-bold">Nenhuma pergunta!</p>
+                        )}
+                    </article>
                 </div>
-            </div>
-        </form>
+
+                <div className={`flex items-end justify-end gap-2 mx-4 mb-6`}>
+                    <div className={`flex gap-2 items-end`}>
+                        <p className={`font-medium`}>
+                            Nota de negociação:
+                            <span
+                                className={`ml-1 font-bold text-lg ${Number(totalOfNotes) != 1000
+                                    ? `text-red-400`
+                                    : `text-green-500`
+                                    }`}
+                            >
+                                {totalOfNotes}
+                            </span>
+                        </p>
+
+                        <p className={`font-medium`}>
+                            Nota comportamental:
+                            <span
+                                className={`ml-1 font-bold text-lg ${Number(totalOfNotesBehavioral) != 1000
+                                    ? `text-red-400`
+                                    : `text-green-500`
+                                    }`}
+                            >
+                                {totalOfNotesBehavioral}
+                            </span>
+                        </p>
+
+                        <Button
+                            type="submit"
+                            name="value"
+                            text="Salvar e voltar"
+                            styles={`w-15 h-12 text-md`}
+                            disabled={Number(totalOfNotes) != 1000 ||
+                                Number(totalOfNotesBehavioral) != 1000 ||
+                                disableAllButtons}
+                        />
+                    </div>
+                </div>
+            </form>
+        </>
     )
 }

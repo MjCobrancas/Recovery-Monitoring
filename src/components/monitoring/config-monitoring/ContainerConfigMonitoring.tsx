@@ -55,6 +55,7 @@ export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringPro
                     resetAllValues={resetAllValues}
                     setValueDisableAllButtons={setValueDisableAllButtons}
                     disableAllButtons={disableAllButtons}
+                    creditors={creditors}
                 />
             )}
 
