@@ -303,6 +303,8 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
                                             {item.subquestions.length > 0 &&
                                                 <div className={`flex flex-col gap-2`}>
                                                     {item.subquestions.map((sub: any, index: number) => {
+
+                                                        const mathRandom = Math.random()
                                                         return (
                                                             <article key={index} className={`flex items-center justify-between gap-2 bg-slate-100 p-2 border border-slate-300 rounded-md dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 ml-20`}>
                                                                 <p>
@@ -313,21 +315,21 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
                                                                 </p>
 
                                                                 <div className={`flex gap-2`}>
-                                                                    <label htmlFor={`positiveAnswer ${index}`} className={`cursor-pointer`}>
+                                                                    <label htmlFor={`positiveAnswer ${index + mathRandom}`} className={`cursor-pointer`}>
                                                                         Sim:
                                                                         <input
-                                                                            id={`positiveAnswer ${index}`}
+                                                                            id={`positiveAnswer ${index + mathRandom}`}
                                                                             type="radio"
                                                                             onClick={() => updateSubQuestionsAnswer(i, index, true)}
                                                                             checked={sub.answer}
                                                                         />
                                                                     </label>
 
-                                                                    <label htmlFor={`negativeAnswer ${index}`} className={`cursor-pointer`}>
+                                                                    <label htmlFor={`negativeAnswer ${index + mathRandom}`} className={`cursor-pointer`}>
                                                                         Não:
                                                                         <input
                                                                             type="radio"
-                                                                            id={`negativeAnswer ${index}`}
+                                                                            id={`negativeAnswer ${index + mathRandom}`}
                                                                             onClick={() => updateSubQuestionsAnswer(i, index, false)}
                                                                             checked={!sub.answer}
                                                                         />
