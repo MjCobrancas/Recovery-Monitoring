@@ -39,7 +39,7 @@ const nextConfig = {
             },
             {
                 source: '/register/:path',
-                destination: `${process.env.MANAGEMENT_DOMAIN}/user/:path*`,
+                destination: `${process.env.MANAGEMENT_DOMAIN}/register/:path*`,
                 permanent: true
             },
             {
