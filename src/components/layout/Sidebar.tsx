@@ -21,7 +21,13 @@ export function Sidebar() {
         <div
             className={`flex relative bg-[--bg-main] min-h-screen dark:bg-[--bg-dark-main] duration-300`}
         >
-            <SidebarCards name={userValues.name} userName={userValues.username} position={userValues.position} userImage={userImage!}  />
+            <SidebarCards 
+                name={userValues.name} 
+                userName={userValues.username} 
+                position={userValues.position} 
+                permission={userValues.permission}
+                userImage={userImage!}  
+            />
         </div>
     )
 

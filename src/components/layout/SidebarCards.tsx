@@ -11,7 +11,7 @@ import Link from "next/link";
 import { ISidebarCards } from "@/interfaces/components/SidebarCards";
 import Image from "next/image";
 
-export function SidebarCards({ name, userName, position, userImage }: ISidebarCards) {
+export function SidebarCards({ name, userName, position, permission, userImage }: ISidebarCards) {
     const [showSideBar, setShowSideBar] = useState(false)
 
     function changeValueOfSideBar() {
@@ -69,6 +69,13 @@ export function SidebarCards({ name, userName, position, userImage }: ISidebarCa
                         h-[25rem]`}
                     >
                         {primaryRoutes.map((primaryRoute: PrimaryRoutes, index: number) => {
+
+                            const countPermission = primaryRoute.permissions.filter((item) => item == permission)
+
+                            if (countPermission.length == 0) {
+                                return
+                            }
+
                             if (!primaryRoute.route) {
                                 return (
                                     <details

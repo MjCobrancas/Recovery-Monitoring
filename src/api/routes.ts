@@ -10,17 +10,17 @@ export const primaryRoutes: Array<PrimaryRoutes> = [
     {
       name: "Coaching",
       level: 2,
-      permissions: [1, 3, 4, 5],
+      permissions: [1, 2, 3, 4, 5],
     },
     {
       name: "Gestão",
       level: 6,
-      permissions: [1, 3],
+      permissions: [1, 2, 3, 4],
     },
     {
       name: "Monitoria",
       level: 8,
-      permissions: [1, 3, 4],
+      permissions: [1, 2, 3, 4],
     },
     {
       name: "Treinamento",
@@ -39,19 +39,19 @@ export const secondRoutes: Array<SecondRoutes> = [
     {
         name: "DashCoaching",
         level: 2,
-        permissions: [1, 3, 4, 5],
+        permissions: [1, 2, 3, 4, 5],
         route: "/coaching/dash-coaching",
     },
     {
         name: "Formulário",
         level: 2,
-        permissions: [1, 3, 4, 5],
+        permissions: [1, 2, 3, 4, 5],
         route: "/coaching/form-coaching",
     },
     {
         name: "Lista",
         level: 2,
-        permissions: [1, 3, 4, 5],
+        permissions: [1, 2, 3, 4, 5],
         route: "/coaching/list-coaching",
     },
     {

@@ -72,10 +72,9 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
         })
     }
 
-
     return (
         <form onSubmit={handleSubmit(handleScheduleFilterForm)} className={`flex items-end justify-center mx-2 mt-8`}>
-            <div className={`flex items-center justify-between gap-2 mx-4 font-medium`}>
+            <div className={`flex items-center justify-between gap-2 ml-4 mr-2 font-medium`}>
                 <FieldForm
                     label="creditor"
                     name="Credor:"

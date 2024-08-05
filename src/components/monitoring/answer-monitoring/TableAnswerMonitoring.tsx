@@ -41,8 +41,8 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
     // End of FileList
 
     const [hasQuestions, setHasQuestions] = useState(questions.questions.length == 0 && questions.behavioral.length == 0 ? false : true)
-    const [behavioralNote, setBehavioralNote] = useState(0)
-    const [questionsNote, setQuestionsNote] = useState(0)
+    const [behavioralNote, setBehavioralNote] = useState(1000)
+    const [questionsNote, setQuestionsNote] = useState(1000)
     const [fileLength, setFileLength] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
 
@@ -62,11 +62,11 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
                             return {
                                 idSubquestion: sub.idSubquestion,
                                 subquestion: sub.subquestion,
-                                answer: false,
+                                answer: true,
                                 note: item.note / item.subquestion.length
                             }
                         }),
-                        answer: item.subquestion != undefined ? item.subquestion.length > 0 ? true : false : false
+                        answer: true
                     }
                 }),
                 behavioral: questions.behavioral.map((item, i) => {
@@ -74,7 +74,7 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
                         idQuestion: item.idQuestion,
                         question: item.question,
                         note: item.note,
-                        answer: false
+                        answer: true
                     }
                 }),
                 file: null

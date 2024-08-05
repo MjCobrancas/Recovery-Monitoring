@@ -10,8 +10,38 @@ const nextConfig = {
             },
             {
                 protocol: "http",
+                hostname: "localhost",
+                port: "3336"
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
+                port: "3337"
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
+                port: "3338"
+            },
+            {
+                protocol: "http",
                 hostname: "144.91.80.153",
                 port: "3335"
+            },
+            {
+                protocol: "http",
+                hostname: "144.91.80.153",
+                port: "3336"
+            },
+            {
+                protocol: "http",
+                hostname: "144.91.80.153",
+                port: "3337"
+            },
+            {
+                protocol: "http",
+                hostname: "144.91.80.153",
+                port: "3338"
             },
             {
                 protocol: "http",
@@ -28,7 +58,7 @@ const nextConfig = {
                 permanent: true
             },
             {
-                source: '/user/:path',
+                source: '/user/:path*',
                 destination: `${process.env.MANAGEMENT_DOMAIN}/user/:path*`,
                 permanent: true
             },
@@ -38,17 +68,17 @@ const nextConfig = {
                 permanent: true
             },
             {
-                source: '/register/:path',
+                source: '/register/:path*',
                 destination: `${process.env.MANAGEMENT_DOMAIN}/register/:path*`,
                 permanent: true
             },
             {
-                source: '/coaching/:path',
+                source: '/coaching/:path*',
                 destination: `${process.env.COACHING_DOMAIN}/coaching/:path*`,
                 permanent: true
             },
             {
-                source: '/workout/:path',
+                source: '/workout/:path*',
                 destination: `${process.env.WORKOUT_DOMAIN}/workout/:path*`,
                 permanent: true
             }

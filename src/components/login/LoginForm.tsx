@@ -10,17 +10,21 @@ import { useRouter } from "next/navigation";
 import { Button } from "../Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createLoginFormData, createLoginFormSchema } from "@/interfaces/components/Input";
+import toast from "react-hot-toast";
 
 export function LoginForm() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<createLoginFormData>({
         resolver: zodResolver(createLoginFormSchema)
     })
     const [loginError, setLoginError] = useState(false)
+    const [disableButton, setDisableButton] = useState(false)
     const router = useRouter()
 
     async function formOnSubmit(data: FieldValues) {
+        setDisableButton(true)
         const result: unknown = await AuthenticateUser(data)
         const result2: IResultDefaultResponse<string> = result as IResultDefaultResponse<string>
+        setDisableButton(false)
 
         if (result2 != undefined && result2 != null) {
             if (!result2.status) {
@@ -33,7 +37,13 @@ export function LoginForm() {
                 return
             }
 
-            router.push("/")
+            toast.success("Login efetuado com sucesso!", {
+                duration: 3000
+            })
+
+            setTimeout(() => {
+                router.push("/")
+            }, 3000)
         }
 
     }
@@ -105,7 +115,7 @@ export function LoginForm() {
                 <InputPassword register={register} watch={watch} loginError={loginError} errors={errors} />
             </div>
 
-            <Button type="submit" text="Entrar" />
+            <Button type="submit" text="Entrar" disabled={disableButton} />
         </form>
     )
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SignIn from "../../../public/sign-in.svg"
 import { LoginForm } from "@/components/login/LoginForm";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
 
@@ -31,6 +32,11 @@ export default function Home() {
 
                 <LoginForm />
             </div>
+
+            <Toaster 
+                position="bottom-right"
+                reverseOrder={false}
+            />
         </div>
     );
 }
