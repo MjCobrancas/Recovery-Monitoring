@@ -187,11 +187,13 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
                 styles={`w-56`}
             >
                 <Input
-                    value={""}
                     type="text"
                     id="name"
                     name="name"
                     placeholder="Nome"
+                    onForm={true}
+                    value={watch("name")}
+                    register={register}
                     maxlength={255}
                 />
             </FieldForm>
