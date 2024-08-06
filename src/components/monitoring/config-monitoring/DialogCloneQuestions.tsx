@@ -34,12 +34,21 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
         setNotFoundMessage("")
         setDisableAllButtons(true)
 
-        console.log(data)
-
         if (data.id_aging != "disabled") {
 
             if (headerObject.id_creditor == Number(data.id_creditor) && headerObject.id_ocorrence == Number(data.id_ocorrence) && headerObject.id_aging == Number(data.id_aging)) {
                 toast.error("Não é possível clonar os mesmos valores de credor, ocorrência e fase que você selecionou no cabeçário da configuração de monitoria!", {
+                    duration: 5000
+                })
+
+                setDisableAllButtons(false)
+
+                return
+            }
+
+            if (questionsList.questions.length <= 0 || questionsList.behavioral.length <= 0) {
+
+                toast.error("Não é possível clonar perguntas de um credor/ocorrência/fase que não possui perguntas!", {
                     duration: 5000
                 })
 
