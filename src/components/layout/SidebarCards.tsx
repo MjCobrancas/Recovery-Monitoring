@@ -152,9 +152,6 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                             )
                         }
                         )}
-
-
-
                     </nav>
                     <footer className="text-[--text-footer] bg-[--bg-white] dark:bg-[--bg-dark-sidebar] p-2 font-bold flex items-center justify-center gap-2 absolute bottom-0 left-0 w-full transition-all z-50">
                         <span>Feito com amor pela TI</span>
