@@ -1,3 +1,4 @@
+import { verifyUserToken } from "@/api/generics/verifyToken";
 import { filterRealizedAgendas } from "@/api/monitoring/realized/filterRealizedAgendas";
 import { getAllMonitoringUser } from "@/api/monitoring/realized/getAllMonitoringUser";
 import { Button } from "@/components/Button";
@@ -9,11 +10,14 @@ import { IResultDefaultResponse } from "@/interfaces/Generics";
 import { IMonitoryAllUsers } from "@/interfaces/monitoring/realized/IContainerMonitoryRealized";
 import { IMonitoryRealizedFilterProps, IMonitoryRealizedForm } from "@/interfaces/monitoring/realized/IMonitoryRealizedFilter";
 import { getDateToday } from "@/utils/DateToday";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter }: IMonitoryRealizedFilterProps) {
+
+    const router = useRouter()
 
     const [lastObject, setLastObject] = useState<any>()
 
@@ -70,6 +74,13 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
     }
 
     async function handleGetFilter(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         if (String(data.Data).length > 0 || String(data.DataEnd).length > 0) {
             if (String(data.Data).length == 0 || String(data.DataEnd).length == 0) {
                 setError("Data", {

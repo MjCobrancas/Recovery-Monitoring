@@ -14,10 +14,10 @@ import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioM
 import { useRouter } from "next/navigation";
 import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { verifyUserToken } from "@/api/generics/verifyToken";
 
 export function TableAnswerMonitoring({ questions, backOffices, config, idSchedule }: IAnswerTable) {
 
-    // Dialog 
     const dialog = useRef<HTMLDialogElement>(null)
 
     async function openDialog() {
@@ -150,6 +150,13 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
     }
 
     async function handleSubmitForm(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setDisableButton(true)
 
         const file = getValues("file")

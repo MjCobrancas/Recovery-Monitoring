@@ -12,8 +12,12 @@ import { IResultDefaultResponse } from "@/interfaces/Generics"
 import { IDialogMonitoryUser } from "@/interfaces/monitoring/realized/IDialogMonitoryUser"
 import { getAudioOfMonitory } from "@/api/monitoring/realized/getAudioOfMonitory"
 import { DialogCreateFeedback } from "./DialogCreateFeedback"
+import { verifyUserToken } from "@/api/generics/verifyToken"
+import { useRouter } from "next/navigation"
 
 export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences, backOffices }: IContainerMonitoryRealizedProps) {
+
+    const router = useRouter()
 
     const [disableAllButtons, setDisableAllButtons] = useState(false)
     const [monitoryRealized, setMonitoryRealized] = useState<IMonitoryAllUsers[]>(monitoryUsers)
@@ -60,6 +64,13 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
     }
 
     async function handleGetUserMonitory(id_form: number) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setDisableAllButtons(true)
         setMonitoryUserValues(null)
         setAudio(null)

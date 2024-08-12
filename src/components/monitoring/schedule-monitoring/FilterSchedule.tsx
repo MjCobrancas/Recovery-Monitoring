@@ -1,5 +1,6 @@
 'use client'
 
+import { verifyUserToken } from "@/api/generics/verifyToken";
 import { filterSchedule } from "@/api/monitoring/schedule-monitoring/scheduleFilter";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
@@ -8,11 +9,14 @@ import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { IFilterSchedule, scheduleMonitorinSchema, scheduleMonitoringData } from "@/interfaces/monitoring/schedule-monitoring/IFilterSchedule";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
 export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSchedule) {
+
+    const router = useRouter()
 
     const { control, register, handleSubmit, watch, formState: { errors }, setError, reset } 
     = useForm<scheduleMonitoringData>({
@@ -36,6 +40,13 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
     }
 
     async function handleScheduleFilterForm(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         let splitedName = data.name.toString().split(' ')
         let firstName = splitedName[0]
         let lastName = splitedName.slice(1).join(' ')

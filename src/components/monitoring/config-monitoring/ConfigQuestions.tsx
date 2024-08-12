@@ -9,8 +9,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { DialogCloneQuestions } from "./DialogCloneQuestions";
+import { verifyUserToken } from "@/api/generics/verifyToken";
+import { useRouter } from "next/navigation";
 
 export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons, creditors }: IConfigQuestionsProps) {
+
+    const router = useRouter()
+
     const [totalOfNotes, setTotalOfNotes] = useState(questionsList.questions.reduce((sum, { note = 0 }) => sum + note, 0))
     const [totalOfNotesBehavioral, setTotalOfNotesBehavioral] = useState(questionsList.behavioral.reduce((sum, { note = 0 }) => sum + note, 0))
 
@@ -285,6 +290,13 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
     }
 
     async function handleSaveMonitoryQuestions(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setValueDisableAllButtons(true)
 
         const questionsAll = [...data.questions, ...data.behavioral]

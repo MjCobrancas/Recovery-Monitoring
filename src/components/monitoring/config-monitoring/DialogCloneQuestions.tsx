@@ -1,3 +1,4 @@
+import { verifyUserToken } from "@/api/generics/verifyToken"
 import { deleteQuestions } from "@/api/monitoring/config-monitoring/deleteQuestions"
 import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence"
 import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor"
@@ -10,11 +11,14 @@ import { IAgings } from "@/interfaces/generics/IAgings"
 import { IDialogCloneQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IDialogCloneQuestions"
 import { IHeaderSelectConfigForm, IHeaderSelectConfigSchema } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 
 export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, headerObject, creditors }: IDialogCloneQuestionsProps) {
+
+    const router = useRouter()
 
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
@@ -31,6 +35,13 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
     })
 
     async function handleCloneQuestions(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setNotFoundMessage("")
         setDisableAllButtons(true)
 

@@ -11,8 +11,12 @@ import { IAgings } from "@/interfaces/generics/IAgings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { verifyUserToken } from "@/api/generics/verifyToken";
+import { useRouter } from "next/navigation";
 
 export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesHeader, setValueDisableAllButtons, disableAllButtons }: IHeaderSelectConfigProps) {
+
+    const router = useRouter()
 
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
@@ -28,6 +32,13 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
     })
 
     async function handleGetRelations(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setNotFoundMessage("")
         setDisableButton(true)
         setValueDisableAllButtons(true)
