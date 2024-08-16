@@ -8,17 +8,6 @@ export const SubQuestionSchema = z.object({
   });
 
 export const answerMonitoringSchema = z.object({
-    backOffice: z.string().min(1).refine(value => {
-        if (String(Number(value)) == "NaN") {
-            return false
-        }
-
-        if (Number(value) <= 0) {
-            return false
-        }
-
-        return true
-    }),
     observation: z.string().min(1),
     questions: z.array(z.any()),
     behavioral: z.array(z.object({

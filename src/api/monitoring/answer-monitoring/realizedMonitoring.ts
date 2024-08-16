@@ -1,11 +1,16 @@
 'use server'
 
-import { ITokenUserInitialValues } from "@/interfaces/Generics";
+import { ITokenUserInitialValues, ITokenUserValues } from "@/interfaces/Generics";
 import { GetUserToken } from "@/utils/GetUserToken";
+import { parseJWT } from "@/utils/ParseJWT";
 
-export async function realizedMonitoring<T>(object: T) {
+export async function realizedMonitoring(object: any) {
     const userParse: ITokenUserInitialValues = GetUserToken();
 
+    const userValues: ITokenUserValues = parseJWT(userParse.accessToken)
+
+    object.config.idEvaluator = userValues.id
+    
     const resp = await fetch(`${process.env.BACKEND_DOMAIN}/monitoring-main`, {
       method: "POST",
       headers: {

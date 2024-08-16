@@ -1,6 +1,6 @@
-import { getAllBackOffice } from "@/api/generics/getAllBackOffice";
 import { getAllCreditors } from "@/api/generics/getAllCreditors";
 import { getAllOcorrences } from "@/api/generics/getAllOcorrences";
+import { getBackOffice } from "@/api/generics/getBackOfficeById";
 import { getAllMonitoringUser } from "@/api/monitoring/realized/getAllMonitoringUser";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
@@ -16,7 +16,7 @@ export default async function Page() {
     const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getAllMonitoringUser()
     const creditors: ICreditorGetAllCreditors[] = await getAllCreditors()
     const ocorrences: IGetAllOcorrences = await getAllOcorrences()
-    const backOffices: IResultDefaultResponse<IBackOffices[] | null> = await getAllBackOffice()
+    const backOffices: IBackOffices[] = await getBackOffice()
 
     return (
         <PaperBlock>
@@ -26,7 +26,7 @@ export default async function Page() {
                 monitoryUsers={monitoryUsers.status ? monitoryUsers.data : []} 
                 creditors={creditors}
                 ocorrences={ocorrences}
-                backOffices={backOffices.status ? backOffices.data! : []}
+                backOffices={backOffices}
             />
         </PaperBlock>
     )

@@ -1,3 +1,4 @@
+import { verifyUserToken } from "@/api/generics/verifyToken";
 import { saveMonitoryFeedback } from "@/api/monitoring/realized/saveMonitoryFeedback";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
@@ -7,26 +8,36 @@ import { SelectField } from "@/components/SelectField";
 import { IDialogCreateFeedbackProps, IDialogCreateFormSchema } from "@/interfaces/monitoring/realized/IDialogCreateFeedback";
 import { getDateToday } from "@/utils/DateToday";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export function DialogCreateFeedback({ userFeedbackIndex, feedbackInfo, backOffices, closeDialogFeedback, disableAllButtons, setValueDisableButtons, setValueReloadTable }: IDialogCreateFeedbackProps) {
 
+    const router = useRouter()
+
     const { register, handleSubmit, watch, formState: { errors }, clearErrors, reset } = useForm<{ responsable: string }>({
         defaultValues: {
-            responsable: "0"
+            responsable: backOffices.length > 0 ? String(backOffices[0].Id_User) : "0"
         },
         resolver: zodResolver(IDialogCreateFormSchema)
     })
 
     async function handleCreateFeedback(data: FieldValues) {
+
+        const isValidToken = await verifyUserToken()
+
+        if (!isValidToken) {
+            return router.push('/login')
+        }
+
         setValueDisableButtons(true)
         
-        const saveMonitoryStatus = await saveMonitoryFeedback(feedbackInfo!.Id_Form, Number(data.responsable))
+        const saveMonitoryStatus = await saveMonitoryFeedback(feedbackInfo!.Id_Form, Number(backOffices.length > 0 ? Number(backOffices[0].Id_User) : 0))
 
         setValueDisableButtons(false)
 
-        if (!saveMonitoryStatus) {
+        if (!saveMonitoryStatus.status) {
             toast.error("Houve um erro para cadastrar o feedback, revise os valores e tente novamente", {
                 duration: 5000
             })
@@ -132,11 +143,9 @@ export function DialogCreateFeedback({ userFeedbackIndex, feedbackInfo, backOffi
                                     onForm={true}
                                     register={register}
                                     value={watch("responsable")}
-                                    disabled={disableAllButtons}
+                                    disabled={true}
                                 >
-                                    <Option value="0" firstValue="Selecione" />
-
-                                    {backOffices.map((item, index) => {
+                                    { backOffices.length > 0 ? backOffices.map((item, index) => {
                                         return (
                                             <Option
                                                 key={index}
@@ -144,7 +153,12 @@ export function DialogCreateFeedback({ userFeedbackIndex, feedbackInfo, backOffi
                                                 firstValue={`${item.Name} ${item.Last_Name}`}
                                             />
                                         )
-                                    })}
+                                    }) : (
+                                        <Option 
+                                            value={"0"}
+                                            firstValue="Selecione"
+                                        />
+                                    )}
                                 </SelectField>
                             </FieldForm>
                         </div>

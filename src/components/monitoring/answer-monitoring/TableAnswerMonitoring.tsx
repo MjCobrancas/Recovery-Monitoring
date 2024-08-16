@@ -5,8 +5,6 @@ import { Ancora } from "@/components/Ancora";
 import { useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/Button";
-import { Option } from "@/components/Option";
-import { SelectField } from "@/components/SelectField";
 import { FieldForm } from "@/components/FieldForm";
 import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
 import toast, { Toaster } from "react-hot-toast";
@@ -16,7 +14,7 @@ import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monit
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyUserToken } from "@/api/generics/verifyToken";
 
-export function TableAnswerMonitoring({ questions, backOffices, config, idSchedule }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -27,9 +25,7 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
     async function closeModal() {
         dialog.current?.close()
     }
-    // End of dialog 
 
-    // FileList
     const fileList = useRef<HTMLInputElement>(null)
 
     function verifyFile() {
@@ -38,7 +34,6 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
             setValue("file", fileList.current!.files![0])
         }
     }
-    // End of FileList
 
     const [hasQuestions, setHasQuestions] = useState(questions.questions.length == 0 && questions.behavioral.length == 0 ? false : true)
     const [behavioralNote, setBehavioralNote] = useState(1000)
@@ -51,7 +46,6 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
     const { control, register, handleSubmit, watch, formState: { errors }, setError, reset, setValue, getValues }
         = useForm<answerMonitoringData>({
             defaultValues: {
-                backOffice: "0",
                 observation: "",
                 questions: questions.questions.map((item, i) => {
                     return {
@@ -210,7 +204,7 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
         const object = {
             config: {
                 idNegotiator: config[0].id_user,
-                idEvaluator: Number(data.backOffice),
+                idEvaluator: 0,
                 idCreditor: config[0].Id_Creditor,
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
@@ -224,7 +218,7 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
             }
         }
 
-        const monitoring = await realizedMonitoring<typeof object>(object)
+        const monitoring = await realizedMonitoring(object)
 
         if (!monitoring.status) {
             toast.error("Erro ao salvar a monitoria realizada. Por favor, verifique todos os valores.", {
@@ -442,41 +436,6 @@ export function TableAnswerMonitoring({ questions, backOffices, config, idSchedu
                                     />
 
                                     <div className={`my-2 flex flex-col gap-2 w-full`}>
-                                        <div className={`w-fit`}>
-                                            <FieldForm
-                                                label="backOffice"
-                                                name="Responsável"
-                                                error={errors.backOffice && "Inválido"}
-                                            >
-                                                <SelectField
-                                                    name="backOffice"
-                                                    id="backOffice"
-                                                    styles={`h-10 w-fit 
-                                                                ${errors.backOffice ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
-                                                            `}
-                                                    required
-                                                    onForm={true}
-                                                    value={watch("backOffice")}
-                                                    register={register}
-                                                >
-                                                    <Option
-                                                        value={"0"}
-                                                        firstValue={"Selecione"}
-                                                    />
-
-                                                    {backOffices.map((item, i) => {
-                                                        return (
-                                                            <Option
-                                                                key={i}
-                                                                value={item.Id_User}
-                                                                firstValue={item.Name + " " + item.Last_Name}
-                                                            />
-                                                        )
-                                                    })}
-                                                </SelectField>
-                                            </FieldForm>
-                                        </div>
-
                                         <FieldForm
                                             label="observation"
                                             name="Observação:"

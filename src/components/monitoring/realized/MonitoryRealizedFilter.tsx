@@ -151,17 +151,17 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                     name="Data Inicial:"
                     obrigatory={false}
                     styles={`w-full`}
-                    error={/*error == "date"*/ ""}
+                    error={errors.Data ? "Inválido" : ""}
                 >
                     <Input
                         id="Data"
                         name="Data"
                         type="date"
                         value={watch("Data")}
-                        styles={`w-full ${String("") == "date"
+                        styles={`w-full ${errors.Data
                             ? "border-[--label-color-error] dark:border-[--label-color-error]"
                             : ""
-                            }`}
+                        }`}
                         onForm={true}
                         register={register}
                     />
@@ -172,14 +172,14 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                     name="Data final:"
                     obrigatory={false}
                     styles={`w-full`}
-                    error={/*error == "date"*/ ""}
+                    error={errors.DataEnd ? "Inválido" : ""}
                 >
                     <Input
                         id="DataEnd"
                         name="DataEnd"
                         type="date"
                         value={watch("DataEnd")}
-                        styles={`w-full ${String("error") == "date"
+                        styles={`w-full ${errors.DataEnd
                             ? "border-[--label-color-error] dark:border-[--label-color-error]"
                             : ""
                             }`}
