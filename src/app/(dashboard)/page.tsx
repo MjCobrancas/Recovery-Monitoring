@@ -16,7 +16,7 @@ export default function HomePage() {
                     />
 
                     <p
-                        className={`max-md:text-[1.5rem] max-md:leading-8 text-slate-400 text-2xl font-semibold max-w-lg text-center text-[1.5rem] text-`}
+                        className={`max-md:text-[1.5rem] max-md:leading-8 text-slate-400 text-2xl font-semibold max-w-lg text-center text-[1.5rem]`}
                     >
                         Mapa de gestão é um ambiente para gerenciar seu trabalho e facilitar sua rotina!
                     </p>
@@ -31,4 +31,3 @@ export default function HomePage() {
         </PaperBlock>
     )
 }
-
