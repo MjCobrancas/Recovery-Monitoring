@@ -1,25 +1,32 @@
-import { Ancora } from "@/components/Ancora";
-import { Button } from "@/components/Button";
-import { FieldForm } from "@/components/FieldForm";
-import { IDialogMonitoryUserProps } from "@/interfaces/monitoring/realized/IDialogMonitoryUser";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getRealizedMonitory } from "@/api/monitoring/realized/getRealizedMonitory"
+import { FieldForm } from "@/components/FieldForm"
+import { CallPrinter } from "@/components/monitoring/realized-print/CallPrinter"
+import { PaperBlock } from "@/components/PaperBlock"
+import { IResultDefaultResponse } from "@/interfaces/Generics"
+import { IDialogMonitoryUser } from "@/interfaces/monitoring/realized/IDialogMonitoryUser"
 
-export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, audio, loadingAudio }: IDialogMonitoryUserProps) {
+export default async function Page({ params }: { params: { idForm: number } }) {
+
+    const { data: userMonitoryValues }: IResultDefaultResponse<IDialogMonitoryUser | null> = await getRealizedMonitory(params.idForm)
 
     return (
-        <>
+        <PaperBlock>
             {userMonitoryValues == null ? (
                 <h1 className="font-bold">Carregando...</h1>
             ) : (
                 <>
                     <h2
-                        className={`text-2xl font-bold text-center text-slate-500 my-2 mb-8 dark:text-slate-100`}
+                        className={`text-2xl font-bold text-center text-slate-500 my-2 dark:text-slate-100`}
                     >
-                        Monitoria {userMonitoryValues?.monitoring[0]?.id_form}
+                        Monitoria {userMonitoryValues?.monitoring[0]?.id_form} ({userMonitoryValues?.monitoring[0]?.monitoring_date})
+                    </h2>
+                    <h2
+                        className={`text-base font-bold text-center text-slate-500 mb-5 dark:text-slate-100`}
+                    >
+                        {userMonitoryValues?.monitoring[0].Creditor} | {userMonitoryValues.monitoring[0].Ocorrence} | {userMonitoryValues.monitoring[0].Description}
                     </h2>
 
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-2 print:overflow-x-hidden">
+                    <div className="relative shadow-md sm:rounded-lg mb-2 overflow-x-hidden">
                         <table
                             className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
@@ -31,10 +38,6 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <th scope="col" className="px-6 py-3"> Avaliador </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Negociação </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Comportamento </th>
-                                    <th scope="col" className="px-6 py-3 print:hidden"> Credor </th>
-                                    <th scope="col" className="px-6 py-3 print:hidden"> Ocorrência </th>
-                                    <th scope="col" className="px-6 py-3 print:hidden"> Fase </th>
-                                    <th scope="col" className="px-6 py-3 print:hidden"> Data </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,28 +58,16 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
                                         {userMonitoryValues?.monitoring[0]?.behavioral_note}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
-                                        {userMonitoryValues?.monitoring[0]?.Creditor}
-                                    </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
-                                        {userMonitoryValues?.monitoring[0]?.Ocorrence}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm font-semibold dark:text-slate-50 print:hidden">
-                                        {userMonitoryValues?.monitoring[0]?.Description}
-                                    </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
-                                        {userMonitoryValues?.monitoring[0]?.monitoring_date}
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div
-                        className={`p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto max-h-[25rem] h-fit print:h-full print:max-h-fit print:overflow-hidden`}
+                        className={`p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto h-full max-h-fit overflow-hidden`}
                     >
                         <div
-                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit print:h-full print:max-h-full print:overflow-hidden`}
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto h-full max-h-full overflow-hidden`}
                         >
                             {userMonitoryValues?.questions.length > 0 ? (
                                 <>
@@ -144,7 +135,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         </div>
 
                         <div
-                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit print:max-h-full print:h-full print:overflow-hidden`}
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-full h-full overflow-hidden`}
                         >
                             {userMonitoryValues?.behavioral.length > 0 ? (
                                 <>
@@ -191,7 +182,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                             label="observation"
                             name="Observação:"
                             obrigatory={false}
-                            styles={`w-full h-full flex flex-col items-start justify-start font-medium`}
+                            styles={`w-full h-full flex flex-col items-start justify-start font-medium mx-4`}
                         >
                             <textarea
                                 name="observation"
@@ -203,56 +194,21 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                             />
                         </FieldForm>
 
-                        <FieldForm
-                            label="audio"
-                            name="Audio da monitoria:"
-                            obrigatory={false}
-                            styles={`w-2/3 h-full flex flex-col items-start justify-start font-medium print:hidden`}
-                        >
-                            {loadingAudio ? (
-                                <p className="font-bold">Carregando...</p>
-                            ) : (
-                                <>
-                                    {audio == null ? (
-                                        <p>Nenhum aúdio disponível</p>
-                                    ) : (
-                                        <audio controls className={`w-full mb-2`} id="audio">
-                                            <source src={audio} type="audio/wav" />
-                                            Your browser does not support the audio element.
-                                        </audio>
-                                    )}
-                                </>
-                            )}
-                        </FieldForm>
                     </div>
+                    <div className="flex w-full items-start justify-start my-5">
+                        <div className="w-1/2 flex flex-col justify-start items-center">
+                            <p className="font-bold mb-2">Assinatura do operador</p>
+                            <div className="w-[320px] h-[20px] border-b-[2px] border-b-black"></div>
+                        </div>
+                        <div className="w-1/2 flex flex-col justify-start items-center">
+                            <p className="font-bold mb-2">Assinatura do supervisor</p>
 
-                    <div className={`flex justify-end gap-2 print:hidden`}>
-                        <Ancora 
-                            title="Imprimir"
-                            toGo={`/monitoring/realized-print/${userMonitoryValues?.monitoring[0].id_form}`}
-                        >
-                            <FontAwesomeIcon icon={faPrint} />
-                        </Ancora>
-                        <Button
-                            type="button"
-                            text="Voltar"
-                            styles={`w-fit h-fit border-blue-400 bg-blue-400 text-white hover:bg-blue-500
-                                focus:bg-blue-400 text-md px-2 py-2
-                            `}
-                            OnClick={() => closeDialogMonitory()}
-                        />
+                            <div className="w-[320px] h-[20px] border-b-[2px] border-b-black"></div>
+                        </div>
                     </div>
-
-                    <div className="hidden print:flex print:mt-20 print:mb-5">
-                        <p className="print:font-bold print:inline print:flex-1">Assinatura do operador</p>
-                        <p className="print:font-bold">Assinatura do supervisor</p>
-                    </div>
-                    <div className="hidden print:flex print:justify-between print:items-center">
-                        <div className="print:w-[380px] print:h-[20px] print:border-b-[2px] print:border-b-black"></div>
-                        <div className="print:w-[380px] print:h-[20px] print:border-b-[2px] print:border-b-black"></div>
-                    </div>
+                    <CallPrinter />
                 </>
             )}
-        </>
+        </PaperBlock>
     )
 }

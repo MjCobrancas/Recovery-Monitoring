@@ -159,6 +159,11 @@ export const actionRoutes: Array<ActionRoutes> = [
         permissions: [1, 2, 3, 4],
         route: "/monitoring/answer-monitoring"
     },
+    {
+        level: 8,
+        permissions: [1, 2, 3, 4],
+        route: "/monitoring/realized-print"
+    },
 
     {
         level: 9,
