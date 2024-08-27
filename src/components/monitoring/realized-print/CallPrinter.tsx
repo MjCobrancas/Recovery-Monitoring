@@ -13,5 +13,4 @@ export function CallPrinter() {
             Imprimir
         </button>
     )
-
 }

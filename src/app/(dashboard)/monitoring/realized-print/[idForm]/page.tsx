@@ -63,6 +63,10 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                         </table>
                     </div>
 
+                    <h2 className={`text-black/80 font-bold text-lg dark:text-slate-200 px-4`}>
+                        Negociação
+                    </h2>
+
                     <div
                         className={`p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto h-full max-h-fit overflow-hidden`}
                     >
@@ -71,11 +75,11 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                         >
                             {userMonitoryValues?.questions.length > 0 ? (
                                 <>
-                                    <h2 className={`text-black/80 font-bold text-lg dark:text-slate-200`}>
-                                        Negociação
-                                    </h2>
-
                                     {userMonitoryValues?.questions.map((item, index) => {
+
+                                        if (index % 2 == 1) {
+                                            return
+                                        }
 
                                         return (
                                             <article
@@ -135,15 +139,132 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                         </div>
 
                         <div
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto h-full max-h-full overflow-hidden`}
+                        >
+                            {userMonitoryValues?.questions.length > 0 ? (
+                                <>
+                                    {userMonitoryValues?.questions.map((item, index) => {
+
+                                        if (index % 2 == 0) {
+                                            return
+                                        }
+
+                                        return (
+                                            <article
+                                                key={index}
+                                                className={`${item?.subquestions != null
+                                                    ? "flex-col items-start gap-2"
+                                                    : "flex-col items-center gap-2"
+                                                    }`}
+                                            >
+                                                <div
+                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                >
+                                                    <p
+                                                        className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                    >
+                                                        {item.question}
+                                                    </p>
+
+                                                    {item.subquestions == null && (
+                                                        <span
+                                                            className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                        >
+                                                            {item.answer == true ? "Sim" : "Não"}
+                                                        </span>
+                                                    )}
+
+                                                </div>
+
+                                                {item.subquestions != null && item.subquestions.map((item, index) => {
+
+                                                    return (
+                                                        <div
+                                                            key={index}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 rounded-md ml-8 bg-slate-100 dark:bg-slate-500`}
+                                                        >
+                                                            <p
+                                                                className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                            >
+                                                                {item.subquestion}
+                                                            </p>
+
+                                                            <span
+                                                                className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                            >
+                                                                {item.answer == true ? "Sim" : "Não"}
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </article>
+                                        )
+                                    })}
+                                </>
+                            ) : (
+                                <p>Não foi possível achar as questões de negociação</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <h2 className={`text-black/80 font-bold text-lg dark:text-slate-200 px-4`}>
+                        Comportamento
+                    </h2>
+                    <div className="p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto h-full max-h-fit overflow-hidden">
+                        <div
                             className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-full h-full overflow-hidden`}
                         >
                             {userMonitoryValues?.behavioral.length > 0 ? (
                                 <>
-                                    <h2 className={`text-black/80 font-bold text-lg dark:text-slate-200`}>
-                                        Comportamento
-                                    </h2>
-
                                     {userMonitoryValues?.behavioral.map((item, index) => {
+
+                                        if (index % 2 == 1) {
+                                            return
+                                        }
+
+                                        return (
+                                            <article
+                                                key={index}
+                                                className={`${item?.subquestions != null
+                                                    ? "flex-col items-start gap-2"
+                                                    : "flex-col items-center gap-2"
+                                                    }`}
+                                            >
+                                                <div
+                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                >
+                                                    <p
+                                                        className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                    >
+                                                        {item.question}
+                                                    </p>
+
+                                                    <span
+                                                        className={`font-medium text-md text-black/80 dark:text-slate-50`}
+                                                    >
+                                                        {item.answer == true ? "Sim" : "Não"}
+                                                    </span>
+                                                </div>
+                                            </article>
+                                        )
+                                    })}
+                                </>
+                            ) : (
+                                <p>Não foi possível achar as questões de comportamento</p>
+                            )}
+                        </div>
+
+                        <div
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-full h-full overflow-hidden`}
+                        >
+                            {userMonitoryValues?.behavioral.length > 0 ? (
+                                <>
+                                    {userMonitoryValues?.behavioral.map((item, index) => {
+
+                                        if (index % 2 == 0) {
+                                            return
+                                        }
+
                                         return (
                                             <article
                                                 key={index}
@@ -189,7 +310,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                 id="observation"
                                 disabled
                                 value={userMonitoryValues?.monitoring[0]?.observation}
-                                className={`font-medium my-1 w-full border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-slate-600 h-28`}
+                                className={`font-medium my-1 w-full border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 pb-20 dark:bg-slate-600 h-48 print:overflow-hidden`}
                                 required
                             />
                         </FieldForm>
