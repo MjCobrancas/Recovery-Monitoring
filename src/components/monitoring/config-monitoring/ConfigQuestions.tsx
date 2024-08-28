@@ -343,7 +343,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
             <dialog
                 id="open-dialog"
                 ref={dialogCloneQuestions}
-                className={`w-[80%] h-fit p-2 rounded-lg dark:bg-slate-700 max-sm:w-full`}
+                className={`w-[80%] h-fit p-2 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
             >
                 <DialogCloneQuestions 
                     questionsList={questionsList}
@@ -394,7 +394,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                                 <div
                                                     key={item.id}
                                                     className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
-                                                 dark:odd:bg-slate-500 dark:even:bg-slate-600 relative`}
+                                                 dark:odd:bg-zinc-700 dark:even:bg-zinc-800 relative`}
                                                 >
                                                     <span
                                                         className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
@@ -413,7 +413,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 dark:bg-emerald-500 dark:hover:bg-emerald-600 hover:bg-emerald-500 text-white rounded-md px-2 py-1 dark:disabled:bg-gray-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         disabled={index == 0 || disableAllButtons}
                                                         onClick={() => positionGoUp(index, false)}
                                                     >
@@ -422,7 +422,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-[114px] bg-red-400 dark:bg-red-500 dark:hover:bg-red-600 hover:bg-red-500 text-white rounded-md px-2 py-1 dark:disabled:bg-gray-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         disabled={index + 1 == fieldsQuestions.length || disableAllButtons}
                                                         onClick={() => positionGoDown(index, false)}
                                                     >
@@ -431,7 +431,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-20 bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 hover:bg-blue-500 text-white rounded-md px-2 py-1 dark:disabled:bg-gray-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         onClick={() => moveToGenericQuestions(index, false)}
                                                         disabled={disableAllButtons}
                                                     >
@@ -440,7 +440,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <input
                                                         className={
-                                                            `absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${errors.questions && errors.questions[index]?.note ? "border-red-400 border-2" : ""
+                                                            `absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-zinc-900 ${errors.questions && errors.questions[index]?.note ? "border-red-400 border-2" : ""
                                                             }`
                                                         }
                                                         type="number"
@@ -480,7 +480,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                                 <div
                                                     key={item.id}
                                                     className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
-                                                 dark:odd:bg-slate-500 dark:even:bg-slate-600 relative`}
+                                                 dark:odd:bg-zinc-700 dark:even:bg-zinc-800 relative`}
                                                 >
                                                     <span
                                                         className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
@@ -499,7 +499,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 hover:bg-emerald-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-[146px] bg-emerald-400 dark:bg-emerald-500 dark:hover:bg-emerald-600 hover:bg-emerald-500 text-white rounded-md px-2 py-1 dark:disabled:bg-gray-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         disabled={index == 0 || disableAllButtons}
                                                         onClick={() => positionGoUp(index, true)}
                                                     >
@@ -508,7 +508,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-[114px] bg-red-400 hover:bg-red-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-[114px] bg-red-400 dark:bg-red-500 dark:hover:bg-red-600 hover:bg-red-500 text-white rounded-md px-2 py-1 dark:disabled:bg-gray-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         disabled={index + 1 == fieldsBehavioral.length || disableAllButtons}
                                                         onClick={() => positionGoDown(index, true)}
                                                     >
@@ -517,7 +517,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
                                                     <button
                                                         type="button"
-                                                        className="absolute bottom-1 right-20 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                                        className="absolute bottom-1 right-20 bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                                         onClick={() => moveToGenericQuestions(index, true)}
                                                         disabled={disableAllButtons}
                                                     >
@@ -525,7 +525,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                                     </button>
 
                                                     <input
-                                                        className={`absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-slate-800 ${errors.behavioral && errors.behavioral[index]?.note ? "border-red-400 border-2" : ""
+                                                        className={`absolute bottom-0 right-0 w-16 h-7 bg-white m-1 ml-2 pl-2 rounded-sm rounded-br-md dark:bg-zinc-900 ${errors.behavioral && errors.behavioral[index]?.note ? "border-red-400 border-2" : ""
                                                             }`}
                                                         type="number"
                                                         max="1000"
@@ -573,14 +573,14 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                 <article
                                     key={item.id}
                                     className={`relative flex w-full gap-2 p-2 rounded-md odd:bg-slate-200 even:bg-slate-300
-                                dark:odd:bg-slate-500 dark:even:bg-slate-600
+                                dark:odd:bg-zinc-700 dark:even:bg-zinc-800
                                 `}
                                 >
                                     <p className="w-[92%]">{item.question}</p>
 
                                     <button
                                         type="button"
-                                        className="absolute bottom-1 right-1 bg-blue-400 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                        className="absolute bottom-1 right-1 bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 hover:bg-blue-500 text-white rounded-md px-2 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                                         onClick={() => moveToSelectQuestions(index)}
                                         disabled={disableAllButtons}
                                     >

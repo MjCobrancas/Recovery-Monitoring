@@ -175,7 +175,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
 
     return (
         <>
-            <h2 className="text-2xl text-center text-slate-500 font-bold ">Clonar questões para outro Credor</h2>
+            <h2 className="text-2xl text-center text-slate-500 dark:text-slate-100 font-bold ">Clonar questões para outro Credor</h2>
             <form
                 className="flex flex-col justify-center items-center"
                 onSubmit={handleSubmit(handleCloneQuestions)}

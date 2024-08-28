@@ -11,11 +11,11 @@
   --bg-white: #fff;
   --bg-sidebar: #fff;
   --bg-main: #e3e3e3;
-  --bg-dark-sidebar: rgb(30, 41, 59);
-  --bg-dark-main: rgb(51, 65, 85);
+  --bg-dark-sidebar: rgb(18, 20, 24);
+  --bg-dark-main: rgb(37, 37, 49);
   --bg-button-user: rgb(203, 213, 225);
-  --bg-button-user-dark: rgb(71, 85, 105);
-  --bg-dark-options: rgb(71, 85, 105);
+  --bg-button-user-dark: rgb(30, 32, 36);
+  --bg-dark-options: rgb(30, 32, 36);
   --text-footer: #c3c3c3;
   --text-white: #fff;
   --text-title-login: #4480da;
@@ -29,7 +29,7 @@
   --focus-input-login: #4480da;
   --border-error: rgb(239, 68, 68);
   --border-select: rgb(226, 232, 240);
-  --border-dark: rgb(100, 116, 139);
+  --border-dark: rgb(41, 45, 51);
   --label-color-error: rgb(248, 113, 113);
   --light-blue-opacity: rgb(96, 165, 250, 0.8);
   --light-blue: rgb(96, 165, 250);

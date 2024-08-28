@@ -65,7 +65,7 @@ export function DialogCreateFeedback({ userFeedbackIndex, feedbackInfo, backOffi
             {userFeedbackIndex != -1 ? (
                 <>
                     <table className="w-full mx-auto my-4">
-                        <thead className="bg-gray-200 dark:bg-slate-600">
+                        <thead className="bg-gray-200 dark:bg-zinc-900">
                             <tr>
                                 <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md">
                                     Negociador
@@ -87,7 +87,7 @@ export function DialogCreateFeedback({ userFeedbackIndex, feedbackInfo, backOffi
                         </thead>
                         <tbody>
                             <tr
-                                className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-500 dark:even:bg-slate-600"
+                                className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800 dark:text-white"
                             >
                                 <td className="p-2 text-center">
                                     {`${feedbackInfo?.Name} ${feedbackInfo?.Last_Name}`}

@@ -117,7 +117,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
         <>
             <dialog
                 id="feedback-dialog"
-                className={`w-5/6 max-lg:w-3/4 p-2 rounded-lg dark:bg-slate-600 max-sm:w-full`}
+                className={`w-5/6 max-lg:w-3/4 p-2 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
                 ref={dialogFeedback}
             >
                 <DialogCreateFeedback 
@@ -132,7 +132,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
             </dialog>
             <dialog
                 id="realized-dialog"
-                className={`w-5/6 max-lg:w-3/4 p-2 rounded-lg dark:bg-slate-600 max-sm:w-full`}
+                className={`w-5/6 max-lg:w-3/4 p-2 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
                 ref={dialogMonitoryUser}
             >
                 <DialogMonitoryUser
@@ -158,7 +158,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
             <section className={`max-h-[24.8rem] overflow-y-auto mt-4 pl-2`}>
                 <div>
                     <table className="w-[96vw] mx-auto my-4">
-                        <thead className="bg-gray-200 dark:bg-slate-600">
+                        <thead className="bg-gray-200 dark:bg-zinc-800">
                             <tr>
                                 <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md"
                                 >
@@ -199,7 +199,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                                 return (
                                     <tr
                                         key={index}
-                                        className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-500 dark:even:bg-slate-600"
+                                        className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800"
                                     >
                                         <td className="p-2 text-center">
                                             {item.Name + " " + item.Last_Name}
@@ -231,7 +231,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                                             {item.FeedbackResponsable == null && (
                                                 <button
                                                     type="button"
-                                                    className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white
+                                                    className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
                                                     rounded-md px-2 py-[5px]
                                                 `}
                                                     name="idForm"
@@ -247,7 +247,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
 
                                             <button
                                                 type="button"
-                                                className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white
+                                                className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
                                                 rounded-md px-2 py-[5px]
                                             `}
                                                 name="idForm"

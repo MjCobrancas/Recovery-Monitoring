@@ -8,7 +8,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
 
     return (
         <table className={`w-[96vw] px-4 mx-auto my-4`}>
-            <thead className={`bg-gray-200 dark:bg-slate-600`}>
+            <thead className={`bg-gray-200 dark:bg-zinc-800`}>
                 <tr>
                     <th className={`font-semibold p-2 dark:text-white/80 rounded-tl-md`}>
                         Negociador
@@ -38,7 +38,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
             <tbody className={`items-center p-1 bg-slate-100`}>
                 {filter.length != 0 ? filter.map((filtered, i) => {
                     return (
-                        <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-500 dark:even:bg-slate-600`}>
+                        <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800`}>
                             <td className={`p-2 text-center`}>
                                 {filtered.Name + " " + filtered.Last_Name}
                             </td>
@@ -61,7 +61,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
 
                             <td className={`p-2 text-center`}>
                                 <Link
-                                    className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white rounded-md px-2 py-[5px]`}
+                                    className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white rounded-md px-2 py-[5px]`}
                                     href={`/monitoring/answer-monitoring/${filtered.id_quantity}`}
                                 >
                                     <FontAwesomeIcon icon={faPaperPlane} fontSize={14} />
@@ -72,7 +72,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
                 })
                     : schedules.data.map((schedule, i) => {
                         return (
-                            <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-slate-500 dark:even:bg-slate-600`}>
+                            <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800`}>
                                 <td className={`p-2 text-center`}>
                                     {schedule.Name + " " + schedule.Last_Name}
                                 </td>
@@ -95,7 +95,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
 
                                 <td className={`p-2 text-center`}>
                                     <Link
-                                        className={`bg-blue-400 hover:bg-blue-500 duration-100 text-white rounded-md px-2 py-[5px]`}
+                                        className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white rounded-md px-2 py-[5px]`}
                                         href={`/monitoring/answer-monitoring/${schedule.id_quantity}`}
                                     >
                                         <FontAwesomeIcon icon={faPaperPlane} fontSize={14} />

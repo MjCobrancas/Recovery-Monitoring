@@ -268,10 +268,10 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                 {questions.questions != undefined || null ? fieldsQuestions.map((item, i) => {
                                     return (
                                         <>
-                                            <article key={item.id} className={`flex items-center justify-between gap-2 bg-slate-200 p-2 border border-slate-300 rounded-md dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100`}>
+                                            <article key={item.id} className={`flex items-center justify-between gap-2 bg-slate-200 p-2 border border-slate-300 rounded-md dark:bg-zinc-800 dark:border-[--border-dark] dark:text-slate-100`}>
                                                 <p>
                                                     {item.question}
-                                                    <span className={`p-1 bg-white dark:bg-slate-500 rounded-lg border border-slate-400 px-2 ml-2`}>
+                                                    <span className={`p-1 bg-white dark:bg-zinc-700 dark:border-[--border-dark] rounded-lg border border-slate-400 px-2 ml-2`}>
                                                         {item.note}
                                                     </span>
                                                 </p>
@@ -307,10 +307,10 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
 
                                                         const mathRandom = Math.random()
                                                         return (
-                                                            <article key={index} className={`flex items-center justify-between gap-2 bg-slate-100 p-2 border border-slate-300 rounded-md dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100 ml-20`}>
+                                                            <article key={index} className={`flex items-center justify-between gap-2 bg-slate-100 p-2 border border-slate-300 rounded-md dark:bg-zinc-600/70 dark:border-[--border-dark] dark:text-slate-100 ml-20`}>
                                                                 <p>
                                                                     {sub.subquestion}
-                                                                    <span className={`p-1 bg-white dark:bg-slate-500 rounded-lg border border-slate-400 px-2 ml-2`}>
+                                                                    <span className={`p-1 bg-white dark:bg-zinc-700 dark:border-[--border-dark] rounded-lg border border-slate-400 px-2 ml-2`}>
                                                                         {(item.note / item.subquestions.length).toFixed(2)}
                                                                     </span>
                                                                 </p>
@@ -359,10 +359,10 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                             <div className={`max-h-[20rem] overflow-y-auto flex flex-col gap-2`}>
                                 {questions.behavioral != undefined || null ? fieldsBehavioral.map((item, i) => {
                                     return (
-                                        <article key={item.id} className={`flex items-center justify-between gap-2 bg-slate-200 p-2 border border-slate-300 rounded-md dark:bg-slate-600 dark:border-slate-500 dark:text-slate-100`}>
+                                        <article key={item.id} className={`flex items-center justify-between gap-2 bg-slate-200 p-2 border border-slate-300 rounded-md dark:bg-zinc-800 dark:border-[--border-dark] dark:text-slate-100`}>
                                             <p>
                                                 {item.question}
-                                                <span className={`p-1 bg-white dark:bg-slate-500 rounded-lg border border-slate-400 px-2 ml-2`}>
+                                                <span className={`p-1 bg-white dark:bg-zinc-700 dark:border-[--border-dark] rounded-lg border border-slate-400 px-2 ml-2`}>
                                                     {item.note}
                                                 </span>
                                             </p>
@@ -418,7 +418,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                 <dialog
                                     ref={dialog}
                                     id="uploadAudio"
-                                    className={`w-3/4 max-lg:w-4/5 p-4 rounded-lg dark:bg-slate-600 max-sm:w-full`}
+                                    className={`w-3/4 max-lg:w-4/5 p-4 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
                                 >
                                     <h2 className={`text-2xl font-bold text-center text-slate-500 my-2 mb-8 dark:text-slate-100`}>
                                         Importe o áudio da monitoria
@@ -428,7 +428,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                         ref={fileList}
                                         type="file"
                                         name="audio"
-                                        className={`w-fit mb-8 border-2 rounded-md
+                                        className={`w-fit mb-8 border-2 rounded-md dark:text-white
                                                     ${errors.file ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
                                                 `}
                                         accept={".wav, .mp3"}
@@ -443,7 +443,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                         >
                                             <textarea
                                                 id="observation"
-                                                className={`block my-1 w-full h-28 border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-slate-600
+                                                className={`block my-1 w-full h-28 border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-zinc-700 dark:border-zinc-900
                                                             ${errors.observation ? "focus:border-[--label-color-error] dark:focus:border-[--label-color-error]" : ""}
                                                         `}
                                                 {...register("observation")}

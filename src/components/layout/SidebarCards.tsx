@@ -82,13 +82,13 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                                         key={index}
                                         className={`relative before:duration-200 open:before:rotate-[225deg]
                                         before:absolute before:w-2 before:h-2 before:top-0 before:right-0 before:mt-3 before:mr-4 before:border-solid before:border-[--bg-login]
-                                        before:dark:border-[--light-blue-opacity] before:border-t-0 before:border-r-2
+                                        before:dark:border-white before:border-t-0 before:border-r-2
                                         before:border-b-2 before:border-l-0 before:p-1 before:rotate-45
                                         `}
                                     >
                                         <summary
                                             className={`flex w-full font-bold text-[--bg-login]
-                                            dark:text-[--light-blue-opacity] hover:bg-[--hover-light-route] dark:hover:bg-[--hover-dark-route] pr-2 rounded-md cursor-pointer`}
+                                            dark:text-white hover:bg-[--hover-light-route] dark:hover:bg-[--hover-dark-route] pr-2 rounded-md cursor-pointer`}
                                         >
                                             <span
                                                 className={`w-[1rem] p-2 flex align-baseline items-center gap-3`}
@@ -117,7 +117,7 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                                                         onClick={() => changeValueOfSideBar()}
                                                         href={`${secondRoute.route}`}
                                                         className="flex items-center pl-12 gap-5 text-[--bg-login] text-sm font-bold h-12 w-full rounded-md hover:text-[--text-white] hover:bg-[--light-blue-opacity]
-                                                        dark:hover:text-[--text-white] dark:text-[--light-blue-opacity]"
+                                                        dark:hover:text-[--text-white] dark:text-white"
                                                     >
                                                         {secondRoute.name}
                                                     </Link>
@@ -136,7 +136,7 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                                     className={`
                                             flex items-center gap-5 text-[--bg-login] text-md font-bold h-12 w-full rounded-md
                                             hover:text-[--text-white] hover:bg-[--light-blue-opacity]
-                                            dark:hover:text-[--text-white] dark:text-[--light-blue-opacity]`}
+                                            dark:hover:text-[--text-white] dark:text-[--light-blue-opacity] dark:text-white`}
                                 >
                                     <span className={`w-[1rem] p-2`}>
                                         {primaryRoute.name.includes("Home") && (
