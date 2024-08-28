@@ -19,7 +19,7 @@ export function SidebarCards({ name, userName, position, permission, userImage }
     }
 
     return (
-        <aside className={`fixed z-50`}>
+        <aside className={`fixed z-50 print:hidden`}>
                 <div
                     className={`bg-[--bg-sidebar] z-50 dark:bg-[--bg-dark-sidebar] p-2 h-screen duration-300 absolute shadow-[0px_0px_15px_1px_rgba(0,0,0,0.5)]
                     ${showSideBar ? "w-64  left-[0rem]" : "w-64  left-[-15.5rem]"}`}

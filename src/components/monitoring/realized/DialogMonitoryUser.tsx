@@ -1,8 +1,12 @@
+import { Ancora } from "@/components/Ancora";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { IDialogMonitoryUserProps } from "@/interfaces/monitoring/realized/IDialogMonitoryUser";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, audio, loadingAudio }: IDialogMonitoryUserProps) {
+
     return (
         <>
             {userMonitoryValues == null ? (
@@ -15,7 +19,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         Monitoria {userMonitoryValues?.monitoring[0]?.id_form}
                     </h2>
 
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-2">
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-2 print:overflow-x-hidden">
                         <table
                             className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
@@ -27,10 +31,10 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <th scope="col" className="px-6 py-3"> Avaliador </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Negociação </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Comportamento </th>
-                                    <th scope="col" className="px-6 py-3"> Credor </th>
-                                    <th scope="col" className="px-6 py-3"> Ocorrência </th>
-                                    <th scope="col" className="px-6 py-3"> Fase </th>
-                                    <th scope="col" className="px-6 py-3"> Data </th>
+                                    <th scope="col" className="px-6 py-3 print:hidden"> Credor </th>
+                                    <th scope="col" className="px-6 py-3 print:hidden"> Ocorrência </th>
+                                    <th scope="col" className="px-6 py-3 print:hidden"> Fase </th>
+                                    <th scope="col" className="px-6 py-3 print:hidden"> Data </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,16 +55,16 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
                                         {userMonitoryValues?.monitoring[0]?.behavioral_note}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.Creditor}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.Ocorrence}
                                     </td>
-                                    <td className="px-6 py-4 text-sm font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-sm font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.Description}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.monitoring_date}
                                     </td>
                                 </tr>
@@ -69,10 +73,10 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                     </div>
 
                     <div
-                        className={`p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto max-h-[25rem] h-fit`}
+                        className={`p-2 w-full flex items-start gap-2 justify-between px-4 overflow-y-auto max-h-[25rem] h-fit print:h-full print:max-h-fit print:overflow-hidden`}
                     >
                         <div
-                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit`}
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit print:h-full print:max-h-full print:overflow-hidden`}
                         >
                             {userMonitoryValues?.questions.length > 0 ? (
                                 <>
@@ -140,7 +144,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         </div>
 
                         <div
-                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit`}
+                            className={`flex-1 flex flex-col gap-2 overflow-y-auto max-h-[20rem] h-fit print:max-h-full print:h-full print:overflow-hidden`}
                         >
                             {userMonitoryValues?.behavioral.length > 0 ? (
                                 <>
@@ -203,7 +207,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                             label="audio"
                             name="Audio da monitoria:"
                             obrigatory={false}
-                            styles={`w-2/3 h-full flex flex-col items-start justify-start font-medium`}
+                            styles={`w-2/3 h-full flex flex-col items-start justify-start font-medium print:hidden`}
                         >
                             {loadingAudio ? (
                                 <p className="font-bold">Carregando...</p>
@@ -222,7 +226,13 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         </FieldForm>
                     </div>
 
-                    <div className={`flex justify-end`}>
+                    <div className={`flex justify-end gap-2 print:hidden`}>
+                        <Ancora 
+                            title="Imprimir"
+                            toGo={`/monitoring/realized-print/${userMonitoryValues?.monitoring[0].id_form}`}
+                        >
+                            <FontAwesomeIcon icon={faPrint} />
+                        </Ancora>
                         <Button
                             type="button"
                             text="Voltar"
@@ -231,6 +241,15 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                             `}
                             OnClick={() => closeDialogMonitory()}
                         />
+                    </div>
+
+                    <div className="hidden print:flex print:mt-20 print:mb-5">
+                        <p className="print:font-bold print:inline print:flex-1">Assinatura do operador</p>
+                        <p className="print:font-bold">Assinatura do supervisor</p>
+                    </div>
+                    <div className="hidden print:flex print:justify-between print:items-center">
+                        <div className="print:w-[380px] print:h-[20px] print:border-b-[2px] print:border-b-black"></div>
+                        <div className="print:w-[380px] print:h-[20px] print:border-b-[2px] print:border-b-black"></div>
                     </div>
                 </>
             )}

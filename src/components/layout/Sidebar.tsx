@@ -19,7 +19,7 @@ export function Sidebar() {
 
     return (
         <div
-            className={`flex relative bg-[--bg-main] min-h-screen dark:bg-[--bg-dark-main] duration-300`}
+            className={`flex relative bg-[--bg-main] min-h-screen dark:bg-[--bg-dark-main] duration-300 print:hidden`}
         >
             <SidebarCards 
                 name={userValues.name} 

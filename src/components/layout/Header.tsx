@@ -84,7 +84,7 @@ export function Header() {
 
     return (
         <div
-            className={`fixed w-full text-right z-20 duration-300 p-4 pb-0 bg-[--bg-main] dark:bg-[--bg-dark-main]`}
+            className={`fixed w-full text-right z-20 duration-300 p-4 pb-0 bg-[--bg-main] dark:bg-[--bg-dark-main] print:hidden`}
         >
             <div className="h-[35px] flex justify-end items-start">
                 <button
