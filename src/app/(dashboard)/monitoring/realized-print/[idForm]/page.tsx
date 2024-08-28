@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                             className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
                             <thead
-                                className="text-sm text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+                                className="text-sm text-gray-700 uppercase bg-gray-200 dark:bg-zinc-700 dark:text-gray-400"
                             >
                                 <tr>
                                     <th scope="col" className="px-6 py-3"> Negociador </th>
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                             </thead>
                             <tbody>
                                 <tr
-                                    className="bg-slate-100 border-b dark:bg-gray-800 dark:border-gray-700"
+                                    className="bg-slate-100 border-b dark:bg-zinc-800/30 dark:border-zinc-800"
                                 >
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
                                         <span className="mr-1">{userMonitoryValues?.monitoring[0]?.negotiator_name}</span>
@@ -90,7 +90,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border border-slate-200 dark:border-zinc-700 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -113,7 +113,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className={`flex items-center justify-between p-2 border border-slate-300 rounded-md ml-8 bg-slate-100 dark:bg-slate-500`}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800`}
                                                         >
                                                             <p
                                                                 className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -158,7 +158,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border dark:border-zinc-700 border-slate-200 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -181,7 +181,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className={`flex items-center justify-between p-2 border border-slate-300 rounded-md ml-8 bg-slate-100 dark:bg-slate-500`}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800`}
                                                         >
                                                             <p
                                                                 className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -231,7 +231,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border dark:border-zinc-700 border-slate-200 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -274,7 +274,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border dark:border-zinc-700 border-slate-200 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -310,7 +310,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                 id="observation"
                                 disabled
                                 value={userMonitoryValues?.monitoring[0]?.observation}
-                                className={`font-medium my-1 w-full border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 pb-20 dark:bg-slate-600 h-48 print:overflow-hidden`}
+                                className={`font-medium my-1 w-full border-2 dark:border-zinc-700 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 pb-20 dark:bg-zinc-800 h-48 print:overflow-hidden`}
                                 required
                             />
                         </FieldForm>
