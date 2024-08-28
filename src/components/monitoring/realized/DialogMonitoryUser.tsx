@@ -95,7 +95,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border border-slate-200 dark:border-zinc-600 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -118,7 +118,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className={`flex items-center justify-between p-2 border border-slate-300 rounded-md ml-8 bg-slate-100 dark:bg-zinc-700`}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-600 rounded-md ml-8 bg-slate-100 dark:bg-zinc-700`}
                                                         >
                                                             <p
                                                                 className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -162,7 +162,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border border-slate-200 dark:border-zinc-700 rounded-md`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -230,6 +230,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         <Ancora 
                             title="Imprimir"
                             toGo={`/monitoring/realized-print/${userMonitoryValues?.monitoring[0].id_form}`}
+                            styles={`dark:bg-blue-400 dark:text-white rounded-md dark:hover:bg-blue-500`}
                         >
                             <FontAwesomeIcon icon={faPrint} />
                         </Ancora>

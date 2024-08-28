@@ -358,7 +358,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                     className="flex justify-center items-center"
                     onClick={() => dialogCloneQuestions.current?.showModal()}
                 >
-                    <FontAwesomeIcon icon={faPlus} className="text-white border-2 bg-emerald-400 border-emerald-400 mx-4 px-2 py-2 font-bold hover:bg-emerald-500 rounded-md transition" />
+                    <FontAwesomeIcon icon={faPlus} className="text-white border-2 bg-emerald-400 dark:bg-emerald-500 border-emerald-400 dark:border-emerald-500 mx-4 px-2 py-2 font-bold hover:bg-emerald-500 dark:hover:bg-emerald-600 rounded-md transition" />
                     Clonar questões para outro credor
                 </button>
                 <div className={`flex items-center justify-center gap-10`}>
