@@ -16,12 +16,12 @@ export default async function Page({ params }: { params: { idForm: number } }) {
             ) : (
                 <>
                     <h2
-                        className={`text-2xl font-bold text-center text-slate-500 my-2 dark:text-slate-100`}
+                        className={`text-2xl font-bold text-center text-slate-500 my-2 dark:text-slate-100 print:text-black`}
                     >
                         Monitoria {userMonitoryValues?.monitoring[0]?.id_form} ({userMonitoryValues?.monitoring[0]?.monitoring_date})
                     </h2>
                     <h2
-                        className={`text-base font-bold text-center text-slate-500 mb-5 dark:text-slate-100`}
+                        className={`text-base font-bold text-center text-slate-500 mb-5 dark:text-slate-100 print:text-black`}
                     >
                         {userMonitoryValues?.monitoring[0].Creditor} | {userMonitoryValues.monitoring[0].Ocorrence} | {userMonitoryValues.monitoring[0].Description}
                     </h2>
@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                             className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                         >
                             <thead
-                                className="text-sm text-gray-700 uppercase bg-gray-200 dark:bg-zinc-700 dark:text-gray-400"
+                                className="text-sm text-gray-700 uppercase bg-gray-200 dark:bg-zinc-700 dark:text-gray-400 print:bg-transparent"
                             >
                                 <tr>
                                     <th scope="col" className="px-6 py-3"> Negociador </th>
@@ -42,20 +42,20 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                             </thead>
                             <tbody>
                                 <tr
-                                    className="bg-slate-100 border-b dark:bg-zinc-800/30 dark:border-zinc-800"
+                                    className="bg-slate-100 border-b dark:bg-zinc-800/30 dark:border-zinc-800 print:bg-transparent"
                                 >
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold text-zinc-900 dark:text-slate-50">
                                         <span className="mr-1">{userMonitoryValues?.monitoring[0]?.negotiator_name}</span>
                                         {userMonitoryValues?.monitoring[0]?.negotiator_last_name}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold text-zinc-900 dark:text-slate-50">
                                         <span className="mr-1">{userMonitoryValues?.monitoring[0]?.evaluator_name}</span>
                                         {userMonitoryValues?.monitoring[0]?.evaluator_last_name}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold text-zinc-900 dark:text-slate-50">
                                         {userMonitoryValues?.monitoring[0]?.negotiator_note}
                                     </td>
-                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                    <td className="px-6 py-4 text-base font-semibold text-zinc-900 dark:text-slate-50">
                                         {userMonitoryValues?.monitoring[0]?.behavioral_note}
                                     </td>
                                 </tr>
@@ -113,7 +113,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800`}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800 print:bg-transparent`}
                                                         >
                                                             <p
                                                                 className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -158,7 +158,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     }`}
                                             >
                                                 <div
-                                                    className={`flex items-center justify-between p-2 border dark:border-zinc-700 border-slate-200 rounded-md`}
+                                                    className={`flex items-center justify-between p-2 border dark:border-zinc-700 border-slate-200 rounded-md print:bg-transparent`}
                                                 >
                                                     <p
                                                         className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -181,7 +181,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800`}
+                                                            className={`flex items-center justify-between p-2 border border-slate-300 dark:border-zinc-700 rounded-md ml-8 bg-slate-100 dark:bg-zinc-800 print:bg-transparent`}
                                                         >
                                                             <p
                                                                 className={`font-medium text-md text-black/80 dark:text-slate-50`}
@@ -310,7 +310,7 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                                 id="observation"
                                 disabled
                                 value={userMonitoryValues?.monitoring[0]?.observation}
-                                className={`font-medium my-1 w-full border-2 dark:border-zinc-700 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 pb-20 dark:bg-zinc-800 h-48 print:overflow-hidden`}
+                                className={`font-medium my-1 w-full border-2 dark:border-zinc-700 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 pb-20 dark:bg-zinc-800 h-48 print:overflow-hidden print:bg-transparent`}
                                 required
                             />
                         </FieldForm>
