@@ -7,14 +7,13 @@ export async function deleteMonitoring(id_form: number) {
 
     const userParse: ITokenUserInitialValues = GetUserToken()
 
-    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/delete-questions-config`, {
+    const resp = await fetch(`${process.env.BACKEND_DOMAIN}/delete-monitoring-form/${id_form}`, {
         method: "DELETE",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + userParse.accessToken,
         },
-        body: JSON.stringify({id_form}),
     })
         .then(async (value) => {
             const data = await value.json()
