@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyUserToken } from "@/api/generics/verifyToken";
+import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 
 export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswerTable) {
 
@@ -240,6 +241,9 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
             })
 
             setDisableButton(false)
+
+            await deleteMonitoring(monitoring.data.idForm)
+
             return
         }
 
