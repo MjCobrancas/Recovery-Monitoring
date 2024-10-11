@@ -14,6 +14,7 @@ import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monit
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyUserToken } from "@/api/generics/verifyToken";
 import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
+import { Input } from "@/components/Input";
 
 export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswerTable) {
 
@@ -72,7 +73,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                         answer: true
                     }
                 }),
-                file: null
+                file: null,
+                clientCode: ""
             },
             resolver: zodResolver(answerMonitoringSchema)
         })
@@ -215,11 +217,16 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
             result: {
                 note: questionsNote,
                 noteBehavioral: behavioralNote,
-                observation: data.observation
+                observation: data.observation,
+                clientCode: data.clientCode
             }
         }
 
+        console.log(object)
+
         const monitoring = await realizedMonitoring(object)
+
+        console.log(monitoring)
 
         if (!monitoring.status) {
             toast.error("Erro ao salvar a monitoria realizada. Por favor, verifique todos os valores.", {
@@ -440,6 +447,24 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                     />
 
                                     <div className={`my-2 flex flex-col gap-2 w-full`}>
+                                        <FieldForm
+                                            label="clientCode"
+                                            name="Código do Cliente:"
+                                            error={errors.clientCode && "Inválido"}
+                                            styles={`w-fit`}
+                                        >
+                                            <Input 
+                                                id="clientCode"
+                                                name="clientCode"
+                                                type="text"
+                                                onForm={true}
+                                                value={watch("clientCode")}
+                                                register={register}
+                                                required
+                                                maxlength={50}
+                                            />
+                                        </FieldForm>
+
                                         <FieldForm
                                             label="observation"
                                             name="Observação:"

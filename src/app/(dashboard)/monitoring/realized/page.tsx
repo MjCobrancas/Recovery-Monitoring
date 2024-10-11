@@ -21,6 +21,8 @@ export default async function Page() {
     const backOffices: IBackOffices[] = await getBackOffice()
     const supervisor: IBackOffice[] = await getAllBackOffices()
 
+    console.log(monitoryUsers)
+
     return (
         <PaperBlock>
             <TextPrincipal text="Monitorias realizadas" />

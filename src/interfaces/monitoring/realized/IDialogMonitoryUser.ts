@@ -43,6 +43,7 @@ interface IMonitoryUserHeader {
     negotiator_last_name: string
     negotiator_note: number
     observation: string
+    client_code: string
 }
 
 export type { IDialogMonitoryUserProps, IDialogMonitoryUser }

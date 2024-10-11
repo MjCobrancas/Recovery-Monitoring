@@ -1,6 +1,7 @@
 import { Ancora } from "@/components/Ancora";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
+import { Input } from "@/components/Input";
 import { IDialogMonitoryUserProps } from "@/interfaces/monitoring/realized/IDialogMonitoryUser";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -186,6 +187,26 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                         </div>
                     </div>
 
+                    <div className={`flex justify-center items-center w-[200px]`}>
+                        {userMonitoryValues.monitoring[0].client_code != null || undefined ? (
+                            <FieldForm
+                                label="clientCode"
+                                name="Código do Cliente:"
+                                obrigatory={false}
+                            >
+                                <Input
+                                    id="clientCode"
+                                    name="clientCode"
+                                    type="text"
+                                    disabled={true}
+                                    value={userMonitoryValues?.monitoring[0]!.client_code}
+                                />
+                            </FieldForm>
+                        ) : (
+                            <p></p>
+                        )}
+                    </div>
+
                     <div className={`flex items-end h-full w-full gap-2`}>
                         <FieldForm
                             label="observation"
@@ -227,7 +248,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                     </div>
 
                     <div className={`flex justify-end gap-2 print:hidden`}>
-                        <Ancora 
+                        <Ancora
                             title="Imprimir"
                             toGo={`/monitoring/realized-print/${userMonitoryValues?.monitoring[0].id_form}`}
                             styles={`dark:bg-blue-400 dark:text-white rounded-md dark:hover:bg-blue-500`}
