@@ -16,7 +16,7 @@ import { verifyUserToken } from "@/api/generics/verifyToken";
 import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 import { Input } from "@/components/Input";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, schedule }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -222,11 +222,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
             }
         }
 
-        console.log(object)
-
         const monitoring = await realizedMonitoring(object)
-
-        console.log(monitoring)
 
         if (!monitoring.status) {
             toast.error("Erro ao salvar a monitoria realizada. Por favor, verifique todos os valores.", {
@@ -263,6 +259,18 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
 
     return (
         <>
+
+            {schedule.map((item, i) => {
+                return (
+                    <div key={i} className={`flex flex-col justify-center items-center font-bold text-slate-500 dark:text-slate-200 gap-2 mb-2`}>
+                        <p>{item.Name + " " + item.Last_Name}</p>
+
+                        <p>{item.Creditor} | {item.Ocorrence} | {item.Description}</p>
+                    </div>
+                )
+            })}
+
+
             <main className={`flex flex-col gap-2 m-2 p-2`}>
                 {!hasQuestions ?
                     <p className={`font-medium p-2 text-red-400 rounded-md w-fit`}>
@@ -453,7 +461,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                                             error={errors.clientCode && "Inválido"}
                                             styles={`w-fit`}
                                         >
-                                            <Input 
+                                            <Input
                                                 id="clientCode"
                                                 name="clientCode"
                                                 type="text"
@@ -505,7 +513,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                 }
             </main>
 
-            <Toaster 
+            <Toaster
                 position="bottom-right"
                 reverseOrder={false}
             />
