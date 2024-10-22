@@ -193,7 +193,7 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
 
             <FieldForm
                 label="name"
-                name="Nome:"
+                name="Nome/Login:"
                 obrigatory={false}
                 styles={`w-56`}
             >
@@ -201,7 +201,7 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Nome"
+                    placeholder="Nome ou Login"
                     onForm={true}
                     value={watch("name")}
                     register={register}

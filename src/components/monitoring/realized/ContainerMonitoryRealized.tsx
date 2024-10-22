@@ -155,9 +155,9 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                 isDidFilter={isDidFilter}
             />
 
-            <section className={`max-h-[24.8rem] overflow-y-auto mt-4 pl-2`}>
+            <section className={`max-h-[24.8rem] overflow-y-auto mt-4 px-2`}>
                 <div>
-                    <table className="w-[96vw] mx-auto my-4">
+                    <table className="w-full mx-auto my-4">
                         <thead className="bg-gray-200 dark:bg-zinc-800">
                             <tr>
                                 <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md"

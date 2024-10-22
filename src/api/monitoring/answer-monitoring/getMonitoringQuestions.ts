@@ -3,20 +3,18 @@
 import { ITokenUserInitialValues } from "@/interfaces/Generics";
 import { GetUserToken } from "@/utils/GetUserToken";
 
-export async function getMonitoringQuestions(values: any) {
+export async function getMonitoringQuestions(values: { Id_Creditor: number, Id_Ocorrence: number, Id_Aging: number, id_user: number }[]) {
     const userParse: ITokenUserInitialValues = GetUserToken();
 
     let object = {
         creditor: 0,
         ocorrence: 0,
-        fase: 0,
-        user: 0,
-    };
+        fase: 0
+    }
 
-    (object.creditor = values[0].Id_Creditor),
-        (object.ocorrence = values[0].Id_Ocorrence),
-        (object.fase = values[0].Id_Aging);
-    object.user = values[0].id_user;
+    object.creditor = values[0].Id_Creditor
+    object.ocorrence = values[0].Id_Ocorrence
+    object.fase = values[0].Id_Aging
 
     const resp = await fetch(
         `${process.env.BACKEND_DOMAIN}/get-questions-monitoring`,
