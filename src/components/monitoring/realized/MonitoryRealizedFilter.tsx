@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter }: IMonitoryRealizedFilterProps) {
+export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter, supervisor }: IMonitoryRealizedFilterProps) {
 
     const router = useRouter()
 
@@ -27,6 +27,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
             DataEnd: getDateToday(),
             credor: "0",
             ocorrence: "0",
+            supervisor: "0",
             name: "",
             feedback: ""
         }
@@ -39,7 +40,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
         async function reloadTableValues() {
             if (reloadTable) {
                 setValueReloadTable(false)
-    
+
                 if (isDidFilter) {
                     const getFiltredValues = await filterRealizedAgendas<typeof lastObject>(lastObject)
 
@@ -61,7 +62,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
         }
 
         reloadTableValues()
-        
+
     }, [isDidFilter, lastObject, reloadTable, setValueMonitoryRealized, setValueReloadTable])
 
     function resetForm() {
@@ -104,6 +105,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
             id_creditor: Number(data.credor),
             id_ocorrence: Number(data.ocorrence),
             id_aging: 0,
+            id_supervisor: Number(data.supervisor),
             date_type: String(data.Data),
             negotiator_name: name.trim(),
             negotiator_last_name: lastName?.trim() || "",
@@ -122,7 +124,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
         setValueDisableButtons(false)
 
         if (!getFiltredValues.status) {
-            toast.error("Não há dados baseado nesses filtros", {
+            toast.error("Não há dados baseado nesses filtros. Revise os valores e tente novamente!", {
                 duration: 5000
             })
 
@@ -161,7 +163,7 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                         styles={`w-full ${errors.Data
                             ? "border-[--label-color-error] dark:border-[--label-color-error]"
                             : ""
-                        }`}
+                            }`}
                         onForm={true}
                         register={register}
                     />
@@ -189,80 +191,19 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                 </FieldForm>
             </div>
 
-            <div className="flex justify-center items-center">
-                <div className={`flex items-center justify-center gap-2 mr-2 font-medium`}>
-                    <FieldForm
-                        label="credor"
-                        name="Credor:"
-                        obrigatory={false}
-                        styles={`w-fit`}
-                    >
-                        <SelectField
-                            name="credor"
-                            id="credor"
-                            required
-                            styles={`w-fit`}
-                            value={watch("credor")}
-                            onForm={true}
-                            register={register}
-                        >
-                            <Option value={"0"} firstValue={"Selecione"} />
-
-                            {creditors.map((value, index) => {
-                                return (
-                                    <Option
-                                        key={index}
-                                        value={value.Id_Creditor}
-                                        firstValue={value.Creditor}
-                                    />
-                                )
-                            })}
-                        </SelectField>
-                    </FieldForm>
-
-                    <FieldForm
-                        label="ocorrence"
-                        name="Ocorrência:"
-                        obrigatory={false}
-                        styles={`w-fit`}
-                    >
-                        <SelectField
-                            name="ocorrence"
-                            id="ocorrence"
-                            required
-                            styles={`w-[200px]`}
-                            onForm={true}
-                            register={register}
-                            value={watch("ocorrence")}
-                        >
-                            <Option value={"0"} firstValue={"Selecione"} />
-
-                            {ocorrences.ocorrence.map((value, index) => {
-                                return (
-                                    <Option
-                                        key={index}
-                                        value={value.Id_Ocorrence}
-                                        firstValue={value.Ocorrence}
-                                    />
-                                )
-                            })}
-
-                        </SelectField>
-                    </FieldForm>
-                </div>
-
+            <div className={`flex items-center justify-center gap-2 mb-4`}>
                 <FieldForm
                     label="name"
-                    name="Nome:"
+                    name="Nome/Login:"
                     obrigatory={false}
-                    styles={`w-56 mr-2`}
+                    styles={`w-56`}
                 >
                     <Input
                         value={watch("name")}
                         type="text"
                         id="name"
                         name="name"
-                        placeholder="Nome"
+                        placeholder="Nome ou login"
                         maxlength={255}
                         onForm={true}
                         register={register}
@@ -270,27 +211,120 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                 </FieldForm>
 
                 <FieldForm
-                    label="feedback"
-                    name="Feedback:"
+                    label="credor"
+                    name="Credor:"
                     obrigatory={false}
                     styles={`w-fit`}
                 >
                     <SelectField
-                        name="feedback"
-                        id="feedback"
+                        name="credor"
+                        id="credor"
+                        required
                         styles={`w-fit`}
+                        value={watch("credor")}
                         onForm={true}
                         register={register}
-                        value={watch("feedback")}
                     >
-                        <Option value={""} firstValue={"Selecione"} />
-                        <Option
-                            value={"responsable"}
-                            firstValue={"Responsável do Feedback"}
-                        />
-                        <Option value={"N/A"} firstValue={"Sem Feedback"} />
+                        <Option value={"0"} firstValue={"Selecione"} />
+
+                        {creditors.map((value, index) => {
+                            return (
+                                <Option
+                                    key={index}
+                                    value={value.Id_Creditor}
+                                    firstValue={value.Creditor}
+                                />
+                            )
+                        })}
                     </SelectField>
                 </FieldForm>
+
+                <FieldForm
+                    label="ocorrence"
+                    name="Ocorrência:"
+                    obrigatory={false}
+                    styles={`w-fit`}
+                >
+                    <SelectField
+                        name="ocorrence"
+                        id="ocorrence"
+                        required
+                        styles={`w-[200px]`}
+                        onForm={true}
+                        register={register}
+                        value={watch("ocorrence")}
+                    >
+                        <Option value={"0"} firstValue={"Selecione"} />
+
+                        {ocorrences.ocorrence.map((value, index) => {
+                            return (
+                                <Option
+                                    key={index}
+                                    value={value.Id_Ocorrence}
+                                    firstValue={value.Ocorrence}
+                                />
+                            )
+                        })}
+
+                    </SelectField>
+                </FieldForm>
+            </div>
+
+            <div className="flex justify-center items-center">
+                <div className={`flex gap-2`}>
+                    <FieldForm
+                        label="supervisor"
+                        name="Supervisor:"
+                        obrigatory={false}
+                        styles={`w-fit`}
+                    >
+                        <SelectField
+                            name="supervisor"
+                            id="supervisor"
+                            required
+                            styles={`w-fit`}
+                            onForm={true}
+                            register={register}
+                            value={watch("supervisor")}
+                        >
+                            <Option value={"0"} firstValue={"Selecione"} />
+
+                            {supervisor.map((value, index) => {
+                                return (
+                                    <Option
+                                        key={index}
+                                        value={value.Id_User}
+                                        firstValue={value.Name + " " + value.Last_Name}
+                                    />
+                                )
+                            })}
+
+                        </SelectField>
+                    </FieldForm>
+
+                    <FieldForm
+                        label="feedback"
+                        name="Feedback:"
+                        obrigatory={false}
+                        styles={`w-fit`}
+                    >
+                        <SelectField
+                            name="feedback"
+                            id="feedback"
+                            styles={`w-fit`}
+                            onForm={true}
+                            register={register}
+                            value={watch("feedback")}
+                        >
+                            <Option value={""} firstValue={"Selecione"} />
+                            <Option
+                                value={"responsable"}
+                                firstValue={"Responsável do Feedback"}
+                            />
+                            <Option value={"N/A"} firstValue={"Sem Feedback"} />
+                        </SelectField>
+                    </FieldForm>
+                </div>
 
                 <Button
                     type="submit"

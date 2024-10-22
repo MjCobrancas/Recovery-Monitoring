@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation";
 import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { verifyUserToken } from "@/api/generics/verifyToken";
+import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
+import { Input } from "@/components/Input";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, schedule }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -71,7 +73,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                         answer: true
                     }
                 }),
-                file: null
+                file: null,
+                clientCode: ""
             },
             resolver: zodResolver(answerMonitoringSchema)
         })
@@ -214,7 +217,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
             result: {
                 note: questionsNote,
                 noteBehavioral: behavioralNote,
-                observation: data.observation
+                observation: data.observation,
+                clientCode: data.clientCode
             }
         }
 
@@ -240,6 +244,9 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
             })
 
             setDisableButton(false)
+
+            await deleteMonitoring(monitoring.data.idForm)
+
             return
         }
 
@@ -252,6 +259,18 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
 
     return (
         <>
+
+            {schedule.map((item, i) => {
+                return (
+                    <div key={i} className={`flex flex-col justify-center items-center font-bold text-slate-500 dark:text-slate-200 gap-2 mb-2`}>
+                        <p>{item.Name + " " + item.Last_Name}</p>
+
+                        <p>{item.Creditor} | {item.Ocorrence} | {item.Description}</p>
+                    </div>
+                )
+            })}
+
+
             <main className={`flex flex-col gap-2 m-2 p-2`}>
                 {!hasQuestions ?
                     <p className={`font-medium p-2 text-red-400 rounded-md w-fit`}>
@@ -437,6 +456,24 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
 
                                     <div className={`my-2 flex flex-col gap-2 w-full`}>
                                         <FieldForm
+                                            label="clientCode"
+                                            name="Código do Cliente:"
+                                            error={errors.clientCode && "Inválido"}
+                                            styles={`w-fit`}
+                                        >
+                                            <Input
+                                                id="clientCode"
+                                                name="clientCode"
+                                                type="text"
+                                                onForm={true}
+                                                value={watch("clientCode")}
+                                                register={register}
+                                                required
+                                                maxlength={50}
+                                            />
+                                        </FieldForm>
+
+                                        <FieldForm
                                             label="observation"
                                             name="Observação:"
                                             error={errors.observation && "Inválido"}
@@ -476,7 +513,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule }: IAnswer
                 }
             </main>
 
-            <Toaster 
+            <Toaster
                 position="bottom-right"
                 reverseOrder={false}
             />

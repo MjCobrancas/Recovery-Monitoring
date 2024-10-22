@@ -15,7 +15,7 @@ import { DialogCreateFeedback } from "./DialogCreateFeedback"
 import { verifyUserToken } from "@/api/generics/verifyToken"
 import { useRouter } from "next/navigation"
 
-export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences, backOffices }: IContainerMonitoryRealizedProps) {
+export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences, backOffices, supervisor }: IContainerMonitoryRealizedProps) {
 
     const router = useRouter()
 
@@ -143,6 +143,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                 />
             </dialog>
             <MonitoryRealizedFilter
+                supervisor={supervisor}
                 creditors={creditors}
                 ocorrences={ocorrences}
                 disableAllButtons={disableAllButtons}

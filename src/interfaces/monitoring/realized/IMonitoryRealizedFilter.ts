@@ -1,6 +1,7 @@
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
 import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllCreditors";
 import { IMonitoryAllUsers } from "./IContainerMonitoryRealized";
+import { IBackOffices } from "@/interfaces/generics/IBackOffices";
 
 interface IMonitoryRealizedFilterProps {
     creditors: ICreditorGetAllCreditors[]
@@ -13,9 +14,11 @@ interface IMonitoryRealizedFilterProps {
     reloadTable: boolean
     setValueReloadTable: (value: boolean) => void
     isDidFilter: boolean
+    supervisor: IBackOffices[]
 }
 
 interface IMonitoryRealizedForm {
+    supervisor: string
     credor: string
     ocorrence: string
     name: string

@@ -18,6 +18,14 @@ interface ISchedulesData {
     }
 }
 
+interface IScheduleUser {
+    Name: string
+    Last_Name: string
+    Creditor: string
+    Ocorrence: string
+    Description: string
+}
+
 interface IScheduleTable extends ISchedulesData {
     filter: ISchedulesResponse[]
 }
@@ -48,4 +56,4 @@ interface ISchedulesQuantity {
     negotiators: number
 }
 
-export type { ISchedules, ISchedulesResponse, ISchedulesData, IScheduleDataContainer, ISchedulesQuantity, IScheduleTable }
+export type { ISchedules, ISchedulesResponse, ISchedulesData, IScheduleDataContainer, ISchedulesQuantity, IScheduleTable, IScheduleUser }

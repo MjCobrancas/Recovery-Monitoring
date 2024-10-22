@@ -22,7 +22,8 @@ export const answerMonitoringSchema = z.object({
         }
 
         return true
-    })
+    }),
+    clientCode: z.string().min(1)
 })
 
 export type answerMonitoringData = z.infer<typeof answerMonitoringSchema>

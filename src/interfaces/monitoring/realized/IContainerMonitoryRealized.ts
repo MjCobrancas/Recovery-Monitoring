@@ -7,6 +7,7 @@ interface IContainerMonitoryRealizedProps {
     creditors: ICreditorGetAllCreditors[]
     ocorrences: IGetAllOcorrences
     backOffices: IBackOffices[]
+    supervisor: IBackOffices[]
 }
 
 interface IMonitoryAllUsers {
