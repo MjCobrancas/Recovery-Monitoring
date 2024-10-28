@@ -11,6 +11,16 @@ export async function middleware(request: NextRequest) {
 	let validRoute = false
 	const { pathname } = request.nextUrl
 
+	if (pathname == "/login") {
+		const isValidToken = await verifyUserToken()
+
+		if (!isValidToken) {
+			return
+		}
+
+		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/`)
+	}
+
 	if (!token) {
 		return NextResponse.redirect(`${process.env.FRONTEND_DOMAIN}/login`)
 	}
@@ -63,5 +73,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/', '/monitoring', '/monitoring/:path*']
+	matcher: ['/', '/login', '/monitoring', '/monitoring/:path*']
 }

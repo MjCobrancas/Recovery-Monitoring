@@ -23,6 +23,11 @@ export const primaryRoutes: Array<PrimaryRoutes> = [
       permissions: [1, 2, 3, 4],
     },
     {
+        name: "Tarefas",
+        level: 10,
+        permissions: [1, 2, 3, 4]
+    },
+    {
       name: "Treinamento",
       level: 9,
       permissions: [1],
@@ -95,6 +100,18 @@ export const secondRoutes: Array<SecondRoutes> = [
         level: 9,
         permissions: [1],
         route: "/workout/realized"
+    },
+    {
+        name: "Monitorar tarefas",
+        level: 10,
+        permissions: [1],
+        route: "/tasks/monitoring"
+    },
+    {
+        name: "Lista de tarefas do usuário",
+        level: 10,
+        permissions: [1],
+        route: "/tasks/user"
     }
 ]
 
@@ -169,6 +186,12 @@ export const actionRoutes: Array<ActionRoutes> = [
         level: 8,
         permissions: [1, 2, 3, 4],
         route: "/monitoring/realized-print"
+    },
+
+    {
+        level: 2,
+        permissions: [1, 2, 3, 4, 5],
+        route: "/coaching/print-coaching"
     },
 
     {

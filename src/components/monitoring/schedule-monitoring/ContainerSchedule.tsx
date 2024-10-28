@@ -1,6 +1,6 @@
 'use client'
 
-import { IScheduleDataContainer, ISchedulesData, ISchedulesResponse } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
+import { IScheduleDataContainer, ISchedulesResponse } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { HeaderSchedule } from "./HeaderSchedule";
 import { TableSchedule } from "./TableSchedule";
 import { FilterSchedule } from "./FilterSchedule";
@@ -24,7 +24,6 @@ export function ContainerSchedule({ schedules, creditors, ocorrences }: ISchedul
                 creditors={creditors}
                 ocorrences={ocorrences}
                 setFilter={setValueFilter}
-
             />
 
             <TableSchedule
