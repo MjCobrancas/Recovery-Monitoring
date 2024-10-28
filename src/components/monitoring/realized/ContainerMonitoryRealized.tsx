@@ -120,7 +120,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                 className={`w-5/6 max-lg:w-3/4 p-2 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
                 ref={dialogFeedback}
             >
-                <DialogCreateFeedback 
+                <DialogCreateFeedback
                     feedbackInfo={feedbackInfo}
                     userFeedbackIndex={userFeedbackIndex}
                     backOffices={backOffices}
@@ -161,7 +161,11 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                     <table className="w-[96vw] mx-auto my-4">
                         <thead className="bg-gray-200 dark:bg-zinc-800">
                             <tr>
-                                <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md"
+                                <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md">
+
+                                </th>
+
+                                <th className="font-semibold p-2 dark:text-white/80 rounded-tl"
                                 >
                                     Negociador
                                 </th>
@@ -203,6 +207,21 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                                         className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800"
                                     >
                                         <td className="p-2 text-center">
+                                            <div className={`flex justify-center items-center gap-2`}>
+                                                {item.Is_Loose_Monitoring ? (
+                                                    <abbr className={`bg-indigo-500 dark:bg-indigo-600 border border-indigo-600 dark:border-indigo-700 duration-100 text-white no-underline relative hover:after:content-['Monitoria_Avulsa'] hover:after:block hover:after:absolute hover:after:p-1 hover:after:rounded-md hover:after:dark:bg-zinc-900 hover:after:bg-slate-400 hover:after:top-[50%] hover:after:left-[50%] hover:after:translate-x-[-40%] hover:after:translate-y-[-150%]
+                                                    rounded-md px-2 py-[5px]`}>
+                                                        <p>M.A</p>
+                                                    </abbr>
+                                                ) : (
+                                                    <abbr className={`bg-orange-400 dark:bg-orange-500 border border-orange-500 dark:border-orange-600 duration-100 text-white no-underline relative hover:after:content-['Monitoria_Realizada'] hover:after:block hover:after:absolute hover:after:p-1 hover:after:rounded-md hover:after:dark:bg-zinc-900 hover:after:bg-slate-400 hover:after:top-[50%] hover:after:left-[50%] hover:after:translate-x-[-40%] hover:after:translate-y-[-150%]
+                                                    rounded-md px-2 py-[5px]`}>
+                                                        <p>M.R</p>
+                                                    </abbr>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="p-2 text-center">
                                             {item.Name + " " + item.Last_Name}
                                         </td>
                                         <td className="p-2 text-center">{item.Evaluator_Name}</td>
@@ -227,36 +246,38 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                                                 : item.FeedbackDate}
                                         </td>
                                         <td
-                                            className="p-2 text-center flex gap-2 justify-center items-center"
+                                            className="p-2 text-center"
                                         >
-                                            {item.FeedbackResponsable == null && (
+                                            <div className={`flex justify-center items-center gap-2`}>
+                                                {item.FeedbackResponsable == null && (
+                                                    <button
+                                                        type="button"
+                                                        className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
+                                                    rounded-md px-2 py-[5px]
+                                                `}
+                                                        name="idForm"
+                                                        value={item.Id_Form}
+                                                        disabled={disableAllButtons}
+                                                        onClick={() =>
+                                                            handleCreateFeedback(index)
+                                                        }
+                                                    >
+                                                        <FontAwesomeIcon icon={faPencil} />
+                                                    </button>
+                                                )}
+
                                                 <button
                                                     type="button"
                                                     className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
-                                                    rounded-md px-2 py-[5px]
-                                                `}
-                                                    name="idForm"
-                                                    value={item.Id_Form}
-                                                    disabled={disableAllButtons}
-                                                    onClick={() =>
-                                                        handleCreateFeedback(index)
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faPencil} />
-                                                </button>
-                                            )}
-
-                                            <button
-                                                type="button"
-                                                className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
                                                 rounded-md px-2 py-[5px]
                                             `}
-                                                name="idForm"
-                                                disabled={disableAllButtons}
-                                                onClick={() => handleGetUserMonitory(item.Id_Form)}
-                                            >
-                                                <FontAwesomeIcon icon={faPaperPlane} />
-                                            </button>
+                                                    name="idForm"
+                                                    disabled={disableAllButtons}
+                                                    onClick={() => handleGetUserMonitory(item.Id_Form)}
+                                                >
+                                                    <FontAwesomeIcon icon={faPaperPlane} />
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 )

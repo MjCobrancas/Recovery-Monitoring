@@ -21,6 +21,7 @@ interface IMonitoryAllUsers {
     Ocorrence: string
     Description: string
     Observation: string
+    Is_Loose_Monitoring: boolean
     Evaluator_Name: string
     Id_Form: number
     Grade_Value: number

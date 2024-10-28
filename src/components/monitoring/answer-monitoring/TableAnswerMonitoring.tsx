@@ -211,7 +211,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
                 idCreditor: config[0].Id_Creditor,
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
-                idAging: config[0].Id_Aging
+                idAging: config[0].Id_Aging,
+                isLooseMonitoring: false
             },
             answers: [...questionsObject, ...behavioralObject],
             result: {
@@ -249,6 +250,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
 
             return
         }
+
+        dialog.current?.close()
 
         toast.success("Sucesso ao salvar a monitoria realizada!", {
             duration: 5000

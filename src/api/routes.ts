@@ -162,6 +162,12 @@ export const actionRoutes: Array<ActionRoutes> = [
     {
         level: 8,
         permissions: [1, 2, 3, 4],
+        route: "/monitoring/loose-monitoring"
+    },
+
+    {
+        level: 8,
+        permissions: [1, 2, 3, 4],
         route: "/monitoring/realized-print"
     },
 

@@ -44,6 +44,7 @@ interface IMonitoryUserHeader {
     negotiator_note: number
     observation: string
     client_code: string
+    is_loose_monitoring: boolean | null
 }
 
 export type { IDialogMonitoryUserProps, IDialogMonitoryUser }

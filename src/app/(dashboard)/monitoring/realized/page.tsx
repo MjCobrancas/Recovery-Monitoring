@@ -25,7 +25,7 @@ export default async function Page() {
 
     return (
         <PaperBlock>
-            <TextPrincipal text="Monitorias realizadas" />
+            <TextPrincipal text="Monitorias Realizadas" />
 
             <ContainerMonitoryRealized 
                 monitoryUsers={monitoryUsers.status ? monitoryUsers.data : []} 

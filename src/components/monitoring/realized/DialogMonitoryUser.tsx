@@ -17,7 +17,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                     <h2
                         className={`text-2xl font-bold text-center text-slate-500 my-2 mb-8 dark:text-slate-100`}
                     >
-                        Monitoria {userMonitoryValues?.monitoring[0]?.id_form}
+                        Monitoria { userMonitoryValues.monitoring[0].is_loose_monitoring ? `Avulsa ${userMonitoryValues?.monitoring[0]?.id_form}` : `${userMonitoryValues?.monitoring[0].id_form}`}
                     </h2>
 
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-2 print:overflow-x-hidden">
