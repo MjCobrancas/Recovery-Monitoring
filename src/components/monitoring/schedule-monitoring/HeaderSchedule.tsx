@@ -6,15 +6,6 @@ export function HeaderSchedule({ schedules }: ISchedulesData) {
     return (
         <div className={`flex items-end justify-between ml-2`}>
             <div className={`flex items-end gap-2`}>
-                <Ancora
-                    title="Prepare sua monitoria"
-                    toGo="/monitoring/config-monitoring"
-                    styles={`border border-blue-500 rounded-md bg-transparent
-                            duration-200 px-2 py-2 text-blue-500 hover:bg-blue-500 dark:bg-transparent
-                            dark:hover:bg-blue-500
-                            w-fit text-md
-                    `}
-                />
                 <p className={`bg-slate-300 dark:bg-zinc-700 dark:text-white rounded-md p-2 font-medium text-black/80`}>
                     Negociadores: 
                     <span className={`ml-2 bg-slate-200 dark:bg-zinc-500 px-2 py-1 rounded-md`}>
