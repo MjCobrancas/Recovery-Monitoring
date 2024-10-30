@@ -3,7 +3,7 @@
 import { ITokenUserInitialValues } from "@/interfaces/Generics";
 import { GetUserToken } from "@/utils/GetUserToken";
 
-export async function getMonitoringQuestions(values: { Id_Creditor: number, Id_Ocorrence: number, Id_Aging: number, id_user: number }[]) {
+export async function getMonitoringQuestions(values: { Id_Creditor: number, Id_Ocorrence: number, Id_Aging: number }[]) {
     const userParse: ITokenUserInitialValues = GetUserToken();
 
     let object = {
