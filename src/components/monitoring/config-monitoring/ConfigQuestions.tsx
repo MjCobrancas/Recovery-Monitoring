@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { DialogCloneQuestions } from "./DialogCloneQuestions";
 import { verifyUserToken } from "@/api/generics/verifyToken";
 import { useRouter } from "next/navigation";
+import { InputSearchQuestion } from "./InputSearchQuestion";
 
 export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons, creditors }: IConfigQuestionsProps) {
 
@@ -18,8 +19,9 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
     const [totalOfNotes, setTotalOfNotes] = useState(questionsList.questions.reduce((sum, { note = 0 }) => sum + note, 0))
     const [totalOfNotesBehavioral, setTotalOfNotesBehavioral] = useState(questionsList.behavioral.reduce((sum, { note = 0 }) => sum + note, 0))
+    const [inputTextSearch, setInputTextSearch] = useState("")
 
-    const { control, register, handleSubmit, watch, formState: { errors }, setValue, reset, setFocus, clearErrors } = useForm<{ questions: IQuestionsNegotiation[], behavioral: IQuestionsBehavioral[], generic: IQuestionsGeneric[] }>({
+    const { control, register, handleSubmit, watch, formState: { errors }, getValues, setValue, reset, setFocus, clearErrors } = useForm<{ questions: IQuestionsNegotiation[], behavioral: IQuestionsBehavioral[], generic: IQuestionsGeneric[] }>({
         defaultValues: {
             questions: useMemo(() => {
                 setTotalOfNotes(questionsList.questions.reduce((sum, { note = 0 }) => sum + note, 0))
@@ -27,7 +29,15 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
             }, [questionsList]),
             behavioral: useMemo(() => {
                 setTotalOfNotesBehavioral(questionsList.behavioral.reduce((sum, { note = 0 }) => sum + note, 0))
-                return questionsList.behavioral
+                return questionsList.behavioral.map(({ idQuestion, question, isBehavioral, note }, index: number) => {
+                    return {
+                        idQuestion,
+                        question,
+                        isBehavioral,
+                        note,
+                        position: index + 1
+                    }
+                })
             }, [questionsList]),
             generic: useMemo(() => {
                 return questionsList.generic
@@ -54,8 +64,23 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
     const dialogCloneQuestions = useRef<HTMLDialogElement>(null)
 
     useEffect(() => {
-        reset({ questions: questionsList.questions, behavioral: questionsList.behavioral, generic: questionsList.generic })
+
+        const questionsBehavioral = questionsList.behavioral.map(({ idQuestion, question, isBehavioral, note }, index: number) => {
+            return {
+                idQuestion,
+                question,
+                isBehavioral,
+                note,
+                position: index + 1
+            }
+        })
+
+        reset({ questions: questionsList.questions, behavioral: questionsBehavioral, generic: questionsList.generic })
     }, [questionsList, reset])
+
+    function setInputTextValue(value: string) {
+        setInputTextSearch(value)
+    }
 
     function allDroppedQuestionsToOtherSide() {
         const fieldsGetQuestions = [...fieldsGeneric, ...fieldsQuestions, ...fieldsBehavioral]
@@ -65,6 +90,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         setValue("behavioral", [])
         setTotalOfNotes(0)
         setTotalOfNotesBehavioral(0)
+
+        orderQuestionsByPositions()
     }
 
     function allQuestionsToOtherSide() {
@@ -98,6 +125,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
             setValue("questions", questionsNegotiation)
             setValue("behavioral", questionsBehavioral)
             calculateNotes()
+
+            orderQuestionsByPositions()
         }
     }
 
@@ -112,6 +141,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
             calculateNotesQuestionGoOut(index, isBehavioral)
 
+            orderQuestionsByPositions()
+
             return
         }
 
@@ -123,6 +154,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         setValue("generic", generics)
 
         calculateNotesQuestionGoOut(index, isBehavioral)
+
+        orderQuestionsByPositions()
     }
 
     function moveToSelectQuestions(index: number) {
@@ -145,6 +178,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
 
             calculateNotes()
 
+            orderQuestionsByPositions()
+
             return
         }
 
@@ -161,6 +196,8 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         })
 
         calculateNotes()
+
+        orderQuestionsByPositions()
 
     }
 
@@ -289,6 +326,33 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         updateQuestions(index, questionGoUp)
     }
 
+    function orderQuestionsByPositions() {
+
+        const questionsNegotiator = getValues("questions")
+
+        const questionsNegotiatorSortPosition = questionsNegotiator.sort((a, b) => Number(a.position) - Number(b.position))
+
+        for (let i = 0; i < questionsNegotiator.length; i++) {
+            const item = questionsNegotiator[i]
+
+            item.position = i + 1
+        }
+
+        setValue(`questions`, questionsNegotiatorSortPosition)
+
+        const questionsBehavioral = getValues("behavioral")
+
+        const questionsBehavioralSortPosition = questionsBehavioral.sort((a, b) => Number(a.position) - Number(b.position))
+
+        for (let i = 0; i < questionsBehavioralSortPosition.length; i++) {
+            const item = questionsBehavioral[i]
+
+            item.position = i + 1
+        }
+
+        setValue(`behavioral`, questionsBehavioralSortPosition)
+    }
+
     async function handleSaveMonitoryQuestions(data: FieldValues) {
 
         const isValidToken = await verifyUserToken()
@@ -345,22 +409,28 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                 ref={dialogCloneQuestions}
                 className={`w-[80%] h-fit p-2 rounded-lg dark:bg-zinc-800 max-sm:w-full`}
             >
-                <DialogCloneQuestions 
+                <DialogCloneQuestions
                     questionsList={questionsList}
-                    dialogCloneQuestions={dialogCloneQuestions} 
+                    dialogCloneQuestions={dialogCloneQuestions}
                     creditors={creditors}
                     headerObject={{ id_creditor: idCreditor, id_ocorrence: idOcorrence, id_aging: idAging }}
                 />
             </dialog>
             <form onSubmit={handleSubmit(handleSaveMonitoryQuestions)}>
-                <button
-                    type="button"
-                    className="flex justify-center items-center"
-                    onClick={() => dialogCloneQuestions.current?.showModal()}
-                >
-                    <FontAwesomeIcon icon={faPlus} className="text-white border-2 bg-emerald-400 dark:bg-emerald-500 border-emerald-400 dark:border-emerald-500 mx-4 px-2 py-2 font-bold hover:bg-emerald-500 dark:hover:bg-emerald-600 rounded-md transition" />
-                    Clonar questões para outro credor
-                </button>
+                <div className="flex justify-between items-center">
+                    <button
+                        type="button"
+                        className="flex justify-center items-center"
+                        onClick={() => dialogCloneQuestions.current?.showModal()}
+                    >
+                        <FontAwesomeIcon icon={faPlus} className="text-white border-2 bg-emerald-400 dark:bg-emerald-500 border-emerald-400 dark:border-emerald-500 mx-4 px-2 py-2 font-bold hover:bg-emerald-500 dark:hover:bg-emerald-600 rounded-md transition" />
+                        Clonar questões para outro credor
+                    </button>
+                    <InputSearchQuestion
+                        inputText={inputTextSearch}
+                        setInputTextValue={setInputTextValue}
+                    />
+                </div>
                 <div className={`flex items-center justify-center gap-10`}>
                     <button
                         type="button"
@@ -396,10 +466,12 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                                     className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
                                                  dark:odd:bg-zinc-700 dark:even:bg-zinc-800 relative`}
                                                 >
-                                                    <span
-                                                        className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
-                                                    >
-                                                        {index + 1}
+                                                    <span>
+                                                        <input
+                                                            className="w-8 h-8 mx-2 text-center text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
+                                                            value={watch(`questions.${index}.position`)}
+                                                            {...register(`questions.${index}.position`)}
+                                                        />
                                                     </span>
 
                                                     <article
@@ -482,10 +554,13 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                                                     className={`flex items-center w-full rounded-md odd:bg-slate-200 even:bg-slate-300 p-1
                                                  dark:odd:bg-zinc-700 dark:even:bg-zinc-800 relative`}
                                                 >
-                                                    <span
-                                                        className={`mx-2 px-2 py-[2px] text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]`}
-                                                    >
-                                                        {index + 1}
+                                                    <span>
+                                                        <input
+                                                            type="text"
+                                                            className="w-8 h-8 mx-2 text-center text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
+                                                            value={watch(`behavioral.${index}.position`)}
+                                                            {...register(`behavioral.${index}.position`)}
+                                                        />
                                                     </span>
 
                                                     <article
@@ -569,6 +644,14 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                             }`}
                     >
                         {fieldsGeneric.length > 0 ? fieldsGeneric.map((item, index) => {
+
+                            const itemQuestion = item.question.toLowerCase().trim()
+                            const inputText = inputTextSearch.toLowerCase().trim()
+
+                            if (!itemQuestion.includes(inputText)) {
+                                return
+                            }
+
                             return (
                                 <article
                                     key={item.id}
@@ -594,7 +677,13 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                     </article>
                 </div>
 
-                <div className={`flex items-end justify-end gap-2 mx-4 mb-6`}>
+                <div className={`flex items-end justify-between gap-2 mx-4 mb-6`}>
+                    <Button
+                        type="button"
+                        styles="w-fit px-2 py-3 text-base"
+                        text="Ordernar perguntas"
+                        OnClick={() => orderQuestionsByPositions()}
+                    />
                     <div className={`flex gap-2 items-end`}>
                         <p className={`font-medium`}>
                             Nota de negociação:

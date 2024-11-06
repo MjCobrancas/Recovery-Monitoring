@@ -5,6 +5,7 @@ import { HeaderSchedule } from "./HeaderSchedule";
 import { TableSchedule } from "./TableSchedule";
 import { FilterSchedule } from "./FilterSchedule";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 export function ContainerSchedule({ schedules, creditors, ocorrences }: IScheduleDataContainer) {
 
@@ -29,6 +30,11 @@ export function ContainerSchedule({ schedules, creditors, ocorrences }: ISchedul
             <TableSchedule
                 schedules={schedules}
                 filter={isFiltred}
+            />
+
+            <Toaster
+                reverseOrder={false}
+                position="bottom-right"
             />
         </>
     )

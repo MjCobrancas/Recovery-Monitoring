@@ -16,6 +16,9 @@ export async function getAllSchedule(skip: string = "0", take: string = "15") {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + userParse.accessToken,
             },
+            next: {
+                tags: ["get-all-schedules"]
+            }
         }
     )
         .then(async (value) => {

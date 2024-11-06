@@ -168,7 +168,7 @@ export const actionRoutes: Array<ActionRoutes> = [
     },
     {
         level: 8,
-        permissions: [1, 2, 3, 4],
+        permissions: [1],
         route: "/monitoring/config-monitoring"
     },
     {

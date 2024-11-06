@@ -29,7 +29,7 @@ export const IConfigFormSchema = z.object({
 
                 return true
             }),
-            position: z.number().min(1),
+            position: z.number().or(z.string()),
             isBehavioral: z.boolean()
         })
     ),
@@ -48,7 +48,7 @@ export const IConfigFormSchema = z.object({
 
                 return true
             }),
-            position: z.number(),
+            position: z.number().or(z.string()),
             isBehavioral: z.boolean()
         })
     )
