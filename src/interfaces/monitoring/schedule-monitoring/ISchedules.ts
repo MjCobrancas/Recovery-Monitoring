@@ -21,6 +21,7 @@ interface ISchedulesData {
 interface IScheduleUser {
     Name: string
     Last_Name: string
+    UserName: string
     Creditor: string
     Ocorrence: string
     Description: string
@@ -38,6 +39,7 @@ interface IScheduleDataContainer extends ISchedulesData {
 interface ISchedulesResponse {
     Name: string
     Last_Name: string
+    UserName: string
     Id_User: number 
     Creditor: string
     Id_Creditor: number

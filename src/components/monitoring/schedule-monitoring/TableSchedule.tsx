@@ -69,7 +69,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
                         return (
                             <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800`}>
                                 <td className={`p-2 text-center`}>
-                                    {filtered.Name + " " + filtered.Last_Name}
+                                    {filtered.Name + " " + filtered.Last_Name} ({filtered.UserName})
                                 </td>
 
                                 <td className={`p-2 text-center`}>
@@ -113,7 +113,7 @@ export function TableSchedule({ schedules, filter }: IScheduleTable) {
                             return (
                                 <tr key={i} className={`odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800`}>
                                     <td className={`p-2 text-center`}>
-                                        {schedule.Name + " " + schedule.Last_Name}
+                                        {schedule.Name + " " + schedule.Last_Name} ({schedule.UserName})
                                     </td>
 
                                     <td className={`p-2 text-center`}>

@@ -266,7 +266,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
             {schedule.map((item, i) => {
                 return (
                     <div key={i} className={`flex flex-col justify-center items-center font-bold text-slate-500 dark:text-slate-200 gap-2 mb-2`}>
-                        <p>{item.Name + " " + item.Last_Name}</p>
+                        <p>{item.Name + " " + item.Last_Name} ({item.UserName})</p>
 
                         <p>{item.Creditor} | {item.Ocorrence} | {item.Description}</p>
                     </div>
