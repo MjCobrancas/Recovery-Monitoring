@@ -143,17 +143,17 @@ export const actionRoutes: Array<ActionRoutes> = [
     },
     {
         level: 6,
-        permissions: [1, 2, 3, 4],
+        permissions: [1],
         route: "/register/creditors",
     },
     {
         level: 6,
-        permissions: [1, 2, 3, 4],
+        permissions: [1],
         route: "/register/notes",
     },
     {
         level: 6,
-        permissions: [1, 2, 3, 4],
+        permissions: [1],
         route: "/register/agendas",
     },
     {
@@ -163,7 +163,7 @@ export const actionRoutes: Array<ActionRoutes> = [
     },
     {
         level: 6,
-        permissions: [1, 2, 3, 4],
+        permissions: [1],
         route: "/register/questions",
     },
     {
