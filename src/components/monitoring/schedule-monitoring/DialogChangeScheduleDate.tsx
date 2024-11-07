@@ -84,10 +84,10 @@ export function DialogChangeSchedule({ userSchedule, closeDialog }: IDialogChang
         <>
             {userSchedule != null && (
                 <div>
-                    <h2 className="font-bold text-2xl text-center">
+                    <h2 className="font-bold text-2xl text-center dark:text-slate-200">
                         Mudar data da monitoria da agenda {userSchedule.id_quantity}
                     </h2>
-                    <p className="text-center mt-5">
+                    <p className="text-center mt-5 font-semibold dark:text-slate-100">
                         {userSchedule.Name} {userSchedule.Last_Name} | {userSchedule.Creditor} | {userSchedule.Ocorrence} | {userSchedule.Description}
                     </p>
                     <form
@@ -127,17 +127,17 @@ export function DialogChangeSchedule({ userSchedule, closeDialog }: IDialogChang
                             </FieldForm>
                         </div>
 
-                        <Button 
-                            styles="float-right mt-10 w-fit px-4 py-2 border-red-400 text-red-400 hover:bg-red-400 hover:text-white focus:bg-red-400 focus:text-white ml-2"
-                            text="Fechar"
-                            type="button"
-                            OnClick={() => handleCloseDialog()}
+                        <Button
+                            styles="float-right mt-10 w-fit px-4 py-2 ml-2"
+                            text="Salvar"
                             disabled={disableAllButtons}
                         />
 
                         <Button
-                            styles="float-right mt-10 w-fit px-4 py-2"
-                            text="Salvar"
+                            styles="float-right mt-10 w-fit px-4 py-2 border-red-400 text-red-400 hover:bg-red-400 hover:text-white focus:bg-red-400 focus:text-white"
+                            text="Fechar"
+                            type="button"
+                            OnClick={() => handleCloseDialog()}
                             disabled={disableAllButtons}
                         />
 
