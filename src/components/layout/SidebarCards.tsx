@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faBars, faBarsProgress, faDumbbell, faHeart, faHouse, faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBars, faBarsProgress, faDumbbell, faHeart, faHouse, faListCheck } from "@fortawesome/free-solid-svg-icons";
 import { secondRoutes, primaryRoutes } from "@/api/routes"
 import { SecondRoutes, PrimaryRoutes } from "@/interfaces/IRoutes";
 import { faWpforms } from "@fortawesome/free-brands-svg-icons";
@@ -32,9 +32,9 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                     id="arrowButton"
                 >
                     {showSideBar ? (
-                        <FontAwesomeIcon icon={faBars} />
+                        <FontAwesomeIcon icon={faArrowLeft} />
                     ) : (
-                        <FontAwesomeIcon icon={faArrowRight} />
+                        <FontAwesomeIcon icon={faBars} />
                     )}
                 </button>
 
