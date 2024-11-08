@@ -120,6 +120,12 @@ export function HeaderSelectConfig({ creditors, setValueQuestionList, setValuesH
         }
 
         setCreditorsUnique(getCreditorUnique.data)
+
+        if (getCreditorUnique.data.length == 1) {
+            setValue("id_creditor_unique", String(getCreditorUnique.data[0].Id_Unique_Creditor))
+
+            return
+        }
         setValue("id_creditor_unique", "0")
     }
 

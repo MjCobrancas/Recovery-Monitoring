@@ -413,7 +413,7 @@ export function ConfigQuestions({ questionsList, idCreditorUnique, idOcorrence, 
                     questionsList={questionsList}
                     dialogCloneQuestions={dialogCloneQuestions}
                     creditors={creditors}
-                    headerObject={{ id_creditor: idCreditorUnique, id_ocorrence: idOcorrence, id_aging: idAging }}
+                    headerObject={{ id_creditor_unique: idCreditorUnique, id_ocorrence: idOcorrence, id_aging: idAging }}
                 />
             </dialog>
             <form onSubmit={handleSubmit(handleSaveMonitoryQuestions)}>

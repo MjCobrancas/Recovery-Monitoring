@@ -1,6 +1,7 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics"
+import { ICreditorUnique } from "@/interfaces/generics/ICreditorUnique"
 import { GetUserToken } from "@/utils/GetUserToken"
 
 export async function getCreditorRelationWithCreditorUnique(idCreditor: number) {
@@ -26,7 +27,7 @@ export async function getCreditorRelationWithCreditorUnique(idCreditor: number) 
             }
 
             return {
-                data: data.data,
+                data: data.data as ICreditorUnique[],
                 status: true,
             }
         })
