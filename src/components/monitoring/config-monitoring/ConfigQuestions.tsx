@@ -1,3 +1,4 @@
+import { verifyUserToken } from "@/api/generics/verifyToken";
 import { saveOptionsAndQuestions } from "@/api/monitoring/config-monitoring/saveOptionsAndQuestions";
 import { Button } from "@/components/Button";
 import { IConfigFormSchema, IConfigQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IConfigQuestions";
@@ -5,15 +6,14 @@ import { IQuestionsBehavioral, IQuestionsGeneric, IQuestionsNegotiation } from "
 import { faAnglesLeft, faAnglesRight, faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { DialogCloneQuestions } from "./DialogCloneQuestions";
-import { verifyUserToken } from "@/api/generics/verifyToken";
-import { useRouter } from "next/navigation";
 import { InputSearchQuestion } from "./InputSearchQuestion";
 
-export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons, creditors }: IConfigQuestionsProps) {
+export function ConfigQuestions({ questionsList, idCreditorUnique, idOcorrence, idAging, resetAllValues, disableAllButtons, setValueDisableAllButtons, creditors }: IConfigQuestionsProps) {
 
     const router = useRouter()
 
@@ -377,7 +377,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
         }
 
         const object = {
-            idCreditor,
+            idCreditorUnique: idCreditorUnique,
             idOcorrence,
             idAging,
             questions
@@ -413,7 +413,7 @@ export function ConfigQuestions({ questionsList, idCreditor, idOcorrence, idAgin
                     questionsList={questionsList}
                     dialogCloneQuestions={dialogCloneQuestions}
                     creditors={creditors}
-                    headerObject={{ id_creditor: idCreditor, id_ocorrence: idOcorrence, id_aging: idAging }}
+                    headerObject={{ id_creditor: idCreditorUnique, id_ocorrence: idOcorrence, id_aging: idAging }}
                 />
             </dialog>
             <form onSubmit={handleSubmit(handleSaveMonitoryQuestions)}>
