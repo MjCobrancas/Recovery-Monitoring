@@ -14,11 +14,11 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSchedule) {
+export function FilterSchedule({ creditorsUnique, ocorrences, setFilter }: IFilterSchedule) {
 
     const router = useRouter()
 
-    const { control, register, handleSubmit, watch, formState: { errors }, setError, reset } 
+    const { register, handleSubmit, watch, formState: { errors }, reset } 
     = useForm<scheduleMonitoringData>({
         defaultValues: {
             creditor: "0",
@@ -107,12 +107,12 @@ export function FilterSchedule({ creditors, ocorrences, setFilter }: IFilterSche
                             firstValue={"Selecione"}
                         />
 
-                        {creditors.map((creditor, i) => {
+                        {creditorsUnique.map((creditorUnique, i) => {
                             return (
                                 <Option
                                     key={i}
-                                    value={creditor.Id_Creditor}
-                                    firstValue={creditor.Creditor}
+                                    value={creditorUnique.Id_Unique_Creditor}
+                                    firstValue={creditorUnique.Creditor}
                                 />
                             )
                         })}

@@ -9,7 +9,7 @@ import { FieldForm } from "@/components/FieldForm"
 import { Option } from "@/components/Option"
 import { SelectField } from "@/components/SelectField"
 import { IAgings } from "@/interfaces/generics/IAgings"
-import { ICreditorUnique } from "@/interfaces/generics/ICreditorUnique"
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
 import { IDialogCloneQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IDialogCloneQuestions"
 import { IHeaderSelectConfigForm, IHeaderSelectConfigSchema } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,7 +23,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
 
     const router = useRouter()
 
-    const [creditorsUnique, setCreditorsUnique] = useState<ICreditorUnique[]>([])
+    const [creditorsUnique, setCreditorsUnique] = useState<ICreditorsUnique[]>([])
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
     const [disableAllButtons, setDisableAllButtons] = useState(false)
@@ -93,7 +93,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
                 questions
             }
 
-            const deleteQuestionsStatus = await deleteQuestions({ id_creditor: Number(data.id_creditor), id_ocorrence: Number(data.id_ocorrence), id_aging: Number(data.id_aging) })
+            const deleteQuestionsStatus = await deleteQuestions({ id_creditor_unique: Number(data.id_creditor_unique), id_ocorrence: Number(data.id_ocorrence), id_aging: Number(data.id_aging) })
 
             if (!deleteQuestionsStatus) {
                 toast.error("Houve um erro ao clonar as perguntas da monitoria, revise os valores e tente novamente!", {

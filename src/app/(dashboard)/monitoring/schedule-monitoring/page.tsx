@@ -1,18 +1,18 @@
-import { getAllCreditors } from "@/api/generics/getAllCreditors";
+import { getAllCreditorsUnique } from "@/api/generics/getAllCreditorsUnique";
 import { getAllOcorrences } from "@/api/generics/getAllOcorrences";
 import { getAllSchedule } from "@/api/monitoring/schedule-monitoring/getAllSchedule";
+import { Ancora } from "@/components/Ancora";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
 import { ContainerSchedule } from "@/components/monitoring/schedule-monitoring/ContainerSchedule";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { IFilterScheduleOcorrences } from "@/interfaces/monitoring/schedule-monitoring/IFilterSchedule";
 import { ISchedules } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
-import { ICreditors } from "@/interfaces/generics/ICreditors";
-import { Ancora } from "@/components/Ancora";
 
 export default async function Home() {
 
     const schedules: ISchedules = await getAllSchedule()
-    const creditors: ICreditors[] = await getAllCreditors()
+    const creditorsUnique: ICreditorsUnique[] = await getAllCreditorsUnique()
     const ocorrences: IFilterScheduleOcorrences = await getAllOcorrences()
 
     return (
@@ -32,7 +32,7 @@ export default async function Home() {
 
             <ContainerSchedule 
                 schedules={schedules.agendas}
-                creditors={creditors}
+                creditorsUnique={creditorsUnique}
                 ocorrences={ocorrences}
             />
         </PaperBlock>

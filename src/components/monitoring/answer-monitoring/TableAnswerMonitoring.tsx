@@ -16,7 +16,7 @@ import { verifyUserToken } from "@/api/generics/verifyToken";
 import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 import { Input } from "@/components/Input";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule, schedule }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -209,6 +209,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
                 idNegotiator: config[0].id_user,
                 idEvaluator: 0,
                 idCreditor: config[0].Id_Creditor,
+                idCreditorUnique: idCreditorUnique,
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
                 idAging: config[0].Id_Aging,
@@ -262,18 +263,6 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
 
     return (
         <>
-
-            {schedule.map((item, i) => {
-                return (
-                    <div key={i} className={`flex flex-col justify-center items-center font-bold text-slate-500 dark:text-slate-200 gap-2 mb-2`}>
-                        <p>{item.Name + " " + item.Last_Name} ({item.UserName})</p>
-
-                        <p>{item.Creditor} | {item.Ocorrence} | {item.Description}</p>
-                    </div>
-                )
-            })}
-
-
             <main className={`flex flex-col gap-2 m-2 p-2`}>
                 {!hasQuestions ?
                     <p className={`font-medium p-2 text-red-400 rounded-md w-fit`}>

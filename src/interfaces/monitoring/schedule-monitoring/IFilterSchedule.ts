@@ -1,6 +1,7 @@
 import { ICreditors } from "@/interfaces/generics/ICreditors";
 import { z } from "zod";
 import { IScheduleDataContainer, ISchedulesResponse } from "./ISchedules";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 
 interface IFilterScheduleOcorrences {
     ocorrence: {
@@ -14,7 +15,7 @@ interface IFilterScheduleOcorrences {
 }
 
 interface IFilterSchedule {
-    creditors: ICreditors[];
+    creditorsUnique: ICreditorsUnique[];
     ocorrences: IFilterScheduleOcorrences;
     setFilter: (value: ISchedulesResponse[]) => void
 }

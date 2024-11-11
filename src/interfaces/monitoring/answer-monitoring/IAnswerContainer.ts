@@ -1,12 +1,12 @@
-import { ISchedules, IScheduleUser } from "../schedule-monitoring/ISchedules";
-import { IMonitoringResponse } from "./IAnswerMonitoringQuestions";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
+import { IScheduleUser } from "../schedule-monitoring/ISchedules";
 import { IScheduleAnswerId } from "./IAnswerScheduleId";
 
 interface IAnswerMonitoringContainer {
-    questions: IMonitoringResponse
     config: IScheduleAnswerId[]
     idSchedule: Number
     schedule: IScheduleUser[]
+    creditorsUnique: ICreditorsUnique[]
 }
 
-export type { IAnswerMonitoringContainer }
+export type { IAnswerMonitoringContainer };
