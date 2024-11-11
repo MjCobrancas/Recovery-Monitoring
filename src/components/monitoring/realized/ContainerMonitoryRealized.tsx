@@ -15,7 +15,7 @@ import { DialogCreateFeedback } from "./DialogCreateFeedback"
 import { verifyUserToken } from "@/api/generics/verifyToken"
 import { useRouter } from "next/navigation"
 
-export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences, backOffices, supervisor }: IContainerMonitoryRealizedProps) {
+export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffices, supervisor, creditorsUnique }: IContainerMonitoryRealizedProps) {
 
     const router = useRouter()
 
@@ -144,7 +144,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
             </dialog>
             <MonitoryRealizedFilter
                 supervisor={supervisor}
-                creditors={creditors}
+                creditorsUnique={creditorsUnique}
                 ocorrences={ocorrences}
                 disableAllButtons={disableAllButtons}
                 setValueDisableButtons={setValueDisableButtons}
@@ -176,7 +176,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, creditors, ocorrences
                                     Nota de Comportamento
                                 </th>
                                 <th className="font-semibold p-2 dark:text-white/80">
-                                    Credor
+                                    Equipe
                                 </th>
                                 <th className="font-semibold p-2 dark:text-white/80">
                                     Ocorrência

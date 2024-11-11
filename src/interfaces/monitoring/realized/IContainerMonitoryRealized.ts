@@ -1,10 +1,10 @@
 import { IBackOffices } from "@/interfaces/generics/IBackOffices"
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences"
-import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllCreditors"
 
 interface IContainerMonitoryRealizedProps {
     monitoryUsers: IMonitoryAllUsers[]
-    creditors: ICreditorGetAllCreditors[]
+    creditorsUnique: ICreditorsUnique[]
     ocorrences: IGetAllOcorrences
     backOffices: IBackOffices[]
     supervisor: IBackOffices[]

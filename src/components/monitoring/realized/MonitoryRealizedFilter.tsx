@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter, supervisor }: IMonitoryRealizedFilterProps) {
+export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter, supervisor, creditorsUnique }: IMonitoryRealizedFilterProps) {
 
     const router = useRouter()
 
@@ -227,12 +227,12 @@ export function MonitoryRealizedFilter({ creditors, ocorrences, disableAllButton
                     >
                         <Option value={"0"} firstValue={"Selecione"} />
 
-                        {creditors.map((value, index) => {
+                        {creditorsUnique.map((creditorUnique, index) => {
                             return (
                                 <Option
                                     key={index}
-                                    value={value.Id_Creditor}
-                                    firstValue={value.Creditor}
+                                    value={creditorUnique.Id_Unique_Creditor}
+                                    firstValue={creditorUnique.Creditor}
                                 />
                             )
                         })}
