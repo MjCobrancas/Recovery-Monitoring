@@ -211,6 +211,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                 idNegotiator: Number(data.operator),
                 idEvaluator: 0,
                 idCreditor: Number(headerInfo.creditor),
+                idCreditorUnique: Number(headerInfo.creditorUnique),
                 idOcorrence: Number(headerInfo.ocorrence),
                 idAging: Number(headerInfo.phase),
                 isLooseMonitoring: true
@@ -523,6 +524,10 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                         />
                                     </div>
                                 </div>
+                                <Toaster 
+                                    reverseOrder={false}
+                                    position="bottom-right"
+                                />
                             </dialog>
                         </div>
                     </form>
@@ -534,11 +539,6 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                 reverseOrder={false}
             />
 
-            <Ancora
-                title="Voltar"
-                toGo="/monitoring/schedule-monitoring"
-                styles={`ml-1 mb-1 w-16`}
-            />
         </>
     )
 }

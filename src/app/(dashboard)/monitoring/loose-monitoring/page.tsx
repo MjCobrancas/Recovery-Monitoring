@@ -1,5 +1,6 @@
 import { getAllCreditors } from "@/api/generics/getAllCreditors";
 import { getAllInactiveOperators } from "@/api/generics/getAllInactiveOperators";
+import { Ancora } from "@/components/Ancora";
 import { ContainerLooseMonitoring } from "@/components/monitoring/loose-monitoring/ContainerLooseMonitoring";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
@@ -18,6 +19,12 @@ export default async function Home() {
             <ContainerLooseMonitoring 
                 creditors={creditors}
                 operators={operators}
+            />
+
+            <Ancora 
+                title="Voltar"
+                toGo="/monitoring/schedule-monitoring"
+                styles="w-fit mx-1 mb-1"
             />
         </PaperBlock>        
     )

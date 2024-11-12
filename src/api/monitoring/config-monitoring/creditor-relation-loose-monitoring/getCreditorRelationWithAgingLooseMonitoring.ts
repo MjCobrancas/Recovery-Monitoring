@@ -1,14 +1,14 @@
 'use server'
 
 import { ITokenUserInitialValues } from "@/interfaces/Generics"
-import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
+import { IAgingsRelation } from "@/interfaces/monitoring/config-monitoring/relation-loose-monitoring/IAgingsRelation"
 import { GetUserToken } from "@/utils/GetUserToken"
 
-export async function getCreditorRelationWithCreditorUnique(idCreditor: number) {
+export async function getCreditorRelationWithAgingsLooseMonitoring(id_creditor_unique: number, id_ocorrence: number) {
     const userParse: ITokenUserInitialValues = GetUserToken()
 
     const resp = await fetch(
-        `${process.env.BACKEND_DOMAIN}/get-creditor-relation-with-creditor-unique/${idCreditor}`, {
+        `${process.env.BACKEND_DOMAIN}/get-creditor-relation-agings-loose-monitoring/${id_creditor_unique}/${id_ocorrence}`, {
         method: "GET",
         headers: {
             Accept: "application/json",
@@ -27,7 +27,7 @@ export async function getCreditorRelationWithCreditorUnique(idCreditor: number) 
             }
 
             return {
-                data: data.data as ICreditorsUnique[],
+                data: data.data as IAgingsRelation[],
                 status: true,
             }
         })
