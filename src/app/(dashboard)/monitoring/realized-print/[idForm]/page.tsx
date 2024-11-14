@@ -23,7 +23,14 @@ export default async function Page({ params }: { params: { idForm: number } }) {
                     <h2
                         className={`text-base font-bold text-center text-slate-500 mb-5 dark:text-slate-100 print:text-black`}
                     >
-                        {userMonitoryValues?.monitoring[0].Creditor} | {userMonitoryValues.monitoring[0].Ocorrence} | {userMonitoryValues.monitoring[0].Description}
+                        {userMonitoryValues?.monitoring[0].Creditor} | 
+                        {userMonitoryValues?.monitoring[0].Creditor_Unique_Name != null && (
+                            <span className="inline ml-1 mr-1">
+                                {userMonitoryValues?.monitoring[0].Creditor_Unique_Name} |
+                            </span>
+                        )}
+                        {userMonitoryValues.monitoring[0].Ocorrence} | 
+                        {userMonitoryValues.monitoring[0].Description}
                     </h2>
 
                     <div className="relative shadow-md sm:rounded-lg mb-2 overflow-x-hidden">

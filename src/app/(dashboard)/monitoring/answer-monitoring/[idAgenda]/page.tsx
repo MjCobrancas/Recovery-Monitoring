@@ -1,6 +1,7 @@
 import { getQuantityById } from "@/api/monitoring/answer-monitoring/getQuantityById";
 import { getUserByScheduleId } from "@/api/monitoring/answer-monitoring/getUserByScheduleId";
 import { getCreditorRelationWithCreditorUnique } from "@/api/monitoring/config-monitoring/getCreditorRelationWithCreditorUnique";
+import { Ancora } from "@/components/Ancora";
 import { ContainerAnswerMonitoring } from "@/components/monitoring/answer-monitoring/ContainerAnswerMonitoring";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
@@ -8,7 +9,7 @@ import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { IScheduleAnswerId } from "@/interfaces/monitoring/answer-monitoring/IAnswerScheduleId";
 import { IScheduleUser } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 
-export default async function Home({params}: {params: {idAgenda: string}}) {
+export default async function Home({ params }: { params: { idAgenda: string } }) {
 
     const scheduleId: IScheduleAnswerId[] = await getQuantityById(params.idAgenda)
     const schedule: IScheduleUser[] = await getUserByScheduleId(params.idAgenda)
@@ -27,6 +28,12 @@ export default async function Home({params}: {params: {idAgenda: string}}) {
                 idSchedule={Number(params.idAgenda)}
                 schedule={schedule}
                 creditorsUnique={creditorsUnique}
+            />
+
+            <Ancora
+                title="Voltar"
+                toGo="/monitoring/schedule-monitoring"
+                styles={`ml-1 mb-1 w-16`}
             />
         </PaperBlock>
     )

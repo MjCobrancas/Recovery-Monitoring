@@ -1,20 +1,19 @@
 'use client'
 
-import { IAnswerTable } from "@/interfaces/monitoring/answer-monitoring/IAnswerTable";
-import { Ancora } from "@/components/Ancora";
-import { useRef, useState } from "react";
-import { FieldValues, useFieldArray, useForm } from "react-hook-form";
+import { verifyUserToken } from "@/api/generics/verifyToken";
+import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioMonitoring";
+import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
+import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
-import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
-import toast, { Toaster } from "react-hot-toast";
-import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioMonitoring";
-import { useRouter } from "next/navigation";
-import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { verifyUserToken } from "@/api/generics/verifyToken";
-import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 import { Input } from "@/components/Input";
+import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
+import { IAnswerTable } from "@/interfaces/monitoring/answer-monitoring/IAnswerTable";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique }: IAnswerTable) {
 
@@ -508,12 +507,6 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
             <Toaster
                 position="bottom-right"
                 reverseOrder={false}
-            />
-
-            <Ancora
-                title="Voltar"
-                toGo="/monitoring/schedule-monitoring"
-                styles={`ml-1 mb-1 w-16`}
             />
         </>
 

@@ -30,6 +30,8 @@ interface IMonitoryAllUsers {
     Date: string
     FeedbackDate: string | null
     FeedbackResponsable: string | null
+    Id_Unique_Creditor: number | null
+    Creditor_Unique: string
 }
 
 export type { IContainerMonitoryRealizedProps, IMonitoryAllUsers }
