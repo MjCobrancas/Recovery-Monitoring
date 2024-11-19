@@ -161,42 +161,42 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                     <table className="w-full mx-auto my-4">
                         <thead className="bg-gray-200 dark:bg-zinc-800">
                             <tr>
-                                <th className="font-semibold p-2 dark:text-white/80 rounded-tl-md">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80 rounded-tl-md">
 
                                 </th>
 
-                                <th className="font-semibold p-2 dark:text-white/80 rounded-tl"
+                                <th className="font-semibold text-sm p-2 dark:text-white/80 rounded-tl"
                                 >
                                     Negociador
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">Avaliador</th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">Avaliador</th>
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Nota de Negociação</th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Nota de Comportamento
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Equipe
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Credor 
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Ocorrência
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Fase
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Data da Monitoria
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Responsável Feedback
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80">
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Data do Feedback
                                 </th>
-                                <th className="font-semibold p-2 dark:text-white/80 rounded-tr-md"
+                                <th className="font-semibold text-sm p-2 dark:text-white/80 rounded-tr-md"
                                 >
                                     Ações
                                 </th>
