@@ -468,7 +468,7 @@ export function ConfigQuestions({ questionsList, idCreditorUnique, idOcorrence, 
                                                 >
                                                     <span>
                                                         <input
-                                                            className="w-8 h-8 mx-2 text-center text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
+                                                            className="w-8 h-8 mx-2 text-center dark:text-black text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
                                                             value={watch(`questions.${index}.position`)}
                                                             {...register(`questions.${index}.position`)}
                                                         />
@@ -557,7 +557,7 @@ export function ConfigQuestions({ questionsList, idCreditorUnique, idOcorrence, 
                                                     <span>
                                                         <input
                                                             type="text"
-                                                            className="w-8 h-8 mx-2 text-center text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
+                                                            className="w-8 h-8 mx-2 text-center dark:text-black text-[14px] flex items-center justify-center font-medium rounded-full shadow-[0px_0px_1px_1px_rgba(0,0,0,0.8)]"
                                                             value={watch(`behavioral.${index}.position`)}
                                                             {...register(`behavioral.${index}.position`)}
                                                         />
