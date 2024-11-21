@@ -1,24 +1,29 @@
 'use client'
 
 import { getMonitoringQuestions } from "@/api/monitoring/answer-monitoring/getMonitoringQuestions";
+import { getCreditorRelationWithAgingsLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithAgingLooseMonitoring";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { IFormFindQuestions, IFormFindQuestionsSchema } from "@/interfaces/monitoring/answer-monitoring/IFormFindQuestions";
+import { IAgingsRelation } from "@/interfaces/monitoring/config-monitoring/relation-loose-monitoring/IAgingsRelation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export function FormFindQuestions({ config, creditorsUnique, schedule, setQuestionsValue, setValueIdCreditorUnique }: IFormFindQuestions) {
+export function FormFindQuestions({ config, creditorsUnique, schedule, setQuestionsValue, setValueIdCreditorUnique, setValueIdAging, isSpecialCreditor }: IFormFindQuestions) {
 
     const [disableAllButtons, setDisableAllButtons] = useState(false)
+    const [agings, setAgings] = useState<IAgingsRelation[]>([])
+    const [isFoundAgings, setIsFoundAgings] = useState(false)
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<{ id_creditor_unique: string, id_aging: string }>({
         defaultValues: {
-            id_creditor_unique: creditorsUnique.length == 1 ? String(creditorsUnique[0].Id_Unique_Creditor) : "0"
+            id_creditor_unique: creditorsUnique.length == 1 ? String(creditorsUnique[0].Id_Unique_Creditor) : "0",
+            id_aging: isSpecialCreditor ? "0" : String(config[0].Id_Aging)
         },
         resolver: zodResolver(IFormFindQuestionsSchema)
     })
@@ -26,12 +31,42 @@ export function FormFindQuestions({ config, creditorsUnique, schedule, setQuesti
     function changeCreditorUnique() {
         setQuestionsValue(null)
         setValueIdCreditorUnique(0)
+
+        if (isSpecialCreditor) {
+            setIsFoundAgings(false)
+            setAgings([])
+        }
+    }
+
+    function changeAging() {
+        setQuestionsValue(null)
     }
 
     async function handleGetQuestions(data: FieldValues) {
         setDisableAllButtons(true)
 
-        const response = await getMonitoringQuestions([{ Id_Creditor: Number(config[0].Id_Creditor), Id_Creditor_Unique: Number(data.id_creditor_unique), Id_Ocorrence: config[0].Id_Ocorrence, Id_Aging: config[0].Id_Aging }])
+        if (isSpecialCreditor && !isFoundAgings) {
+            const agingsList = await getCreditorRelationWithAgingsLooseMonitoring(Number(data.id_creditor_unique), config[0].Id_Ocorrence)
+
+            setDisableAllButtons(false)
+
+            if (!agingsList.status) {
+
+                toast.error("Não foi possível encontrar as fases do credor", {
+                    duration: 7000
+                })
+
+                return
+            }
+
+            setIsFoundAgings(true)
+
+            setAgings(agingsList.data)
+
+            return
+        }
+
+        const response = await getMonitoringQuestions([{ Id_Creditor: Number(config[0].Id_Creditor), Id_Creditor_Unique: Number(data.id_creditor_unique), Id_Ocorrence: config[0].Id_Ocorrence, Id_Aging: isSpecialCreditor ? Number(data.id_aging) : config[0].Id_Aging }])
 
         if (!response.status) {
 
@@ -43,6 +78,8 @@ export function FormFindQuestions({ config, creditorsUnique, schedule, setQuesti
 
             return
         }
+
+        setValueIdAging(Number(data.id_aging))
 
         setDisableAllButtons(false)
 
@@ -141,31 +178,72 @@ export function FormFindQuestions({ config, creditorsUnique, schedule, setQuesti
                         />
                     </SelectField>
                 </FieldForm>
-                <FieldForm
-                    name="Fase:"
-                    styles="w-fit"
-                >
-                    <SelectField
-                        id="id_aging"
-                        name="id_aging"
-                        disabled={true}
+                {isSpecialCreditor ? (
+                    <FieldForm
+                        name="Fase:"
                         styles="w-fit"
                     >
-                        <Option
-                            value={"0"}
-                            firstValue={schedule[0].Description}
-                        />
-                    </SelectField>
-                </FieldForm>
+                        <SelectField
+                            id="id_aging"
+                            name="id_aging"
+                            disabled={disableAllButtons || !isFoundAgings}
+                            styles="w-fit"
+                            onForm={true}
+                            register={register}
+                            value={watch("id_aging")}
+                            OnChange={changeAging}
+                        >
+                            <Option
+                                value={"0"}
+                                firstValue={"Selecione uma fase"}
+                            />
 
-                <Button
-                    type="submit"
-                    text="Buscar perguntas"
-                    styles="w-fit px-6 py-[6px] self-end ml-2"
-                    disabled={disableAllButtons}
-                />
+                            {agings.map((aging, index) => {
+                                return (
+                                    <Option
+                                        key={index}
+                                        value={aging.Id_Aging}
+                                        firstValue={aging.Description}
+                                    />
+                                )
+                            })}
+                        </SelectField>
+                    </FieldForm>
+                ) : (
+                    <FieldForm
+                        name="Fase:"
+                        styles="w-fit"
+                    >
+                        <SelectField
+                            id="id_aging"
+                            name="id_aging"
+                            disabled={true}
+                            styles="w-fit"
+                        >
+                            <Option
+                                value={"0"}
+                                firstValue={schedule[0].Description}
+                            />
+                        </SelectField>
+                    </FieldForm>
+                )}
+
+                {isSpecialCreditor ? (
+                    <Button
+                        type="submit"
+                        text={isFoundAgings ? "Buscar perguntas" : "Buscar fases"}
+                        styles="w-fit px-6 py-[6px] self-end ml-2"
+                        disabled={disableAllButtons}
+                    />
+                ) : (
+                    <Button
+                        type="submit"
+                        text="Buscar perguntas"
+                        styles="w-fit px-6 py-[6px] self-end ml-2"
+                        disabled={disableAllButtons}
+                    />
+                )}
             </div>
-
         </form>
     )
 

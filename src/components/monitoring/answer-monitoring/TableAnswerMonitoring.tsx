@@ -15,7 +15,7 @@ import { useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -211,7 +211,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                 idCreditorUnique: idCreditorUnique,
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
-                idAging: config[0].Id_Aging,
+                idAging: isSpecialCreditor ? idAging : config[0].Id_Aging,
                 isLooseMonitoring: false
             },
             answers: [...questionsObject, ...behavioralObject],

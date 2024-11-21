@@ -7,6 +7,7 @@ interface IAnswerMonitoringContainer {
     idSchedule: Number
     schedule: IScheduleUser[]
     creditorsUnique: ICreditorsUnique[]
+    isSpecialCreditor: boolean
 }
 
 export type { IAnswerMonitoringContainer };

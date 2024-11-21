@@ -10,6 +10,8 @@ interface IFormFindQuestions {
     creditorsUnique: ICreditorsUnique[]
     setQuestionsValue: (data: IMonitoringResponse | null) => void
     setValueIdCreditorUnique: (id_creditor_unique: number) => void
+    setValueIdAging: (id_aging: number) => void
+    isSpecialCreditor: boolean
 }
 
 export const IFormFindQuestionsSchema = z.object({
@@ -23,7 +25,8 @@ export const IFormFindQuestionsSchema = z.object({
         }
 
         return true
-    })
+    }),
+    id_aging: z.string().min(1)
 })
 
-export type { IFormFindQuestions };
+export type { IFormFindQuestions }

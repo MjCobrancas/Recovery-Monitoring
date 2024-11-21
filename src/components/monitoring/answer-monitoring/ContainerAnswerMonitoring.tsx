@@ -5,11 +5,13 @@ import { IMonitoringResponse } from "@/interfaces/monitoring/answer-monitoring/I
 import { useState } from "react";
 import { FormFindQuestions } from "./FormFindQuestions";
 import { TableAnswerMonitoring } from "./TableAnswerMonitoring";
+import { Toaster } from "react-hot-toast";
 
-export function ContainerAnswerMonitoring({ config, idSchedule, schedule, creditorsUnique }: IAnswerMonitoringContainer) {
+export function ContainerAnswerMonitoring({ config, idSchedule, schedule, creditorsUnique, isSpecialCreditor }: IAnswerMonitoringContainer) {
 
     const [questions, setQuestions] = useState<IMonitoringResponse | null>(null)
     const [idCreditorUnique, setIdCreditorUnique] = useState(0)
+    const [idAging, setIdAging] = useState(0)
 
     function setQuestionsValue(data: IMonitoringResponse | null) {
         setQuestions(data)
@@ -17,6 +19,10 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
 
     function setValueIdCreditorUnique(id_creditor_unique: number) {
         setIdCreditorUnique(id_creditor_unique)
+    }
+
+    function setValueIdAging(id_aging: number) {
+        setIdAging(id_aging)
     }
 
     return (
@@ -37,6 +43,8 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
                 creditorsUnique={creditorsUnique}
                 setQuestionsValue={setQuestionsValue}
                 setValueIdCreditorUnique={setValueIdCreditorUnique}
+                isSpecialCreditor={isSpecialCreditor}
+                setValueIdAging={setValueIdAging}
             />
 
             {questions != null && (
@@ -45,9 +53,15 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
                     config={config}
                     idSchedule={idSchedule}
                     idCreditorUnique={idCreditorUnique}
+                    idAging={idAging}
+                    isSpecialCreditor={isSpecialCreditor}
                 />
             )}
             
+            <Toaster
+                reverseOrder={false}
+                position="bottom-right"
+            />
         </>
     )
 }
