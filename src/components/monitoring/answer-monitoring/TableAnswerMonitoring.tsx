@@ -1,22 +1,21 @@
 'use client'
 
-import { IAnswerTable } from "@/interfaces/monitoring/answer-monitoring/IAnswerTable";
-import { Ancora } from "@/components/Ancora";
-import { useRef, useState } from "react";
-import { FieldValues, useFieldArray, useForm } from "react-hook-form";
+import { verifyUserToken } from "@/api/generics/verifyToken";
+import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioMonitoring";
+import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
+import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
-import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
-import toast, { Toaster } from "react-hot-toast";
-import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioMonitoring";
-import { useRouter } from "next/navigation";
-import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { verifyUserToken } from "@/api/generics/verifyToken";
-import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 import { Input } from "@/components/Input";
+import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
+import { IAnswerTable } from "@/interfaces/monitoring/answer-monitoring/IAnswerTable";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule, schedule }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -209,9 +208,10 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
                 idNegotiator: config[0].id_user,
                 idEvaluator: 0,
                 idCreditor: config[0].Id_Creditor,
+                idCreditorUnique: idCreditorUnique,
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
-                idAging: config[0].Id_Aging,
+                idAging: isSpecialCreditor ? idAging : config[0].Id_Aging,
                 isLooseMonitoring: false
             },
             answers: [...questionsObject, ...behavioralObject],
@@ -262,18 +262,6 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
 
     return (
         <>
-
-            {schedule.map((item, i) => {
-                return (
-                    <div key={i} className={`flex flex-col justify-center items-center font-bold text-slate-500 dark:text-slate-200 gap-2 mb-2`}>
-                        <p>{item.Name + " " + item.Last_Name} ({item.UserName})</p>
-
-                        <p>{item.Creditor} | {item.Ocorrence} | {item.Description}</p>
-                    </div>
-                )
-            })}
-
-
             <main className={`flex flex-col gap-2 m-2 p-2`}>
                 {!hasQuestions ?
                     <p className={`font-medium p-2 text-red-400 rounded-md w-fit`}>
@@ -519,12 +507,6 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, schedule 
             <Toaster
                 position="bottom-right"
                 reverseOrder={false}
-            />
-
-            <Ancora
-                title="Voltar"
-                toGo="/monitoring/schedule-monitoring"
-                styles={`ml-1 mb-1 w-16`}
             />
         </>
 

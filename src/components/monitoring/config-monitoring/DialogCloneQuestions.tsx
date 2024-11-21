@@ -1,6 +1,7 @@
 import { verifyUserToken } from "@/api/generics/verifyToken"
 import { deleteQuestions } from "@/api/monitoring/config-monitoring/deleteQuestions"
 import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence"
+import { getCreditorRelationWithCreditorUnique } from "@/api/monitoring/config-monitoring/getCreditorRelationWithCreditorUnique"
 import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor"
 import { saveOptionsAndQuestions } from "@/api/monitoring/config-monitoring/saveOptionsAndQuestions"
 import { Button } from "@/components/Button"
@@ -8,9 +9,11 @@ import { FieldForm } from "@/components/FieldForm"
 import { Option } from "@/components/Option"
 import { SelectField } from "@/components/SelectField"
 import { IAgings } from "@/interfaces/generics/IAgings"
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
 import { IDialogCloneQuestionsProps } from "@/interfaces/monitoring/config-monitoring/IDialogCloneQuestions"
 import { IHeaderSelectConfigForm, IHeaderSelectConfigSchema } from "@/interfaces/monitoring/config-monitoring/IHeaderSelectConfig"
 import { zodResolver } from "@hookform/resolvers/zod"
+import classNames from "classnames"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
@@ -20,14 +23,16 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
 
     const router = useRouter()
 
+    const [creditorsUnique, setCreditorsUnique] = useState<ICreditorsUnique[]>([])
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
     const [disableAllButtons, setDisableAllButtons] = useState(false)
     const [notFoundMessage, setNotFoundMessage] = useState("")
 
-    const { register, handleSubmit, watch, formState: { errors }, reset, clearErrors, setValue, getValues } = useForm<IHeaderSelectConfigForm>({
+    const { register, handleSubmit, watch, formState: { errors }, reset, setValue, getValues } = useForm<IHeaderSelectConfigForm>({
         defaultValues: {
             id_creditor: "0",
+            id_creditor_unique: "disabled",
             id_ocorrence: "disabled",
             id_aging: "disabled"
         },
@@ -47,7 +52,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
 
         if (data.id_aging != "disabled") {
 
-            if (headerObject.id_creditor == Number(data.id_creditor) && headerObject.id_ocorrence == Number(data.id_ocorrence) && headerObject.id_aging == Number(data.id_aging)) {
+            if (headerObject.id_creditor_unique == Number(data.id_creditor_unique) && headerObject.id_ocorrence == Number(data.id_ocorrence) && headerObject.id_aging == Number(data.id_aging)) {
                 toast.error("Não é possível clonar os mesmos valores de credor, ocorrência e fase que você selecionou no cabeçário da configuração de monitoria!", {
                     duration: 5000
                 })
@@ -82,13 +87,13 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
             }
 
             const object = {
-                idCreditor: Number(data.id_creditor),
+                idCreditorUnique: Number(data.id_creditor_unique),
                 idOcorrence: Number(data.id_ocorrence),
                 idAging: Number(data.id_aging),
                 questions
             }
 
-            const deleteQuestionsStatus = await deleteQuestions({ id_creditor: Number(data.id_creditor), id_ocorrence: Number(data.id_ocorrence), id_aging: Number(data.id_aging) })
+            const deleteQuestionsStatus = await deleteQuestions({ id_creditor_unique: Number(data.id_creditor_unique), id_ocorrence: Number(data.id_ocorrence), id_aging: Number(data.id_aging) })
 
             if (!deleteQuestionsStatus) {
                 toast.error("Houve um erro ao clonar as perguntas da monitoria, revise os valores e tente novamente!", {
@@ -140,21 +145,46 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
             return
         }
 
-        const getOcorrences = await getOcorrencesByCreditor(Number(data.id_creditor))
+        if (data.id_creditor_unique != "disabled") {
+            const getOcorrences = await getOcorrencesByCreditor(Number(data.id_creditor))
 
-        setDisableAllButtons(false)
+            setDisableAllButtons(false)
 
-        if (!getOcorrences.status) {
-            setNotFoundMessage("ocorrences")
+            if (!getOcorrences.status) {
+                setNotFoundMessage("ocorrences")
+
+                return
+            }
+
+            setOcorrences(getOcorrences.data)
+            setValue("id_ocorrence", "0")
 
             return
         }
 
-        setOcorrences(getOcorrences.data)
-        setValue("id_ocorrence", "0")
+        const getCreditorUnique = await getCreditorRelationWithCreditorUnique(Number(data.id_creditor))
+
+        setDisableAllButtons(false)
+
+        if (!getCreditorUnique.status) {
+            setNotFoundMessage("creditor_unique")
+
+            return
+        }
+
+        setCreditorsUnique(getCreditorUnique.data)
+        if (getCreditorUnique.data.length == 1) {
+            const creditor = getCreditorUnique.data[0]
+
+            setValue("id_creditor_unique", String(creditor.Id_Unique_Creditor))
+
+            return
+        }
+        setValue("id_creditor_unique", "0")
     }
 
     function changedCreditors() {
+        setValue("id_creditor_unique", "disabled")
         setValue("id_ocorrence", "disabled")
         setValue("id_aging", "disabled")
         setOcorrences([])
@@ -169,6 +199,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
     function closeDialog() {
         reset()
         dialogCloneQuestions.current?.close()
+        setCreditorsUnique([])
         setOcorrences([])
         setAgings([])
     }
@@ -181,7 +212,7 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
                 onSubmit={handleSubmit(handleCloneQuestions)}
             >
                 <div className="flex justify-center items-center my-10 gap-2">
-                    <FieldForm label="credor" name="Credor:" obrigatory={false} error={errors.id_creditor && "Inválido"}>
+                    <FieldForm label="team" name="Equipe:" obrigatory={false} error={errors.id_creditor && "Inválido"}>
                         <SelectField
                             name="id_creditor"
                             id="credor"
@@ -204,6 +235,48 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
                                     />
                                 )
                             })}
+                        </SelectField>
+                    </FieldForm>
+
+                    <FieldForm label="creditor_unique" name="Credor:" obrigatory={false} error={errors.id_creditor_unique && "Inválido"}>
+                        <SelectField
+                            name="id_creditor_unique"
+                            id="id_creditor_unique"
+                            styles={classNames("w-fit min-w-full", {
+                                "border-red-500": errors.id_creditor_unique
+                            })}
+                            required
+                            disabled={creditorsUnique.length == 0 || disableAllButtons}
+                            onForm={true}
+                            register={register}
+                            value={watch("id_creditor_unique")}
+                        >
+                            {getValues("id_creditor_unique") == "disabled" ? (
+                                <Option value={"disabled"} firstValue="Selecione um credor" />
+                            ) : (
+                                <>
+                                    {creditorsUnique.length > 1 && <Option value="0" firstValue="Selecione um credor" />}
+
+                                    {creditorsUnique.length > 1 ? creditorsUnique.map((creditorUnique, index) => {
+                                        return (
+                                            <Option
+                                                key={index}
+                                                value={creditorUnique.Id_Unique_Creditor}
+                                                firstValue={creditorUnique.Creditor}
+                                            />
+                                        )
+                                    }) : (
+                                        <>
+                                            {creditorsUnique.length == 1 && (
+                                                <Option
+                                                    value={creditorsUnique[0].Id_Unique_Creditor}
+                                                    firstValue={creditorsUnique[0].Creditor}
+                                                />
+                                            )}
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </SelectField>
                     </FieldForm>
 
@@ -278,6 +351,13 @@ export function DialogCloneQuestions({ questionsList, dialogCloneQuestions, head
                 </div>
                 {notFoundMessage != "" && (
                     <div className={`w-[80%] p-2 bg-red-400 rounded-md`}>
+
+                        {notFoundMessage == "creditor_unique" && (
+                            <p className="text-white font-medium">
+                                Não foi possível encontrar os credores
+                            </p>
+                        )}
+
                         {notFoundMessage == "ocorrences" && (
                             <p className={`text-white font-medium`}>
                                 Não foi possível trazer as ocorrências

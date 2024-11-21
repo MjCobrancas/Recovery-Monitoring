@@ -1,10 +1,10 @@
-import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
-import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllCreditors";
-import { IMonitoryAllUsers } from "./IContainerMonitoryRealized";
 import { IBackOffices } from "@/interfaces/generics/IBackOffices";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
+import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
+import { IMonitoryAllUsers } from "./IContainerMonitoryRealized";
 
 interface IMonitoryRealizedFilterProps {
-    creditors: ICreditorGetAllCreditors[]
+    creditorsUnique: ICreditorsUnique[]
     ocorrences: IGetAllOcorrences
     disableAllButtons: boolean
     setValueDisableButtons: (value: boolean) => void
@@ -27,4 +27,4 @@ interface IMonitoryRealizedForm {
     feedback: string
 }
 
-export type { IMonitoryRealizedFilterProps, IMonitoryRealizedForm }
+export type { IMonitoryRealizedFilterProps, IMonitoryRealizedForm };

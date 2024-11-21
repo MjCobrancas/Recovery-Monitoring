@@ -3,31 +3,38 @@
 import { verifyUserToken } from "@/api/generics/verifyToken";
 import { getMonitoringQuestions } from "@/api/monitoring/answer-monitoring/getMonitoringQuestions";
 import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence";
+import { getCreditorRelationWithCreditorUnique } from "@/api/monitoring/config-monitoring/getCreditorRelationWithCreditorUnique";
 import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { IAgings } from "@/interfaces/generics/IAgings";
-import { ILooseMonitoringHeader, ILooseHeaderConfigData, ILooseHeaderConfigSchema, ILooseMonitoringHeaderInfo } from "@/interfaces/monitoring/loose-monitoring/ILooseMonitoring";
+import { ILooseHeaderConfigData, ILooseHeaderConfigSchema, ILooseMonitoringHeader, ILooseMonitoringHeaderInfo } from "@/interfaces/monitoring/loose-monitoring/ILooseMonitoring";
 import { zodResolver } from "@hookform/resolvers/zod";
+import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import TableLooseMonitoring from "./TableLooseMonitoring";
+import { getCreditorRelationWithOcorrenceLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithOcorrenceLooseMonitoring";
+import { getCreditorRelationWithAgingsLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithAgingLooseMonitoring";
 
-export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValuesHeader, questions, operators }: ILooseMonitoringHeader) {
+export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questions, operators }: ILooseMonitoringHeader) {
 
     const router = useRouter()
 
+    const [creditorsUnique, setCreditorsUnique] = useState<{ Id_Unique_Creditor: number, Creditor: string }[]>([])
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
     const [notFoundMessage, setNotFoundMessage] = useState("")
     const [disableButton, setDisableButton] = useState(false)
-    const [headerInfo, setHeaderInfo] = useState<ILooseMonitoringHeaderInfo>({ creditor: "", ocorrence: "", phase: "" })
+    const [headerInfo, setHeaderInfo] = useState<ILooseMonitoringHeaderInfo>({ creditor: "", creditorUnique: "", ocorrence: "", phase: "" })
     const { register, handleSubmit, watch, formState: { errors }, getValues, setValue } = useForm<ILooseHeaderConfigData>({
         defaultValues: {
             creditor: "0",
+            creditorUnique: "disabled",
             ocorrence: "disabled",
             phase: "disabled"
         },
@@ -49,6 +56,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
             const configObject = [
                 {
                     Id_Creditor: Number(data.creditor),
+                    Id_Creditor_Unique: Number(data.creditorUnique),
                     Id_Ocorrence: Number(data.ocorrence),
                     Id_Aging: Number(data.phase)
                 }
@@ -56,6 +64,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
 
             setHeaderInfo({
                 creditor: String(data.creditor),
+                creditorUnique: String(data.creditorUnique),
                 ocorrence: String(data.ocorrence),
                 phase: String(data.phase)
             }) 
@@ -64,21 +73,28 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
 
             setDisableButton(false)
 
-            if (getQuestions.questions <= 0 && getQuestions.behavioral <= 0) {
+            if (!getQuestions.status) {
+
+                toast.error("Houve um erro ao buscar as perguntas da monitoria, tente novamente mais tarde.", {
+                    duration: 7000
+                })
+
+                return
+            }
+
+            if (getQuestions.data!.questions.length <= 0 && getQuestions.data!.behavioral.length <= 0) {
                 setNotFoundMessage("questions")
 
                 return
             }
 
-            setValueQuestionList(getQuestions, true)
-
-            setValuesHeader(Number(data.creditor), Number(data.ocorrence), Number(data.phase))
+            setValueQuestionList(getQuestions.data!)
 
             return
         }
 
         if (data.ocorrence != "disabled") {
-            const getAgings = await getAgingByCreditorAndOcorrence(Number(data.creditor), Number(data.ocorrence))
+            const getAgings = await getCreditorRelationWithAgingsLooseMonitoring(Number(data.creditorUnique), Number(data.ocorrence))
 
             setDisableButton(false)
 
@@ -94,39 +110,70 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
             return
         }
 
-        const getOcorrences = await getOcorrencesByCreditor(Number(data.creditor))
+        if (data.creditorUnique != "disabled") {
+            const getOcorrences = await getCreditorRelationWithOcorrenceLooseMonitoring(Number(data.creditorUnique))
 
-        setDisableButton(false)
+            setDisableButton(false)
 
-        if (!getOcorrences.status) {
-            setNotFoundMessage("ocorrences")
+            if (!getOcorrences.status) {
+                setNotFoundMessage("ocorrences")
+
+                return
+            }
+
+            setOcorrences(getOcorrences.data)
+            setValue("ocorrence", "0")
 
             return
         }
 
-        setOcorrences(getOcorrences.data)
-        setValue("ocorrence", "0")
+        const getCreditorUnique = await getCreditorRelationWithCreditorUnique(Number(data.creditor))
+
+        setDisableButton(false)
+
+        if (!getCreditorUnique.status) {
+            setNotFoundMessage("creditorUnique")
+
+            return
+        }
+
+        setCreditorsUnique(getCreditorUnique.data)
+
+        if (getCreditorUnique.data.length == 1) {
+            setValue("creditorUnique", String(getCreditorUnique.data[0].Id_Unique_Creditor))
+
+            return
+        }
+
+        setValue("creditorUnique", "0")
     }
 
     function changedCreditors() {
+        setValue("creditorUnique", "disabled")
+        setValue("ocorrence", "disabled")
+        setValue("phase", "disabled")
+        setCreditorsUnique([])
+        setOcorrences([])
+        setAgings([])
+        setValueQuestionList({ questions: [], behavioral: [] })
+    }
+
+    function changedCreditorUnique() {
         setValue("ocorrence", "disabled")
         setValue("phase", "disabled")
         setOcorrences([])
         setAgings([])
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ questions: [], behavioral: [] }, false)
+        setValueQuestionList({ questions: [], behavioral: [] })
     }
 
     function changedOcorrences() {
         setValue("phase", "disabled")
         setAgings([])
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ questions: [], behavioral: [] }, false)
+        setValueQuestionList({ questions: [], behavioral: [] })
     }
 
     function changedPhases() {
-        setValuesHeader(0, 0, 0)
-        setValueQuestionList({ questions: [], behavioral: [] }, false)
+        setValueQuestionList({ questions: [], behavioral: [] })
     }
 
     return (
@@ -137,7 +184,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
                         className={`flex items-end gap-2`}
                         onSubmit={handleSubmit(handleGetRelations)}
                     >
-                        <FieldForm label="creditor" name="Credor:" obrigatory={false} error={errors.creditor && "Inválido"}>
+                        <FieldForm label="equipe" name="Equipe:" obrigatory={false} error={errors.creditor && "Inválido"}>
                             <SelectField
                                 name="creditor"
                                 id="creditor"
@@ -149,8 +196,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
                                 styles={errors.creditor ? "border-red-500" : ""}
                                 disabled={disableButton}
                             >
-
-                                <Option value={"0"} firstValue={"Selecione um credor"} />
+                                <Option value={"0"} firstValue={"Selecione uma equipe"} />
 
                                 {creditors.map((creditor, index) => {
                                     return (
@@ -161,6 +207,46 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
                                         />
                                     )
                                 })}
+                            </SelectField>
+                        </FieldForm>
+
+                        <FieldForm label="creditorUnique" name="Credor:" obrigatory={false} error={errors.creditorUnique && "Inválido"}>
+                            <SelectField
+                                name="creditorUnique"
+                                id="creditorUnique"
+                                styles={classNames("w-fit min-w-full", {
+                                    "border-red-500": errors.creditorUnique
+                                })}
+                                onForm={true}
+                                register={register}
+                                value={watch("creditorUnique")}
+                                disabled={creditorsUnique.length == 0 || disableButton}
+                                OnChange={changedCreditorUnique}
+                            >
+                                {getValues("creditorUnique") == "disabled" ? (
+                                    <Option value="disabled" firstValue="Selecione um credor" />
+                                ) : (
+                                    <>
+
+                                        {creditorsUnique.length > 1 && (
+                                            <Option value="0" firstValue="Selecione um credor" />
+                                        )}
+
+                                        {creditorsUnique.length == 0 && (
+                                            <Option value="0" firstValue="Selecione um credor" />
+                                        )}
+
+                                        {creditorsUnique.map((creditorUnique, index: number) => {
+                                            return (
+                                                <Option 
+                                                    key={index}
+                                                    value={creditorUnique.Id_Unique_Creditor}
+                                                    firstValue={creditorUnique.Creditor}
+                                                />
+                                            )
+                                        })}
+                                    </>
+                                )}
                             </SelectField>
                         </FieldForm>
 
@@ -237,21 +323,27 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, setValu
 
                     {notFoundMessage != "" && (
                         <div className={`p-2 bg-red-400 rounded-md`}>
+                            {notFoundMessage == "creditorUnique" && (
+                                <p className="text-white font-medium">
+                                    Não foi possível encontrar os credores
+                                </p>
+                            )}
+
                             {notFoundMessage == "ocorrences" && (
                                 <p className={`text-white font-medium`}>
-                                    Não foi possível trazer as ocorrências
+                                    Não foi possível encontrar as ocorrências
                                 </p>
                             )}
 
                             {notFoundMessage == "agings" && (
                                 <p className={`text-white font-medium`}>
-                                    Não foi possível trazer as fases
+                                    Não foi possível encontrar as fases
                                 </p>
                             )}
 
                             {notFoundMessage == "questions" && (
                                 <p className={`text-white font-medium`}>
-                                    Não foi possível trazer as perguntas
+                                    Não foi possível encontrar as perguntas
                                 </p>
                             )}
                         </div>

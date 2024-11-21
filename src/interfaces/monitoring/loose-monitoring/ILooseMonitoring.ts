@@ -2,6 +2,7 @@ import { ICreditors } from "@/interfaces/generics/ICreditors";
 import { z } from "zod";
 import { IMonitoringResponse } from "../answer-monitoring/IAnswerMonitoringQuestions";
 import { IOperator } from "@/interfaces/generics/IOperator";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 
 interface ILooseMonitoringContainer {
     creditors: ICreditors[]
@@ -11,13 +12,13 @@ interface ILooseMonitoringContainer {
 interface ILooseMonitoringHeader {
     creditors: ICreditors[]
     operators: IOperator[]
-    setValueQuestionList: (value: IMonitoringResponse, showQuestions: boolean) => void
-    setValuesHeader: (id_creditor: number, id_ocorrence: number, id_aging: number) => void
+    setValueQuestionList: (value: IMonitoringResponse) => void
     questions: IMonitoringResponse
 }
 
 interface ILooseMonitoringHeaderInfo {
     creditor: string
+    creditorUnique: string
     ocorrence: string
     phase: string
 }
@@ -30,12 +31,28 @@ interface ILooseMonitoringTable {
 
 interface ILooseHeaderConfigData {
     creditor: string
+    creditorUnique: string
     ocorrence: string
     phase: string
 }
 
 export const ILooseHeaderConfigSchema = z.object({
     creditor: z.string().min(1).refine((value) => {
+        if (String(Number(value)) == "NaN") {
+            return false
+        }
+
+        if (Number(value) <= 0) {
+            return false
+        }
+
+        return true
+    }),
+    creditorUnique: z.string().min(1).refine((value) => {
+        if (value == "disabled") {
+            return true
+        }
+
         if (String(Number(value)) == "NaN") {
             return false
         }

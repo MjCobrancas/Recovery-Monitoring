@@ -1,4 +1,4 @@
-import { ICreditors } from "@/interfaces/generics/ICreditors"
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
 import { IFilterScheduleOcorrences } from "./IFilterSchedule"
 
 interface ISchedules {
@@ -32,7 +32,7 @@ interface IScheduleTable extends ISchedulesData {
 }
 
 interface IScheduleDataContainer extends ISchedulesData {
-    creditors: ICreditors[]
+    creditorsUnique: ICreditorsUnique[]
     ocorrences: IFilterScheduleOcorrences
 }
 
@@ -58,4 +58,4 @@ interface ISchedulesQuantity {
     negotiators: number
 }
 
-export type { ISchedules, ISchedulesResponse, ISchedulesData, IScheduleDataContainer, ISchedulesQuantity, IScheduleTable, IScheduleUser }
+export type { IScheduleDataContainer, ISchedules, ISchedulesData, ISchedulesQuantity, ISchedulesResponse, IScheduleTable, IScheduleUser }

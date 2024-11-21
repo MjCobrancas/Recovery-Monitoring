@@ -32,6 +32,7 @@ interface IMonitoryRealizerUserSubQuestions {
 
 interface IMonitoryUserHeader {
     Creditor: string
+    Creditor_Unique_Name: string | null
     Description: string
     Ocorrence: string
     behavioral_note: number

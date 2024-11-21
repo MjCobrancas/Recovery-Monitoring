@@ -1,5 +1,5 @@
 import { getAllBackOffices } from "@/api/generics/getAllBackOffices";
-import { getAllCreditors } from "@/api/generics/getAllCreditors";
+import { getAllCreditorsUnique } from "@/api/generics/getAllCreditorsUnique";
 import { getAllOcorrences } from "@/api/generics/getAllOcorrences";
 import { getBackOffice } from "@/api/generics/getBackOfficeById";
 import { getAllMonitoringUser } from "@/api/monitoring/realized/getAllMonitoringUser";
@@ -9,14 +9,14 @@ import { ContainerMonitoryRealized } from "@/components/monitoring/realized/Cont
 import { IResultDefaultResponse } from "@/interfaces/Generics";
 import { IBackOffice } from "@/interfaces/generics/IBackOffice";
 import { IBackOffices } from "@/interfaces/generics/IBackOffices";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
 import { IMonitoryAllUsers } from "@/interfaces/monitoring/realized/IContainerMonitoryRealized";
-import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllCreditors";
 
 export default async function Page() {
 
     const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getAllMonitoringUser()
-    const creditors: ICreditorGetAllCreditors[] = await getAllCreditors()
+    const creditorsUnique: ICreditorsUnique[] = await getAllCreditorsUnique()
     const ocorrences: IGetAllOcorrences = await getAllOcorrences()
     const backOffices: IBackOffices[] = await getBackOffice()
     const supervisor: IBackOffice[] = await getAllBackOffices()
@@ -27,7 +27,7 @@ export default async function Page() {
 
             <ContainerMonitoryRealized 
                 monitoryUsers={monitoryUsers.status ? monitoryUsers.data : []} 
-                creditors={creditors}
+                creditorsUnique={creditorsUnique}
                 ocorrences={ocorrences}
                 backOffices={backOffices}
                 supervisor={supervisor}

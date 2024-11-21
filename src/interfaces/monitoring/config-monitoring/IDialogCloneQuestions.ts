@@ -7,7 +7,7 @@ interface IDialogCloneQuestionsProps {
     dialogCloneQuestions:  RefObject<HTMLDialogElement | null>
     creditors: ICreditorGetAllCreditors[]
     headerObject: {
-        id_creditor: number
+        id_creditor_unique: number
         id_ocorrence: number
         id_aging: number
     }

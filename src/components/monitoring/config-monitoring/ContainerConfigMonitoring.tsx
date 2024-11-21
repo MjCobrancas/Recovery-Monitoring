@@ -11,6 +11,7 @@ export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringPro
     const [questionsList, setQuestionsList] = useState<IQuestionsResponse>({ questions: [], behavioral: [], generic: [] })
     const [showQuestionsConfig, setShowQuestionsConfig] = useState(false)
     const [idCreditor, setIdCreditor] = useState(0)
+    const [idCreditorUnique, setIdCreditorUnique] = useState(0)
     const [idOcorrence, setIdOcorrence] = useState(0)
     const [idAging, setIdAging] = useState(0)
     const [disableAllButtons, setDisableAllButtons] = useState(false)
@@ -19,8 +20,9 @@ export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringPro
         setDisableAllButtons(value)
     }
 
-    function setValuesHeader(id_creditor: number, id_ocorrence: number, id_aging: number) {
+    function setValuesHeader(id_creditor: number, id_creditor_unique: number, id_ocorrence: number, id_aging: number) {
         setIdCreditor(id_creditor)
+        setIdCreditorUnique(id_creditor_unique)
         setIdOcorrence(id_ocorrence)
         setIdAging(id_aging)
     }
@@ -31,7 +33,7 @@ export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringPro
     }
 
     function resetAllValues() {
-        setValuesHeader(0, 0, 0)
+        setValuesHeader(0, 0, 0, 0)
         setQuestionsList({ questions: [], behavioral: [], generic: [] })
         setShowQuestionsConfig(false)
     }
@@ -49,7 +51,7 @@ export function ContainerConfigMonitoring({ creditors }: IContainerMonitoringPro
             {showQuestionsConfig && (
                 <ConfigQuestions
                     questionsList={questionsList}
-                    idCreditor={idCreditor}
+                    idCreditorUnique={idCreditorUnique}
                     idOcorrence={idOcorrence}
                     idAging={idAging}
                     resetAllValues={resetAllValues}

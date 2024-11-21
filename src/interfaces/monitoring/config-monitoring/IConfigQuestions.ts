@@ -4,7 +4,7 @@ import { ICreditorGetAllCreditors } from "@/interfaces/register/creditor/GetAllC
 
 interface IConfigQuestionsProps {
     questionsList: IQuestionsResponse
-    idCreditor: number
+    idCreditorUnique: number
     idOcorrence: number
     idAging: number
     resetAllValues: Function

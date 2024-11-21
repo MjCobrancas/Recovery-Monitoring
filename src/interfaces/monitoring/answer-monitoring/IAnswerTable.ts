@@ -1,7 +1,13 @@
-import { IAnswerMonitoringContainer } from "./IAnswerContainer";
+import { IMonitoringResponse } from "./IAnswerMonitoringQuestions";
+import { IScheduleAnswerId } from "./IAnswerScheduleId";
 
-interface IAnswerTable extends IAnswerMonitoringContainer {
-
+interface IAnswerTable {
+    config: IScheduleAnswerId[]
+    idSchedule: Number
+    questions: IMonitoringResponse
+    idCreditorUnique: number
+    idAging: number
+    isSpecialCreditor: boolean
 }
 
-export type { IAnswerTable }
+export type { IAnswerTable };

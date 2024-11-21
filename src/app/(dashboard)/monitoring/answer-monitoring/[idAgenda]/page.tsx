@@ -1,18 +1,22 @@
-import { getMonitoringQuestions } from "@/api/monitoring/answer-monitoring/getMonitoringQuestions";
+import { getVerifyIsSpecialCreditor } from "@/api/generics/getVerifyIsSpecialCreditor";
 import { getQuantityById } from "@/api/monitoring/answer-monitoring/getQuantityById";
+import { getUserByScheduleId } from "@/api/monitoring/answer-monitoring/getUserByScheduleId";
+import { getCreditorRelationWithCreditorUnique } from "@/api/monitoring/config-monitoring/getCreditorRelationWithCreditorUnique";
+import { Ancora } from "@/components/Ancora";
+import { ContainerAnswerMonitoring } from "@/components/monitoring/answer-monitoring/ContainerAnswerMonitoring";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
+import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { IScheduleAnswerId } from "@/interfaces/monitoring/answer-monitoring/IAnswerScheduleId";
-import { IMonitoringResponse } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringQuestions"
-import { ContainerAnswerMonitoring } from "@/components/monitoring/answer-monitoring/ContainerAnswerMonitoring";
 import { IScheduleUser } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
-import { getUserByScheduleId } from "@/api/monitoring/answer-monitoring/getUserByScheduleId";
 
-export default async function Home({params}: {params: {idAgenda: string}}) {
+export default async function Home({ params }: { params: { idAgenda: string } }) {
 
     const scheduleId: IScheduleAnswerId[] = await getQuantityById(params.idAgenda)
-    const monitoringQuestions: IMonitoringResponse = await getMonitoringQuestions(scheduleId)
     const schedule: IScheduleUser[] = await getUserByScheduleId(params.idAgenda)
+    const responseCreditorRelation = await getCreditorRelationWithCreditorUnique(scheduleId[0].Id_Creditor)
+    const creditorsUnique: ICreditorsUnique[] = responseCreditorRelation.data
+    const isSpecialCreditor = await getVerifyIsSpecialCreditor(scheduleId[0].Id_Creditor)
 
     return (
         <PaperBlock>
@@ -22,10 +26,17 @@ export default async function Home({params}: {params: {idAgenda: string}}) {
             />
 
             <ContainerAnswerMonitoring 
-                questions={monitoringQuestions}
                 config={scheduleId}
                 idSchedule={Number(params.idAgenda)}
                 schedule={schedule}
+                creditorsUnique={creditorsUnique}
+                isSpecialCreditor={isSpecialCreditor}
+            />
+
+            <Ancora
+                title="Voltar"
+                toGo="/monitoring/schedule-monitoring"
+                styles={`ml-1 mb-1 w-16`}
             />
         </PaperBlock>
     )

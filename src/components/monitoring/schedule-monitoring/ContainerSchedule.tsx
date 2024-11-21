@@ -7,7 +7,7 @@ import { FilterSchedule } from "./FilterSchedule";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
-export function ContainerSchedule({ schedules, creditors, ocorrences }: IScheduleDataContainer) {
+export function ContainerSchedule({ schedules, creditorsUnique, ocorrences }: IScheduleDataContainer) {
 
     const [isFiltred, setIsFiltred] = useState<ISchedulesResponse[]>([])
 
@@ -22,7 +22,7 @@ export function ContainerSchedule({ schedules, creditors, ocorrences }: ISchedul
             />
 
             <FilterSchedule
-                creditors={creditors}
+                creditorsUnique={creditorsUnique}
                 ocorrences={ocorrences}
                 setFilter={setValueFilter}
             />

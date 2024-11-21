@@ -17,7 +17,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                     <h2
                         className={`text-2xl font-bold text-center text-slate-500 my-2 mb-8 dark:text-slate-100`}
                     >
-                        Monitoria { userMonitoryValues.monitoring[0].is_loose_monitoring ? `Avulsa ${userMonitoryValues?.monitoring[0]?.id_form}` : `${userMonitoryValues?.monitoring[0].id_form}`}
+                        Monitoria {userMonitoryValues.monitoring[0].is_loose_monitoring ? `Avulsa ${userMonitoryValues?.monitoring[0]?.id_form}` : `${userMonitoryValues?.monitoring[0].id_form}`}
                     </h2>
 
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-2 print:overflow-x-hidden">
@@ -32,7 +32,10 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <th scope="col" className="px-6 py-3"> Avaliador </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Negociação </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Comportamento </th>
-                                    <th scope="col" className="px-6 py-3 print:hidden"> Credor </th>
+                                    <th scope="col" className="px-6 py-3 print:hidden"> Equipe </th>
+                                    {userMonitoryValues.monitoring[0].Creditor_Unique_Name != null && (
+                                        <th scope="col" className="px-6 py-3"> Credor </th>
+                                    )}
                                     <th scope="col" className="px-6 py-3 print:hidden"> Ocorrência </th>
                                     <th scope="col" className="px-6 py-3 print:hidden"> Fase </th>
                                     <th scope="col" className="px-6 py-3 print:hidden"> Data </th>
@@ -59,6 +62,11 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.Creditor}
                                     </td>
+                                    {userMonitoryValues?.monitoring[0].Creditor_Unique_Name != null && (
+                                        <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                            {userMonitoryValues?.monitoring[0].Creditor_Unique_Name}
+                                        </td>
+                                    )}
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50 print:hidden">
                                         {userMonitoryValues?.monitoring[0]?.Ocorrence}
                                     </td>
