@@ -31,6 +31,7 @@ interface IMonitoryRealizerUserSubQuestions {
 }
 
 interface IMonitoryUserHeader {
+    Id_Creditor: number
     Creditor: string
     Creditor_Unique_Name: string | null
     Description: string

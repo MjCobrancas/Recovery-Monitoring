@@ -52,6 +52,7 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
                     questions={questions}
                     config={config}
                     idSchedule={idSchedule}
+                    idCreditor={config[0].Id_Creditor}
                     idCreditorUnique={idCreditorUnique}
                     idAging={idAging}
                     isSpecialCreditor={isSpecialCreditor}

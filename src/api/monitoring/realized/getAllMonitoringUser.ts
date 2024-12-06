@@ -21,7 +21,7 @@ export async function getAllMonitoringUser() {
     })
         .then(async (value) => {
             const data = await value.json()
-
+            
             if (value.status == 400) {
                 return {
                     data: [],

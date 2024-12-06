@@ -232,27 +232,29 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                             />
                         </FieldForm>
 
-                        <FieldForm
-                            label="audio"
-                            name="Audio da monitoria:"
-                            obrigatory={false}
-                            styles={`w-2/3 h-full flex flex-col items-start justify-start font-medium print:hidden`}
-                        >
-                            {loadingAudio ? (
-                                <p className="font-bold">Carregando...</p>
-                            ) : (
-                                <>
-                                    {audio == null ? (
-                                        <p>Nenhum aúdio disponível</p>
-                                    ) : (
-                                        <audio controls className={`w-full mb-2`} id="audio">
-                                            <source src={audio} type="audio/wav" />
-                                            Your browser does not support the audio element.
-                                        </audio>
-                                    )}
-                                </>
-                            )}
-                        </FieldForm>
+                        {userMonitoryValues.monitoring[0].Id_Creditor != 10 && (
+                            <FieldForm
+                                label="audio"
+                                name="Audio da monitoria:"
+                                obrigatory={false}
+                                styles={`w-2/3 h-full flex flex-col items-start justify-start font-medium print:hidden`}
+                            >
+                                {loadingAudio ? (
+                                    <p className="font-bold">Carregando...</p>
+                                ) : (
+                                    <>
+                                        {audio == null ? (
+                                            <p>Nenhum aúdio disponível</p>
+                                        ) : (
+                                            <audio controls className={`w-full mb-2`} id="audio">
+                                                <source src={audio} type="audio/wav" />
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        )}
+                                    </>
+                                )}
+                            </FieldForm>
+                        )}
                     </div>
 
                     <div className={`flex justify-end gap-2 print:hidden`}>

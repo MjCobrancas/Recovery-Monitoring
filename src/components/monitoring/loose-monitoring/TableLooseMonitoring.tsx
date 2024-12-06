@@ -4,7 +4,6 @@ import { verifyUserToken } from "@/api/generics/verifyToken";
 import { uploadAudioMonitoring } from "@/api/monitoring/answer-monitoring/audioMonitoring";
 import { deleteMonitoring } from "@/api/monitoring/answer-monitoring/deleteMonitoring";
 import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedMonitoring";
-import { Ancora } from "@/components/Ancora";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Input } from "@/components/Input";
@@ -21,8 +20,8 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
 
     const router = useRouter()
 
-    const [behavioralNote, setBehavioralNote] = useState(1000)
-    const [questionsNote, setQuestionsNote] = useState(1000)
+    const [behavioralNote, setBehavioralNote] = useState(0)
+    const [questionsNote, setQuestionsNote] = useState(0)
     const [fileLength, setFileLength] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
 
@@ -59,11 +58,11 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                             return {
                                 idSubquestion: sub.idSubquestion,
                                 subquestion: sub.subquestion,
-                                answer: true,
+                                answer: false,
                                 note: item.note / item.subquestion.length
                             }
                         }),
-                        answer: true
+                        answer: false
                     }
                 }),
                 behavioral: questions.behavioral.map((item, i) => {
@@ -71,7 +70,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                         idQuestion: item.idQuestion,
                         question: item.question,
                         note: item.note,
-                        answer: true
+                        answer: false
                     }
                 }),
                 file: null,
@@ -161,10 +160,16 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
         const file = getValues("file")
         const questionsObject: any[] = []
 
-        if (file == null) {
-            setError("file", {
-                type: "400"
-            })
+        if (headerInfo.creditor != "10") {
+            if (file == null) {
+                setError("file", {
+                    type: "400"
+                })
+
+                setDisableButton(false)
+
+                return
+            }
         }
 
         for (let i = 0; i < data.questions.length; i++) {
@@ -239,18 +244,20 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
         const formData = new FormData()
         formData.append("gravacao", file!)
 
-        const uploadAudio = await uploadAudioMonitoring(monitoring.data.idForm, data.operator, formData)
+        if (headerInfo.creditor != "10") {
+            const uploadAudio = await uploadAudioMonitoring(monitoring.data.idForm, data.operator, formData)
 
-        if (!uploadAudio) {
-            toast.error("Erro ao enviar o arquivo! Verifique se ele é .mp3/.wav", {
-                duration: 5000
-            })
+            if (!uploadAudio) {
+                toast.error("Erro ao enviar o arquivo! Verifique se ele é .mp3/.wav", {
+                    duration: 5000
+                })
 
-            setDisableButton(false)
+                setDisableButton(false)
 
-            await deleteMonitoring(monitoring.data.idForm)
+                await deleteMonitoring(monitoring.data.idForm)
 
-            return
+                return
+            }
         }
 
         toast.success("Sucesso ao salvar a monitoria avulsa!", {
@@ -430,16 +437,20 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                 <h2 className={`text-2xl font-bold text-center text-slate-500 my-2 mb-8 dark:text-slate-100`}>
                                     Importe o áudio da monitoria
                                 </h2>
-
-                                <input
-                                    ref={fileList}
-                                    type="file"
-                                    className={`w-fit mb-8 border-2 rounded-md dark:text-white
+                                {headerInfo.creditor != "10" && (
+                                    <>
+                                        <input
+                                            ref={fileList}
+                                            type="file"
+                                            className={`w-fit mb-8 border-2 rounded-md dark:text-white
                                             ${errors.file ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
                                         `}
-                                    accept={".wav, .mp3"}
-                                    onChange={() => verifyFile()}
-                                />
+                                            accept={".wav, .mp3"}
+                                            onChange={() => verifyFile()}
+
+                                        />
+                                    </>
+                                )}
 
                                 <div className={`my-2 flex flex-col gap-2 w-full`}>
                                     <FieldForm
@@ -524,7 +535,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                         />
                                     </div>
                                 </div>
-                                <Toaster 
+                                <Toaster
                                     reverseOrder={false}
                                     position="bottom-right"
                                 />
