@@ -99,18 +99,23 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
 
         setMonitoryUserValues(monitoryUser.data!)
 
-        const getMonitoryAudio: any = await getAudioOfMonitory(String(id_form))
+        if (monitoryUser.data?.monitoring[0].Id_Creditor != 10 ) {
+            const getMonitoryAudio: any = await getAudioOfMonitory(String(id_form))
+
+            setLoadingAudio(false)
+
+            if (getMonitoryAudio != null) {
+                const binaryData = Buffer.from(getMonitoryAudio.object.file)
+                const fileBase64 = URL.createObjectURL(
+                    new Blob([binaryData.buffer], { type: getMonitoryAudio.object.type })
+                )
+
+                setAudio(fileBase64)
+            }
+        }
 
         setLoadingAudio(false)
-
-        if (getMonitoryAudio != null) {
-            const binaryData = Buffer.from(getMonitoryAudio.object.file)
-            const fileBase64 = URL.createObjectURL(
-                new Blob([binaryData.buffer], { type: getMonitoryAudio.object.type })
-            )
-
-            setAudio(fileBase64)
-        }
+        
     }
 
     return (

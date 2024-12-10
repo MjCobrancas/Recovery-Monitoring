@@ -111,13 +111,7 @@ export const AnswerLooseMonitoringSchema = z.object({
         note: z.number(),
         answer: z.boolean()
     })),
-    file: z.instanceof(File).or(z.null()).refine(value => {
-        if (value == null) {
-            return false
-        }
-
-        return true
-    }),
+    file: z.instanceof(File).or(z.null()),
     clientCode: z.string().min(1),
     operator: z.string().min(1)
 })

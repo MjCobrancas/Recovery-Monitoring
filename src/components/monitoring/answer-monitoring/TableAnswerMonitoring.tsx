@@ -15,7 +15,7 @@ import { useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor, idCreditor }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -37,8 +37,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
     }
 
     const [hasQuestions, setHasQuestions] = useState(questions.questions.length == 0 && questions.behavioral.length == 0 ? false : true)
-    const [behavioralNote, setBehavioralNote] = useState(1000)
-    const [questionsNote, setQuestionsNote] = useState(1000)
+    const [behavioralNote, setBehavioralNote] = useState(0)
+    const [questionsNote, setQuestionsNote] = useState(0)
     const [fileLength, setFileLength] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
 
@@ -57,11 +57,11 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                             return {
                                 idSubquestion: sub.idSubquestion,
                                 subquestion: sub.subquestion,
-                                answer: true,
+                                answer: false,
                                 note: item.note / item.subquestion.length
                             }
                         }),
-                        answer: true
+                        answer: false
                     }
                 }),
                 behavioral: questions.behavioral.map((item, i) => {
@@ -69,7 +69,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                         idQuestion: item.idQuestion,
                         question: item.question,
                         note: item.note,
-                        answer: true
+                        answer: false
                     }
                 }),
                 file: null,
@@ -158,10 +158,17 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
         const file = getValues("file")
         const questionsObject: any[] = []
 
-        if (file == null) {
-            setError("file", {
-                type: "400"
-            })
+        if (idCreditor != 10) {
+
+            if (file == null) {
+                setError("file", {
+                    type: "400"
+                })
+
+                setDisableButton(false)
+
+                return
+            }
         }
 
         for (let i = 0; i < data.questions.length; i++) {
@@ -234,21 +241,23 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
             return
         }
 
-        const formData = new FormData()
-        formData.append("gravacao", file!)
+        if (idCreditor != 10) {
+            const formData = new FormData()
+            formData.append("gravacao", file!)
 
-        const uploadAudio = await uploadAudioMonitoring(monitoring.data.idForm, config[0].id_user, formData)
+            const uploadAudio = await uploadAudioMonitoring(monitoring.data.idForm, config[0].id_user, formData)
 
-        if (!uploadAudio) {
-            toast.error("Erro ao enviar o arquivo! Verifique se ele é .mp3/.wav", {
-                duration: 5000
-            })
+            if (!uploadAudio) {
+                toast.error("Erro ao enviar o arquivo! Verifique se ele é .mp3/.wav", {
+                    duration: 5000
+                })
 
-            setDisableButton(false)
+                setDisableButton(false)
 
-            await deleteMonitoring(monitoring.data.idForm)
+                await deleteMonitoring(monitoring.data.idForm)
 
-            return
+                return
+            }
         }
 
         dialog.current?.close()
@@ -434,16 +443,18 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                                         Importe o áudio da monitoria
                                     </h2>
 
-                                    <input
-                                        ref={fileList}
-                                        type="file"
-                                        name="audio"
-                                        className={`w-fit mb-8 border-2 rounded-md dark:text-white
-                                                    ${errors.file ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
-                                                `}
-                                        accept={".wav, .mp3"}
-                                        onChange={() => verifyFile()}
-                                    />
+                                    {idCreditor != 10 && (
+                                        <input
+                                            ref={fileList}
+                                            type="file"
+                                            name="audio"
+                                            className={`w-fit mb-8 border-2 rounded-md dark:text-white
+                                                        ${errors.file ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
+                                                    `}
+                                            accept={".wav, .mp3"}
+                                            onChange={() => verifyFile()}
+                                        />
+                                    )}
 
                                     <div className={`my-2 flex flex-col gap-2 w-full`}>
                                         <FieldForm

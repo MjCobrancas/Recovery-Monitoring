@@ -8,6 +8,7 @@ interface IAnswerTable {
     idCreditorUnique: number
     idAging: number
     isSpecialCreditor: boolean
+    idCreditor: number
 }
 
 export type { IAnswerTable };

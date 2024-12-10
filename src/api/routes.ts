@@ -84,12 +84,6 @@ export const secondRoutes: Array<SecondRoutes> = [
         route: "/monitoring/realized",
     },
     {
-        name: "Gráficos de monitoria",
-        level: 8,
-        permissions: [1, 2, 3, 4],
-        route: "/monitoring/graphics"
-    },
-    {
         name: "Integrantes",
         level: 9,
         permissions: [1],
