@@ -6,7 +6,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: ["class", "class"],
+  darkMode: "class",
   theme: {
   	extend: {
   		fontFamily: {
@@ -73,7 +73,7 @@ const config: Config = {
   },
   plugins: [
     require('tailwind-scrollbar'),
-      require("tailwindcss-animate")
+    require("tailwindcss-animate")
 ],
 };
 export default config;

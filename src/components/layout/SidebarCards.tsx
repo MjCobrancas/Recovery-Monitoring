@@ -19,9 +19,9 @@ export function SidebarCards({ name, userName, position, permission, userImage }
     }
 
     return (
-        <aside className={`fixed z-50 print:hidden`}>
+        <aside className={`fixed z-[1000] print:hidden`}>
             <div
-                className={`bg-[--bg-sidebar] z-50 dark:bg-[--bg-dark-sidebar] p-2 h-screen duration-300 absolute shadow-[0px_0px_15px_1px_rgba(0,0,0,0.5)]
+                className={`bg-[--bg-sidebar] z-[1000] dark:bg-[--bg-dark-sidebar] p-2 h-screen duration-300 absolute shadow-[0px_0px_15px_1px_rgba(0,0,0,0.5)]
                     ${showSideBar ? "w-64  left-[0rem]" : "w-64  left-[-15.5rem]"}`}
             >
                 <button
@@ -156,7 +156,7 @@ export function SidebarCards({ name, userName, position, permission, userImage }
                     }
                     )}
                 </nav>
-                <footer className="text-[--text-footer] bg-[--bg-white] dark:bg-[--bg-dark-sidebar] p-2 font-bold flex items-center justify-center gap-2 absolute bottom-0 left-0 w-full transition-all z-50">
+                <footer className="text-[--text-footer] bg-[--bg-white] dark:bg-[--bg-dark-sidebar] p-2 font-bold flex items-center justify-center gap-2 absolute bottom-0 left-0 w-full transition-all z-[1000]">
                     <span>Feito com amor pela TI</span>
                     <FontAwesomeIcon icon={faHeart} />
                 </footer>
