@@ -1,6 +1,6 @@
 import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { z } from "zod";
-import { IMonitoringGraphicsResponse } from "./IMonitoringGraphics";
+import { IMonitoringGraphicsResponse } from "../IMonitoringGraphics";
 
 interface IFilterCreditorGraphics {
     creditorsUniqueList: ICreditorsUnique[]

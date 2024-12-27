@@ -72,6 +72,12 @@ export const secondRoutes: Array<SecondRoutes> = [
         route: "/register",
     },
     {
+        name: "Head Count",
+        level: 6,
+        permissions: [1, 2, 3, 4],
+        route: "/register/head-count"
+    },
+    {
         name: "Agenda",
         level: 8,
         permissions: [1, 2, 3, 4],

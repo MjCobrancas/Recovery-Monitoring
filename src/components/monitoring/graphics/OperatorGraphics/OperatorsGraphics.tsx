@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { IOperatorGraphicsProps } from "@/interfaces/monitoring/graphics/operators-graphics/IOperatorGraphics";
 import classNames from "classnames";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
     views: {
@@ -67,7 +67,7 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                         <CardContent className="px-2 sm:p-6">
                             <ChartContainer
                                 config={chartConfig}
-                                className="aspect-auto h-[250px] w-full"
+                                className="aspect-auto h-[350px] w-full"
                             >
                                 <BarChart
                                     data={graphics.creditor.ocorrences[countOcorrence].agings[countAging].operators}
@@ -75,6 +75,7 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                         left: 12,
                                         right: 12,
                                     }}
+                                    barGap={24}
                                 >
                                     <CartesianGrid vertical={false} />
                                     <XAxis
@@ -90,7 +91,8 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
 
                                     <YAxis
                                         domain={[0, 1000]}
-                                        tickCount={100}
+                                        tickCount={11}
+                                        padding={{ top: 20 }}
                                         label={{ value: 'Média de nota da monitoria', angle: -90, position: 'insideBottomLeft' }}
                                     />
                                     <ChartTooltip
@@ -105,8 +107,22 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                         }
                                     />
 
-                                    <Bar dataKey={"grade_value"} fill={`#3b82f6`} barSize={10} />
-                                    <Bar dataKey={"grade_value_behavioral"} fill={`#10b981`} barSize={10} />
+                                    <Bar dataKey={"grade_value"} fill={`#3b82f6`} barSize={10}>
+                                        <LabelList
+                                            position="top"
+                                            offset={2}
+                                            className="fill-foreground"
+                                            fontSize={12}
+                                        />
+                                    </Bar>
+                                    <Bar dataKey={"grade_value_behavioral"} fill={`#10b981`} barSize={10}>
+                                        <LabelList
+                                            position="top"
+                                            offset={2}
+                                            className="fill-foreground"
+                                            fontSize={12}
+                                        />
+                                    </Bar>
                                     <Bar dataKey={"quantity"} fill="#f59e0b" barSize={0} />
 
                                     <ChartLegend content={<ChartLegendContent />} />

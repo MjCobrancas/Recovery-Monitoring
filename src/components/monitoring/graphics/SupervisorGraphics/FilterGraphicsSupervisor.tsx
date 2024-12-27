@@ -97,7 +97,9 @@ export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraph
         for (let i = 0; i < data.supervisors.length; i++) {
             const supervisor = data.supervisors[i]
 
-            id_backoffice.push(supervisor.Id_Supervisor)
+            if (supervisor.Status) {
+                id_backoffice.push(supervisor.Id_Supervisor)
+            }
         }
 
         const responseData = await getMonitoringGraphicsSupervisor(id_backoffice, String(data.date_init), String(data.date_end))

@@ -1,6 +1,6 @@
 "use client"
 
-import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 
 import {
     Card,
@@ -78,7 +78,7 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
                 <CardContent className="px-2 sm:p-6">
                     <ChartContainer
                         config={chartConfig}
-                        className="aspect-auto h-[250px] w-full"
+                        className="aspect-auto h-[350px] w-full"
                     >
                         <BarChart
                             data={graphics.creditor.ocorrences[count].agings}
@@ -86,6 +86,7 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
                                 left: 12,
                                 right: 12,
                             }}
+                            barGap={24}
                         >
                             <CartesianGrid vertical={false} />
                             <XAxis
@@ -101,7 +102,8 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
 
                             <YAxis
                                 domain={[0, 1000]}
-                                tickCount={100}
+                                tickCount={11}
+                                padding={{ top: 20 }}
                                 label={{ value: 'Média de nota da monitoria', angle: -90, position: 'insideBottomLeft' }}
                             />
                             <ChartTooltip
@@ -116,8 +118,22 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
                                 }
                             />
 
-                            <Bar dataKey={"grade_value"} fill={`#3b82f6`} barSize={10} />
-                            <Bar dataKey={"grade_value_behavioral"} fill={`#10b981`} barSize={10} />
+                            <Bar dataKey={"grade_value"} fill={`#3b82f6`} barSize={10}>
+                                <LabelList
+                                    position="top"
+                                    offset={2}
+                                    className="fill-foreground"
+                                    fontSize={12}
+                                />
+                            </Bar>
+                            <Bar dataKey={"grade_value_behavioral"} fill={`#10b981`} barSize={10}>
+                                <LabelList
+                                    position="top"
+                                    offset={2}
+                                    className="fill-foreground"
+                                    fontSize={12}
+                                />
+                            </Bar>
                             <Bar dataKey={"quantity"} fill={`#f59e0b`} barSize={0} />
 
                             <ChartLegend content={<ChartLegendContent />} />

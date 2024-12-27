@@ -214,7 +214,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                         key={index}
                                         className="odd:bg-gray-100 even:bg-gray-200 dark:odd:bg-zinc-700 dark:even:bg-zinc-800"
                                     >
-                                        <td className="text-center">
+                                        <td className="text-center text-sm">
                                             <div className={`flex justify-center items-center gap-2`}>
                                                 {item.Is_Loose_Monitoring ? (
                                                     <abbr className={`bg-indigo-500 dark:bg-indigo-600 border border-indigo-600 dark:border-indigo-700 duration-100 text-white no-underline relative hover:before:absolute hover:before:top-1/2 hover:before:left-1/2 hover:before:w-3 hover:before:h-3 hover:before:bg-indigo-500 hover:before:rotate-45 hover:before:translate-x-[-100%] hover:before:translate-y-[-280%] hover:before:dark:bg-indigo-600 hover:before:border-[1px] hover:before:border-indigo-600 hover:after:content-['Monitoria_Avulsa'] hover:after:block hover:after:absolute hover:after:p-1 hover:after:rounded-md hover:after:dark:bg-indigo-600 hover:after:bg-indigo-500 hover:after:top-[50%] hover:after:left-[50%] hover:after:translate-x-[-40%] hover:after:translate-y-[-150%]
@@ -229,33 +229,33 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="p-1 text-center">
+                                        <td className="p-1 text-center text-sm">
                                             {item.Name + " " + item.Last_Name}
                                         </td>
-                                        <td className="p-1 text-center">{item.Evaluator_Name}</td>
-                                        <td className="text-center">{item.Grade_Value}</td>
-                                        <td className="text-center">
+                                        <td className="p-1 text-center text-sm">{item.Evaluator_Name}</td>
+                                        <td className="text-center text-sm">{item.Grade_Value}</td>
+                                        <td className="text-center text-sm">
                                             {item.Grade_Value_Behavioral}
                                         </td>
-                                        <td className="p-2 text-center">{item.Creditor}</td>
-                                        <td className="p-1 text-center">{item.Creditor_Unique}</td>
-                                        <td className="p-1 text-center">{item.Ocorrence}</td>
-                                        <td className="p-1 text-center">{item.Description}</td>
-                                        <td className="p-1 text-center">{item.Date}</td>
-                                        <td className="p-1 text-center"
+                                        <td className="p-2 text-center text-sm">{item.Creditor}</td>
+                                        <td className="p-1 text-center text-sm">{item.Creditor_Unique}</td>
+                                        <td className="p-1 text-center text-sm">{item.Ocorrence}</td>
+                                        <td className="p-1 text-center text-sm">{item.Description}</td>
+                                        <td className="p-1 text-center text-sm">{item.Date}</td>
+                                        <td className="p-1 text-center text-sm"
                                         >
                                             {item.FeedbackResponsable == null
                                                 ? "Aguardando feedback"
                                                 : item.FeedbackResponsable}
                                         </td>
-                                        <td className="p-1 text-center"
+                                        <td className="p-1 text-center text-sm"
                                         >
                                             {item.FeedbackDate == null
                                                 ? "N/A"
                                                 : item.FeedbackDate}
                                         </td>
                                         <td
-                                            className="p-1 text-center"
+                                            className="p-1 text-center text-sm"
                                         >
                                             <div className={`flex justify-center items-center gap-2`}>
                                                 {item.FeedbackResponsable == null && (
