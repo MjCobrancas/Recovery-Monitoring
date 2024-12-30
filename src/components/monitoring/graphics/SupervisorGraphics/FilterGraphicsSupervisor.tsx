@@ -102,6 +102,16 @@ export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraph
             }
         }
 
+        if (id_backoffice.length == 0) {
+            toast.error("É necessário que você selecione pelo menos um supervisor para utilizar este filtro!", {
+                duration: 7000
+            })
+
+            setDisableAllButtons(false)
+
+            return
+        }
+
         const responseData = await getMonitoringGraphicsSupervisor(id_backoffice, String(data.date_init), String(data.date_end))
 
         if (responseData.data == null) {
