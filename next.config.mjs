@@ -63,6 +63,11 @@ const nextConfig = {
     async redirects() {
         return [
             {
+                source: '/absenteeism',
+                destination: `${process.env.MANAGEMENT_DOMAIN}/absenteeism`,
+                permanent: true
+            },
+            {
                 source: '/user',
                 destination: `${process.env.MANAGEMENT_DOMAIN}/user`,
                 permanent: true

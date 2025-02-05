@@ -20,7 +20,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
 
     const router = useRouter()
 
-    const [behavioralNote, setBehavioralNote] = useState(0)
+    const [behavioralNote, setBehavioralNote] = useState(1000)
     const [questionsNote, setQuestionsNote] = useState(0)
     const [fileLength, setFileLength] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
@@ -70,7 +70,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                         idQuestion: item.idQuestion,
                         question: item.question,
                         note: item.note,
-                        answer: false
+                        answer: true
                     }
                 }),
                 file: null,

@@ -14,10 +14,26 @@ import {
     ChartTooltipContent
 } from "@/components/ui/chart"
 import { ISupervisorGraphicsProps } from "@/interfaces/monitoring/graphics/supervisor-graphics/ISupervisorGraphics"
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
+import { useState } from "react"
 import { Cell, Label, Pie, PieChart } from "recharts"
 
 export function SupervisorGraphics({ graphicsSupervisor, countCreditor, setValueCountCreditor, graphicsChartConfig }: ISupervisorGraphicsProps) {
+
+    const [minimumNumber, setMinimumNumber] = useState(0)
+    const [maxNumber, setMaxNumber] = useState(4)
+
+    function handleDiscount() {
+        setMinimumNumber(state => state - 4)
+        setMaxNumber(state => state - 4)
+    }
+
+    function handleMaxCount() {
+        setMinimumNumber(state => state + 4)
+        setMaxNumber(state => state + 4)
+    }
 
     return (
         <>
@@ -28,26 +44,42 @@ export function SupervisorGraphics({ graphicsSupervisor, countCreditor, setValue
                             <CardTitle>Monitorias realizadas - {graphicsSupervisor.creditors[countCreditor].name}</CardTitle>
                             <CardDescription>Quantidade de monitorias realizadas por supervisores {countCreditor == 0 ? "em todas as carteiras" : `na carteira da ${graphicsSupervisor.creditors[countCreditor].name}`}</CardDescription>
                         </div>
-                        <div className="grid grid-cols-5 max-h-[280px] overflow-auto overflow-x-hidden">
+                        <div className="relative grid grid-cols-5 h-[150px] overflow-auto overflow-x-hidden">
+                            <button
+                                className="absolute z-40 left-1 top-1/2 -translate-y-1/2 bg-blue-400 text-white px-2 py-1 rounded-md hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-700 duration-300"
+                                disabled={minimumNumber == 0}
+                                onClick={handleDiscount}
+                            >
+                                <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4" />
+                            </button>
                             {graphicsSupervisor.creditors.map((creditor, index) => {
+
+                                if (index < minimumNumber || index > maxNumber) {
+                                    return
+                                }
+
                                 return (
                                     <button
                                         key={index}
                                         data-active={index == countCreditor}
-                                        className={classNames("relative w-[200px] z-30 flex flex-1 flex-col justify-center gap-1 border-[1px] border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6", {
-                                            "border-[1px] border-b": graphicsSupervisor.creditors.length > 5
+                                        className={classNames("relative w-[200px] border-l-[1px] z-30 flex flex-1 flex-col justify-center gap-1 py-8 text-left data-[active=true]:bg-muted/50", {
+                                            "border-r-[1px]": graphicsSupervisor.creditors.length - 1 == index && index < maxNumber 
                                         })}
                                         onClick={() => setValueCountCreditor(index)}
                                     >
-                                        <span className="text-xs text-muted-foreground">
-                                            {creditor.name}
-                                        </span>
-                                        <span className="text-base font-bold leading-none sm:text-base">
-                                            Monitorias realizadas: <span className="text-xl">{creditor.total}</span>
+                                        <span className="w-full px-9 text-center text-base font-semibold leading-none sm:text-base">
+                                            {creditor.name}: <span className="text-sm font-normal">{creditor.total}</span>
                                         </span>
                                     </button>
                                 )
                             })}
+                            <button
+                                className="absolute z-40 right-1 top-1/2 -translate-y-1/2 bg-blue-400 text-white px-2 py-1 rounded-md hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-700 duration-300"
+                                disabled={maxNumber >= graphicsSupervisor.creditors.length}
+                                onClick={handleMaxCount}
+                            >
+                                <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                            </button>
                         </div>
                     </CardHeader>
                     <CardContent className="flex-1 pb-0">

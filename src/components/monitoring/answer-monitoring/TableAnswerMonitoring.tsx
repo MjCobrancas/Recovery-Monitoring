@@ -37,7 +37,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
     }
 
     const [hasQuestions, setHasQuestions] = useState(questions.questions.length == 0 && questions.behavioral.length == 0 ? false : true)
-    const [behavioralNote, setBehavioralNote] = useState(0)
+    const [behavioralNote, setBehavioralNote] = useState(1000)
     const [questionsNote, setQuestionsNote] = useState(0)
     const [fileLength, setFileLength] = useState(0)
     const [disableButton, setDisableButton] = useState(false)
@@ -69,7 +69,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                         idQuestion: item.idQuestion,
                         question: item.question,
                         note: item.note,
-                        answer: false
+                        answer: true
                     }
                 }),
                 file: null,

@@ -1,7 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { IOperatorGraphicsProps } from "@/interfaces/monitoring/graphics/operators-graphics/IOperatorGraphics";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
@@ -24,6 +27,19 @@ const chartConfig = {
 
 export function OperatorsGraphics({ graphics, countOcorrence, countAging, handleSetCount }: IOperatorGraphicsProps) {
 
+    const [minimumNumber, setMinimumNumber] = useState(0)
+    const [maxNumber, setMaxNumber] = useState(3)
+
+    function handleDiscount() {
+        setMinimumNumber(state => state - 4)
+        setMaxNumber(state => state - 4)
+    }
+
+    function handleMaxCount() {
+        setMinimumNumber(state => state + 4)
+        setMaxNumber(state => state + 4)
+    }
+
     return (
         <>
             {graphics != null && (
@@ -36,8 +52,20 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                     Mostrando a média das notas de negociação e comportamental dos operadores em relação a carteira {graphics.creditor.name}
                                 </CardDescription>
                             </div>
-                            <div className="grid grid-cols-5">
+                            <div className="relative grid grid-cols-5">
+                                <button
+                                    className="absolute z-40 left-1 top-1/2 -translate-y-1/2 bg-blue-400 text-white px-2 py-1 rounded-md hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-700 duration-300"
+                                    disabled={minimumNumber == 0}
+                                    onClick={handleDiscount}
+                                >
+                                    <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4" />
+                                </button>
                                 {graphics.creditor.ocorrences.map((ocorrence, indexOcorrence: number) => {
+
+                                    if (indexOcorrence < minimumNumber || indexOcorrence > maxNumber) {
+                                        return
+                                    }
+
                                     return (
                                         <>
                                             {ocorrence.agings.map((aging, indexAging) => {
@@ -45,15 +73,15 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                                     <button
                                                         key={indexAging}
                                                         data-active={indexOcorrence == countOcorrence && indexAging == countAging}
-                                                        className={classNames("relative w-[200px] h-[150px] z-30 flex flex-1 flex-col justify-center gap-1 border-[1px] border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6", {
-                                                            "border-[1px] border-b": graphics.creditor.ocorrences.length > 5
+                                                        className={classNames("relative w-[200px] h-[150px] px-9 z-30 flex flex-1 flex-col justify-center gap-1 py-4 text-left border-l-[1px] data-[active=true]:bg-muted/50", {
+                                                            "border-r-[1px]": graphics.creditor.ocorrences.length - 1 == indexOcorrence && indexOcorrence < maxNumber
                                                         })}
                                                         onClick={() => handleSetCount(indexOcorrence, indexAging)}
                                                     >
-                                                        <span className="text-xs text-muted-foreground">
+                                                        <span className="w-full text-sm text-center font-bold leading-none sm:text-sm">
                                                             {ocorrence.name}
                                                         </span>
-                                                        <span className="text-sm font-bold leading-none sm:text-sm">
+                                                        <span className="w-full text-xs text-center text-muted-foreground">
                                                             Fase: {aging.name}
                                                         </span>
                                                     </button>
@@ -62,6 +90,13 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                         </>
                                     )
                                 })}
+                                <button
+                                    className="absolute z-40 right-1 top-1/2 -translate-y-1/2 bg-blue-400 text-white px-2 py-1 rounded-md hover:bg-blue-500 disabled:bg-gray-400 dark:disabled:bg-gray-700 duration-300"
+                                    disabled={maxNumber >= graphics.creditor.ocorrences.length}
+                                    onClick={handleMaxCount}
+                                >
+                                    <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
+                                </button>
                             </div>
                         </CardHeader>
                         <CardContent className="px-2 sm:p-6">

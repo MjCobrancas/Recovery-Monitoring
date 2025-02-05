@@ -13,6 +13,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { SelectSupervisor } from "./SelectSupervisor";
 
 export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraphicsSupervisor, setValueGraphicsChartConfig, setValueCountCreditor }: IFilterGraphicsSupervisorProps) {
 
@@ -142,12 +143,10 @@ export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraph
 
     return (
         <div
-            className={classNames("flex flex-col justify-center items-center mx-4 py-10 border-x-[1px] border-t-[1px] rounded-t-lg", {
+            className={classNames("flex flex-col justify-center items-center mx-4 py-10 border-x-[1px]", {
                 "border-b-[1px] mb-10": graphicsSupervisorData == null
             })}
         >
-            <h2 className="font-medium mb-10">Filtro dos gráficos</h2>
-
             <form
                 className="w-full h-full flex flex-col justify-center items-center gap-4"
                 onSubmit={handleSubmit(handleGetSupervisors)}
@@ -191,16 +190,25 @@ export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraph
                         />
                     </FieldForm>
 
+                    <SelectSupervisor 
+                        supervisors={fields}
+                        changeSupervisorStatus={changeSupervisorStatus}
+                        checkAllSupervisors={checkAllSupervisors}
+                        disableAllButtons={disableAllButtons}
+                        foundSupervisors={foundSupervisors}
+                        handleCheckAllSupervisors={handleCheckAllSupervisors}
+                    />
+
                     {foundSupervisors ? (
                         <Button
                             text="Buscar"
-                            styles="w-fit px-6 py-2 self-end"
+                            styles="w-fit text-sm px-6 py-[10px] self-end"
                             disabled={disableAllButtons}
                         />
                     ) : (
                         <Button
                             text="Buscar supervisores"
-                            styles="w-fit px-6 py-2 self-end"
+                            styles="w-fit text-sm px-6 py-[10px] self-end"
                             disabled={disableAllButtons}
                         />
                     )}
@@ -208,58 +216,11 @@ export function FilterGraphicsSupervisor({ graphicsSupervisorData, setValueGraph
                     <Button
                         type="button"
                         text="Remover filtros"
-                        styles="w-fit px-6 py-2 border-red-400 text-red-400 hover:bg-red-400 focus:bg-red-400 self-end"
+                        styles="w-fit text-sm px-6 py-[10px] border-red-400 text-red-400 hover:bg-red-400 focus:bg-red-400 self-end"
                         disabled={disableAllButtons || !didFilter}
                         OnClick={removeFilters}
                     />
                 </div>
-                {foundSupervisors && (
-                    <div className="w-[400px] h-fit max-h-[300px] border-[1px] p-2 border-slate-200 rounded-md overflow-x-auto">
-                        <div
-                            className="flex justify-between items-center"
-                        >
-                            <h3 className="font-medium">Supervisores:</h3>
-                            <div className="flex justify-center items-center gap-1">
-                                <p>Marcar todos:</p>
-                                <button
-                                    type="button"
-                                    className={classNames("w-6 h-6 flex justify-center items-center py-1 duration-300 text-white rounded-md border-[2px]", {
-                                        "bg-emerald-400 border-emerald-400 hover:bg-emerald-500 hover:border-emerald-500 dark:bg-emerald-500 dark:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:border-emerald-600": checkAllSupervisors,
-                                        "border-slate-300 hover:bg-slate-200 dark:border-slate-400 dark:hover:bg-slate-400": !checkAllSupervisors
-                                    })}
-                                    onClick={() => handleCheckAllSupervisors(checkAllSupervisors)}
-                                >
-                                    {checkAllSupervisors && (
-                                        <FontAwesomeIcon icon={faCheck} />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-
-                        {fields.map((item, index) => {
-                            return (
-                                <div
-                                    className="my-4 flex justify-between items-center"
-                                    key={index}
-                                >
-                                    <p>{item.Supervisor}</p>
-                                    <button
-                                        type="button"
-                                        className={classNames("w-6 h-6 flex justify-center items-center py-1 duration-300 text-white rounded-md border-[2px]", {
-                                            "bg-emerald-400 border-emerald-400 hover:bg-emerald-500 hover:border-emerald-500 dark:bg-emerald-500 dark:border-emerald-500 dark:hover:bg-emerald-600 dark:hover:border-emerald-600": item.Status,
-                                            "border-slate-300 hover:bg-slate-200 dark:border-slate-400 dark:hover:bg-slate-400": !item.Status
-                                        })}
-                                        onClick={() => changeSupervisorStatus(item.Status, index)}
-                                    >
-                                        {item.Status && (
-                                            <FontAwesomeIcon icon={faCheck} />
-                                        )}
-                                    </button>
-                                </div>
-                            )
-                        })}
-                    </div>
-                )}
             </form>
         </div>
     )

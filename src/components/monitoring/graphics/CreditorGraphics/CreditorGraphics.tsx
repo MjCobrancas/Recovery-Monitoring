@@ -56,19 +56,19 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
                                 <button
                                     key={index}
                                     data-active={index == count}
-                                    className={classNames("relative w-[200px] z-30 flex flex-1 flex-col justify-center gap-1 border-[1px] border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6", {
-                                        "border-[1px] border-b": graphics.creditor.ocorrences.length > 5
+                                    className={classNames("flex flex-1 flex-col justify-center relative w-[200px] py-8 z-30 gap-1 border-l-[1px] text-left data-[active=true]:bg-muted/50", {
+                                        "border-r-[1px]": index == graphics.creditor.ocorrences.length - 1 && index < 4
                                     })}
                                     onClick={() => setCount(index)}
                                 >
-                                    <span className="text-xs text-muted-foreground">
+                                    <span className="w-full text-center text-sm font-bold leading-none sm:text-sm">
                                         {ocorrence.name}
                                     </span>
-                                    <span className="text-sm font-bold leading-none sm:text-sm">
-                                        Nota de negociação: <span className="text-base">{ocorrence.grade_value_average}</span>
+                                    <span className="w-full text-center text-sm text-muted-foreground">
+                                        Nota: <span className="text-base text-[#3b82f6]">{ocorrence.grade_value_average}</span>
                                     </span>
-                                    <span className="text-sm font-bold leading-none sm:text-sm mt-4">
-                                        Nota comportamental: <span className="text-base">{ocorrence.grade_value_behavioral_average}</span>
+                                    <span className="w-full text-center text-sm text-muted-foreground">
+                                        Nota: <span className="text-base text-[#10b981]">{ocorrence.grade_value_behavioral_average}</span>
                                     </span>
                                 </button>
                             )

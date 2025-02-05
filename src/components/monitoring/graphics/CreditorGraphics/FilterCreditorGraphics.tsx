@@ -57,8 +57,7 @@ export function FilterCreditorGraphics({ creditorsUniqueList, setValueGraphicsLi
     }
 
     return (
-        <div className="flex flex-col justify-center items-center mx-4 py-10 border-x-[1px] border-t-[1px] rounded-t-lg">
-            <h2 className="font-medium mb-10">Filtro dos gráficos</h2>
+        <div className="flex flex-col justify-center items-center mx-4 py-10 border-x-[1px]">
             <form
                 className="w-full h-full flex justify-center items-center gap-1"
                 onSubmit={handleSubmit(handleFilterCreditorGraphics)}
@@ -128,12 +127,12 @@ export function FilterCreditorGraphics({ creditorsUniqueList, setValueGraphicsLi
                 </FieldForm>
                 <Button
                     text="Filtrar"
-                    styles="ml-1 w-fit self-end px-6 py-[6px]"
+                    styles="ml-1 w-fit text-sm self-end px-6 py-[10px]"
                     disabled={disableAllButtons}
                 />
                 <Button
                     text="Remover filtros"
-                    styles="w-fit self-end px-6 py-[6px] text-red-400 border-red-400 hover:bg-red-400 hover:text-white focus:bg-red-400"
+                    styles="w-fit self-end text-sm px-6 py-[10px] text-red-400 border-red-400 hover:bg-red-400 hover:text-white focus:bg-red-400"
                     disabled={!didFilter || disableAllButtons}
                     OnClick={removeFilter}
                 />

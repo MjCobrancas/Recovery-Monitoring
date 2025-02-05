@@ -10,7 +10,7 @@ export function SelectGraphics({ graphicType, setValueGraphicType }: ISelectGrap
     }
 
     return (
-        <div className="h-[170px] mb-16 flex justify-between items-center gap-2 border-[1px] rounded-lg border-slate-200 mx-4">
+        <div className="h-[170px] flex justify-between items-center gap-2 border-[1px] rounded-t-lg border-slate-200 mx-4">
             <div className="px-6">
                 <h2 className="font-medium">Navegue entre as abas</h2>
                 <p className="text-sm text-gray-500">Lista com os gráficos disponíveis na aplicação</p>

@@ -10,7 +10,7 @@ export const primaryRoutes: Array<PrimaryRoutes> = [
     {
       name: "Coaching",
       level: 2,
-      permissions: [1, 2, 3, 4, 5],
+      permissions: [0],
     },
     {
       name: "Gestão",
@@ -30,7 +30,7 @@ export const primaryRoutes: Array<PrimaryRoutes> = [
     {
       name: "Treinamento",
       level: 9,
-      permissions: [1],
+      permissions: [1, 2, 3, 4],
     },
   ]
 
@@ -44,19 +44,19 @@ export const secondRoutes: Array<SecondRoutes> = [
     {
         name: "DashCoaching",
         level: 2,
-        permissions: [1, 2, 3, 4, 5],
+        permissions: [0],
         route: "/coaching/dash-coaching",
     },
     {
         name: "Formulário",
         level: 2,
-        permissions: [1, 2, 3, 4, 5],
+        permissions: [0],
         route: "/coaching/form-coaching",
     },
     {
         name: "Lista",
         level: 2,
-        permissions: [1, 2, 3, 4, 5],
+        permissions: [0],
         route: "/coaching/list-coaching",
     },
     {
@@ -98,32 +98,44 @@ export const secondRoutes: Array<SecondRoutes> = [
     {
         name: "Integrantes",
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/members"
     },
     {
         name: "Instruções",
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/instructions"
     },
     {
         name: "Avaliações realizadas",
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/realized"
     },
     {
         name: "Monitorar tarefas",
         level: 10,
-        permissions: [1],
+        permissions: [1, 2],
         route: "/tasks/monitoring"
     },
     {
         name: "Lista de tarefas do usuário",
         level: 10,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/tasks/user"
+    },
+    {
+        name: "Histórico de tarefas",
+        level: 10,
+        permissions: [1, 2, 3, 4],
+        route: "/tasks/history"
+    },
+    {
+        name: "Monitorar solicitações de recurso",
+        level: 10,
+        permissions: [1, 2],
+        route: "/tasks/appeal-monitoring"
     }
 ]
 
@@ -208,31 +220,31 @@ export const actionRoutes: Array<ActionRoutes> = [
 
     {
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/creditor-content"
     },
 
     {
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/operator-content"
     },
 
     {
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/change-phase"
     },
 
     {
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/global-content"
     },
 
     {
         level: 9,
-        permissions: [1],
+        permissions: [1, 2, 3, 4],
         route: "/workout/prepare-avaliation"
     }
 ]

@@ -32,6 +32,7 @@ interface IMonitoringQuestions {
     position: number
     note: number
     isBehavioral: boolean
+    is_critical_question: boolean
     subquestion: {
         idSubquestion: number
         subquestion: number
@@ -44,6 +45,7 @@ interface IMonitoringBehavioral {
     position: number
     note: number
     isBehavioral: boolean
+    is_critical_question: boolean
 }
 
 interface IMonitoringResponse {

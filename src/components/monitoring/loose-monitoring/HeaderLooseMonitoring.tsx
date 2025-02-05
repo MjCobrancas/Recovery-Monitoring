@@ -2,9 +2,9 @@
 
 import { verifyUserToken } from "@/api/generics/verifyToken";
 import { getMonitoringQuestions } from "@/api/monitoring/answer-monitoring/getMonitoringQuestions";
-import { getAgingByCreditorAndOcorrence } from "@/api/monitoring/config-monitoring/getAgingByCreditorAndOcorrence";
+import { getCreditorRelationWithAgingsLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithAgingLooseMonitoring";
+import { getCreditorRelationWithOcorrenceLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithOcorrenceLooseMonitoring";
 import { getCreditorRelationWithCreditorUnique } from "@/api/monitoring/config-monitoring/getCreditorRelationWithCreditorUnique";
-import { getOcorrencesByCreditor } from "@/api/monitoring/config-monitoring/getOcorrencesByCreditor";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Option } from "@/components/Option";
@@ -18,8 +18,6 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import TableLooseMonitoring from "./TableLooseMonitoring";
-import { getCreditorRelationWithOcorrenceLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithOcorrenceLooseMonitoring";
-import { getCreditorRelationWithAgingsLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithAgingLooseMonitoring";
 
 export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questions, operators }: ILooseMonitoringHeader) {
 
