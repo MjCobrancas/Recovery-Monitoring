@@ -99,7 +99,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
 
         setMonitoryUserValues(monitoryUser.data!)
 
-        if (monitoryUser.data?.monitoring[0].Id_Creditor != 10 ) {
+        if (monitoryUser.data?.monitoring[0].Id_Creditor != 10) {
             const getMonitoryAudio: any = await getAudioOfMonitory(String(id_form))
 
             setLoadingAudio(false)
@@ -115,7 +115,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
         }
 
         setLoadingAudio(false)
-        
+
     }
 
     return (
@@ -161,7 +161,8 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                 isDidFilter={isDidFilter}
             />
 
-            <section className={`max-h-[24.8rem] overflow-y-auto mt-4 px-2`}>
+            <section className={`relative max-h-[24.8rem] overflow-y-auto px-2 mt-4`}>
+                <div className="absolute -top-[6px] right-1 font-medium">{monitoryRealized.length} resultados encontrados.</div>
                 <div>
                     <table className="w-full mx-auto my-4">
                         <thead className="bg-gray-200 dark:bg-zinc-800">
@@ -170,7 +171,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
 
                                 </th>
 
-                                <th className="font-semibold text-sm p-2 dark:text-white/80 rounded-tl"
+                                <th className="font-semibold text-sm p-2 dark:text-white/80"
                                 >
                                     Negociador
                                 </th>
@@ -184,7 +185,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                     Equipe
                                 </th>
                                 <th className="font-semibold text-sm p-2 dark:text-white/80">
-                                    Credor 
+                                    Credor
                                 </th>
                                 <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Ocorrência
@@ -262,8 +263,8 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                                     <button
                                                         type="button"
                                                         className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
-                                                    rounded-md px-2 py-[5px]
-                                                `}
+                                                            rounded-md px-2 py-[5px]
+                                                        `}
                                                         name="idForm"
                                                         value={item.Id_Form}
                                                         disabled={disableAllButtons}
@@ -278,8 +279,8 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                                 <button
                                                     type="button"
                                                     className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white
-                                                rounded-md px-2 py-[5px]
-                                            `}
+                                                        rounded-md px-2 py-[5px]
+                                                    `}
                                                     name="idForm"
                                                     disabled={disableAllButtons}
                                                     onClick={() => handleGetUserMonitory(item.Id_Form)}

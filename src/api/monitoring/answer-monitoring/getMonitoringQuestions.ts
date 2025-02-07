@@ -34,8 +34,6 @@ export async function getMonitoringQuestions(values: { Id_Creditor: number, Id_C
         .then(async (value) => {
             const data: IMonitoringResponse = await value.json();
 
-            console.log(data)
-
             if (value.status == 400) {
                 return {
                     data: null,

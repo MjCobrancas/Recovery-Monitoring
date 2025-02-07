@@ -4,18 +4,19 @@ import { ITokenUserInitialValues } from "@/interfaces/Generics";
 import { ISchedulesQuantity, ISchedulesResponse } from "@/interfaces/monitoring/schedule-monitoring/ISchedules";
 import { GetUserToken } from "@/utils/GetUserToken";
 
-export async function getAllSchedule(skip: string = "0", take: string = "15") {
+export async function getAllSchedule(id_creditor: number = 0, id_ocorrence: number = 0, id_aging: number = 0, negotiator_name: string = "", negotiator_last_name: string = "", date_type: string = "") {
     const userParse: ITokenUserInitialValues = GetUserToken()
 
     const resp = await fetch(
-        `${process.env.BACKEND_DOMAIN}/get-all-agenda?&skip=${skip}&take=${take}`,
+        `${process.env.BACKEND_DOMAIN}/get-users-schedules`,
         {
-            method: "GET",
+            method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + userParse.accessToken,
             },
+            body: JSON.stringify({ id_creditor, id_ocorrence, id_aging, negotiator_name, negotiator_last_name, date_type }),
             next: {
                 tags: ["get-all-schedules"]
             }
@@ -25,12 +26,12 @@ export async function getAllSchedule(skip: string = "0", take: string = "15") {
             const listed = await value.json();
 
             const agendas = {
-                data: listed.data as ISchedulesResponse[],
-                count: listed.length as number,
-                quantity: listed.quantityDataNumbers as ISchedulesQuantity,
-            };
+                data: listed.data.data as ISchedulesResponse[],
+                count: listed.data.data.length as number,
+                quantity: listed.data.quantityDataNumbers as ISchedulesQuantity,
+            }
 
-            if (value.status == 400) {
+            if (listed.errors.length > 0) {
                 return {
                     agendas: {
                         data: [],
@@ -43,7 +44,7 @@ export async function getAllSchedule(skip: string = "0", take: string = "15") {
                         },
                     },
                     status: false,
-                };
+                }
             }
 
             return {
@@ -64,8 +65,8 @@ export async function getAllSchedule(skip: string = "0", take: string = "15") {
                     },
                 },
                 status: false,
-            };
-        });
+            }
+        })
 
     return resp;
 }

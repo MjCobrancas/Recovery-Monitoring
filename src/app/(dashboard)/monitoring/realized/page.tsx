@@ -2,7 +2,7 @@ import { getAllBackOffices } from "@/api/generics/getAllBackOffices";
 import { getAllCreditorsUnique } from "@/api/generics/getAllCreditorsUnique";
 import { getAllOcorrences } from "@/api/generics/getAllOcorrences";
 import { getBackOffice } from "@/api/generics/getBackOfficeById";
-import { getAllMonitoringUser } from "@/api/monitoring/realized/getAllMonitoringUser";
+import { getMonitoringUsers } from "@/api/monitoring/realized/getMonitoringUsers";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
 import { ContainerMonitoryRealized } from "@/components/monitoring/realized/ContainerMonitoryRealized";
@@ -15,7 +15,7 @@ import { IMonitoryAllUsers } from "@/interfaces/monitoring/realized/IContainerMo
 
 export default async function Page() {
 
-    const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getAllMonitoringUser()
+    const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getMonitoringUsers()
     const creditorsUnique: ICreditorsUnique[] = await getAllCreditorsUnique()
     const ocorrences: IGetAllOcorrences = await getAllOcorrences()
     const backOffices: IBackOffices[] = await getBackOffice()

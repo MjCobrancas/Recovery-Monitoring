@@ -1,6 +1,5 @@
 import { verifyUserToken } from "@/api/generics/verifyToken";
-import { filterRealizedAgendas } from "@/api/monitoring/realized/filterRealizedAgendas";
-import { getAllMonitoringUser } from "@/api/monitoring/realized/getAllMonitoringUser";
+import { getMonitoringUsers } from "@/api/monitoring/realized/getMonitoringUsers";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Input } from "@/components/Input";
@@ -8,7 +7,7 @@ import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { IResultDefaultResponse } from "@/interfaces/Generics";
 import { IMonitoryAllUsers } from "@/interfaces/monitoring/realized/IContainerMonitoryRealized";
-import { IMonitoryRealizedFilterProps, IMonitoryRealizedForm } from "@/interfaces/monitoring/realized/IMonitoryRealizedFilter";
+import { IMonitoringObjectFilter, IMonitoryRealizedFilterProps, IMonitoryRealizedForm } from "@/interfaces/monitoring/realized/IMonitoryRealizedFilter";
 import { getDateToday } from "@/utils/DateToday";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,7 +18,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
 
     const router = useRouter()
 
-    const [lastObject, setLastObject] = useState<any>()
+    const [lastObject, setLastObject] = useState<IMonitoringObjectFilter>({ id_creditor: 0, id_ocorrence: 0, id_aging: 0, date_init: getDateToday(), date_end: getDateToday(), feedback: "", id_supervisor: 0, negotiator_name: "", negotiator_last_name: "" })
 
     const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm<IMonitoryRealizedForm>({
         defaultValues: {
@@ -42,7 +41,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
                 setValueReloadTable(false)
 
                 if (isDidFilter) {
-                    const getFiltredValues = await filterRealizedAgendas<typeof lastObject>(lastObject)
+                    const getFiltredValues = await getMonitoringUsers(lastObject.id_creditor, lastObject.id_ocorrence, lastObject.id_aging, lastObject.negotiator_name, lastObject.negotiator_last_name, lastObject.feedback, lastObject.date_init, lastObject.date_end, lastObject.id_supervisor)
 
                     if (!getFiltredValues.status) {
                         return
@@ -50,7 +49,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
 
                     setValueMonitoryRealized(getFiltredValues.data)
                 } else if (!isDidFilter) {
-                    const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getAllMonitoringUser()
+                    const monitoryUsers: IResultDefaultResponse<IMonitoryAllUsers[]> = await getMonitoringUsers()
 
                     if (!monitoryUsers.status) {
                         return
@@ -106,12 +105,8 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
             id_ocorrence: Number(data.ocorrence),
             id_aging: 0,
             id_supervisor: Number(data.supervisor),
-            date_type: String(data.Data),
             negotiator_name: name.trim(),
             negotiator_last_name: lastName?.trim() || "",
-            is_done: true,
-            take: 1000,
-            skip: 0,
             date_init: String(data.Data),
             date_end: String(data.DataEnd),
             feedback: String(data.feedback)
@@ -119,7 +114,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
 
         setLastObject(object)
 
-        const getFiltredValues = await filterRealizedAgendas<typeof object>(object)
+        const getFiltredValues = await getMonitoringUsers(Number(data.credor), Number(data.ocorrence), 0, name.trim(), lastName?.trim() || "", String(data.feedback), String(data.Data), String(data.DataEnd), Number(data.supervisor))
 
         setValueDisableButtons(false)
 

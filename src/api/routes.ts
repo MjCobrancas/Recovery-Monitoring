@@ -134,7 +134,7 @@ export const secondRoutes: Array<SecondRoutes> = [
     {
         name: "Monitorar solicitações de recurso",
         level: 10,
-        permissions: [1, 2],
+        permissions: [1],
         route: "/tasks/appeal-monitoring"
     }
 ]

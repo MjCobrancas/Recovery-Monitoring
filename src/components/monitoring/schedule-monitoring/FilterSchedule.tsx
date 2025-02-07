@@ -1,7 +1,7 @@
 'use client'
 
 import { verifyUserToken } from "@/api/generics/verifyToken";
-import { filterSchedule } from "@/api/monitoring/schedule-monitoring/scheduleFilter";
+import { getAllSchedule } from "@/api/monitoring/schedule-monitoring/getAllSchedule";
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Input } from "@/components/Input";
@@ -54,17 +54,7 @@ export function FilterSchedule({ creditorsUnique, ocorrences, setFilter }: IFilt
         setDisableButton(true)
         setDidFilter(true)
 
-        const object = {
-            id_creditor: Number(data.creditor),
-            id_ocorrence: Number(data.ocorrences),
-            id_aging: 0,
-            date_type: String(data.data),
-            negotiator_name: firstName,
-            negotiator_last_name: lastName,
-            is_done: false
-        }
-
-        const scheduleFilter = await filterSchedule<typeof object>(object)
+        const scheduleFilter = await getAllSchedule(Number(data.creditor), Number(data.ocorrences), 0, firstName, lastName, String(data.data))
 
         setDisableButton(false)
 
@@ -76,7 +66,7 @@ export function FilterSchedule({ creditorsUnique, ocorrences, setFilter }: IFilt
             return
         }
 
-        setFilter(scheduleFilter.data)
+        setFilter(scheduleFilter.agendas.data)
 
         toast.success("Sucesso ao filtrar os dados!", {
             duration: 5000

@@ -26,7 +26,6 @@ interface IMonitoryAllUsers {
     Id_Form: number
     Grade_Value: number
     Grade_Value_Behavioral: number
-    Creation_DT: string
     Date: string
     FeedbackDate: string | null
     FeedbackResponsable: string | null

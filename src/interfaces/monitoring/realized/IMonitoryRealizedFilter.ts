@@ -17,6 +17,18 @@ interface IMonitoryRealizedFilterProps {
     supervisor: IBackOffices[]
 }
 
+interface IMonitoringObjectFilter {
+    id_creditor: number
+    id_ocorrence: number
+    id_aging: number
+    negotiator_name: string
+    negotiator_last_name: string
+    id_supervisor: number
+    date_init: string
+    date_end: string
+    feedback: string
+}
+
 interface IMonitoryRealizedForm {
     supervisor: string
     credor: string
@@ -27,4 +39,4 @@ interface IMonitoryRealizedForm {
     feedback: string
 }
 
-export type { IMonitoryRealizedFilterProps, IMonitoryRealizedForm };
+export type { IMonitoryRealizedFilterProps, IMonitoryRealizedForm, IMonitoringObjectFilter };
