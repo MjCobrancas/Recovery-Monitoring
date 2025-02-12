@@ -8,6 +8,7 @@ import RemoveUserCookies from '@/api/auth/RemoveUserCookies';
 import { useRouter } from 'next/navigation';
 import { getTheme } from '@/api/theme/getTheme';
 import { toggleThemeSetCookie } from '@/api/theme/toggleTheme';
+import { Ancora } from '../Ancora';
 
 export function Header() {
     const [actualTheme, setActualTheme] = useState("light")

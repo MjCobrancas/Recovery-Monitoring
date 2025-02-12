@@ -30,7 +30,7 @@ export const primaryRoutes: Array<PrimaryRoutes> = [
     {
       name: "Treinamento",
       level: 9,
-      permissions: [1, 2, 3, 4],
+      permissions: [1, 2, 3, 4, 5, 6],
     },
   ]
 
@@ -96,6 +96,12 @@ export const secondRoutes: Array<SecondRoutes> = [
         route: "/monitoring/graphics"
     },
     {
+        name: "Lista de Feedbacks",
+        level: 8,
+        permissions: [1, 2, 3, 4],
+        route: "/monitoring/feedback-list"
+    },
+    {
         name: "Integrantes",
         level: 9,
         permissions: [1, 2, 3, 4],
@@ -104,7 +110,7 @@ export const secondRoutes: Array<SecondRoutes> = [
     {
         name: "Instruções",
         level: 9,
-        permissions: [1, 2, 3, 4],
+        permissions: [1, 2, 3, 4, 5, 6],
         route: "/workout/instructions"
     },
     {
@@ -212,6 +218,11 @@ export const actionRoutes: Array<ActionRoutes> = [
         route: "/monitoring/realized-print"
     },
 
+    {
+        level: 8,
+        permissions: [1, 2, 3, 4],
+        route: "/monitoring/create-feedback"
+    },
     {
         level: 2,
         permissions: [1, 2, 3, 4, 5],
