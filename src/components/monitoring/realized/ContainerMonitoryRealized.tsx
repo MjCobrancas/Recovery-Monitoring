@@ -15,7 +15,7 @@ import { DialogCreateFeedback } from "./DialogCreateFeedback"
 import { verifyUserToken } from "@/api/generics/verifyToken"
 import { useRouter } from "next/navigation"
 
-export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffices, supervisor, creditorsUnique }: IContainerMonitoryRealizedProps) {
+export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffices, avaliators, creditorsUnique, supervisors }: IContainerMonitoryRealizedProps) {
 
     const router = useRouter()
 
@@ -148,7 +148,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                 />
             </dialog>
             <MonitoryRealizedFilter
-                supervisor={supervisor}
+                avaliators={avaliators}
                 creditorsUnique={creditorsUnique}
                 ocorrences={ocorrences}
                 disableAllButtons={disableAllButtons}
@@ -159,6 +159,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                 reloadTable={reloadTable}
                 setValueReloadTable={setValueReloadTable}
                 isDidFilter={isDidFilter}
+                supervisors={supervisors}
             />
 
             <section className={`relative max-h-[24.8rem] overflow-y-auto px-2 mt-4`}>
@@ -176,6 +177,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                     Negociador
                                 </th>
                                 <th className="font-semibold text-sm p-2 dark:text-white/80">Avaliador</th>
+                                <th className="font-semibold text-sm p-2 dark:text-white/80">Supervisor</th>
                                 <th className="font-semibold text-sm p-2 dark:text-white/80">
                                     Nota de Negociação</th>
                                 <th className="font-semibold text-sm p-2 dark:text-white/80">
@@ -234,6 +236,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                             {item.Name + " " + item.Last_Name}
                                         </td>
                                         <td className="p-1 text-center text-sm">{item.Evaluator_Name}</td>
+                                        <td className="p-1 text-center text-sm">{item.Responsable_Name == "" ? "N/A" : item.Responsable_Name}</td>
                                         <td className="text-center text-sm">{item.Grade_Value}</td>
                                         <td className="text-center text-sm">
                                             {item.Grade_Value_Behavioral}
@@ -245,7 +248,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                         <td className="p-1 text-center text-sm">{item.Date}</td>
                                         <td className="p-1 text-center text-sm"
                                         >
-                                            {item.FeedbackResponsable == null
+                                            {item.FeedbackResponsable == ""
                                                 ? "Aguardando feedback"
                                                 : item.FeedbackResponsable}
                                         </td>
@@ -259,7 +262,7 @@ export function ContainerMonitoryRealized({ monitoryUsers, ocorrences, backOffic
                                             className="p-1 text-center text-sm"
                                         >
                                             <div className={`flex justify-center items-center gap-2`}>
-                                                {item.FeedbackResponsable == null && (
+                                                {item.FeedbackResponsable == "" && (
                                                     <button
                                                         type="button"
                                                         className={`bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-600 duration-100 text-white

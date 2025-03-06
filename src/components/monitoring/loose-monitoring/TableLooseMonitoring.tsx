@@ -11,12 +11,13 @@ import { Option } from "@/components/Option";
 import { SelectField } from "@/components/SelectField";
 import { AnswerLooseMonitoringData, AnswerLooseMonitoringSchema, ILooseMonitoringTable } from "@/interfaces/monitoring/loose-monitoring/ILooseMonitoring";
 import { zodResolver } from "@hookform/resolvers/zod";
+import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function TableLooseMonitoring({ questions, operators, headerInfo }: ILooseMonitoringTable) {
+export default function TableLooseMonitoring({ questions, operators, headerInfo, responsableList }: ILooseMonitoringTable) {
 
     const router = useRouter()
 
@@ -75,7 +76,8 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                 }),
                 file: null,
                 clientCode: "",
-                operator: "0"
+                operator: "0",
+                id_responsable: responsableList.length == 1 ? String(responsableList[0].Id_User) : "0"
             },
             resolver: zodResolver(AnswerLooseMonitoringSchema)
         })
@@ -219,7 +221,8 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                 idCreditorUnique: Number(headerInfo.creditorUnique),
                 idOcorrence: Number(headerInfo.ocorrence),
                 idAging: Number(headerInfo.phase),
-                isLooseMonitoring: true
+                isLooseMonitoring: true,
+                idResponsable: Number(data.id_responsable)
             },
             answers: [...questionsObject, ...behavioralObject],
             result: {
@@ -463,7 +466,7 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                             name="operator"
                                             id="operator"
                                             styles={`h-11
-                                                    ${errors.operator ? "border-[--label-color-error] dark:border-[--label-color-error]" : ""}
+                                                    ${errors.operator ? "border-red-400 dark:border-red-400" : ""}
                                                 `}
                                             onForm={true}
                                             value={watch("operator")}
@@ -485,6 +488,58 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                     </FieldForm>
 
                                     <FieldForm
+                                        name="Responsável"
+                                        error={errors.id_responsable && "Inválido"}
+                                        styles="w-fit"
+                                    >
+
+                                        {responsableList.length == 1 ? (
+                                            <SelectField
+                                                id="id_responsable"
+                                                name="id_responsable"
+                                                styles={classNames("w-[400px]", {
+                                                    "border-red-400": errors.id_responsable
+                                                })}
+                                                disabled={true}
+                                            >
+                                                {responsableList.map((responsable) => {
+                                                    return (
+                                                        <Option
+                                                            key={responsable.Id_User}
+                                                            value={responsable.Id_User}
+                                                            firstValue={responsable.Name}
+                                                        />
+                                                    )
+                                                })}
+                                            </SelectField>
+                                        ) : (
+                                            <SelectField
+                                                id="id_responsable"
+                                                name="id_responsable"
+                                                onForm={true}
+                                                register={register}
+                                                value={watch("id_responsable")}
+                                                styles={classNames("w-[400px]", {
+                                                    "border-red-400": errors.id_responsable
+                                                })}
+                                            >
+                                                <Option value={"0"} firstValue="Selecione" />
+
+                                                {responsableList.map((responsable) => {
+                                                    return (
+                                                        <Option
+                                                            key={responsable.Id_User}
+                                                            value={responsable.Id_User}
+                                                            firstValue={responsable.Name}
+                                                        />
+                                                    )
+                                                })}
+                                            </SelectField>
+                                        )}
+
+                                    </FieldForm>
+
+                                    <FieldForm
                                         label="clientCode"
                                         name="Código do Cliente:"
                                         error={errors.clientCode && "Inválido"}
@@ -499,6 +554,9 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                             register={register}
                                             required
                                             maxlength={50}
+                                            styles={classNames("", {
+                                                "border-red-400": errors.clientCode
+                                            })}
                                         />
                                     </FieldForm>
 
@@ -509,8 +567,8 @@ export default function TableLooseMonitoring({ questions, operators, headerInfo 
                                     >
                                         <textarea
                                             id="observation"
-                                            className={`block my-1 w-full h-28 border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-zinc-700 dark:border-zinc-900
-                                                        ${errors.observation ? "focus:border-[--label-color-error] focus:dark:border-[--label-color-error]" : ""}
+                                            className={`block my-1 w-full h-28 border-2 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-zinc-700
+                                                        ${errors.observation ? "border-[--label-color-error] focus:border-[--label-color-error] dark:border-[--label-color-error] focus:dark:border-[--label-color-error]" : "border-slate-400 dark:border-zinc-900"}
                                                 `}
                                             {...register("observation")}
                                             value={watch("observation")}

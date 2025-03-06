@@ -30,6 +30,7 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                 <tr>
                                     <th scope="col" className="px-6 py-3"> Negociador </th>
                                     <th scope="col" className="px-6 py-3"> Avaliador </th>
+                                    <th scope="col" className="px-6 py-3"> Supervisor </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Negociação </th>
                                     <th scope="col" className="px-6 py-3"> Nota de Comportamento </th>
                                     <th scope="col" className="px-6 py-3 print:hidden"> Equipe </th>
@@ -52,6 +53,9 @@ export function DialogMonitoryUser({ userMonitoryValues, closeDialogMonitory, au
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
                                         <span className="mr-1">{userMonitoryValues?.monitoring[0]?.evaluator_name}</span>
                                         {userMonitoryValues?.monitoring[0]?.evaluator_last_name}
+                                    </td>
+                                    <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
+                                        {userMonitoryValues.monitoring[0]?.responsable_name == "" ? "N/A" : userMonitoryValues.monitoring[0]?.responsable_name}
                                     </td>
                                     <td className="px-6 py-4 text-base font-semibold dark:text-slate-50">
                                         {userMonitoryValues?.monitoring[0]?.negotiator_note}

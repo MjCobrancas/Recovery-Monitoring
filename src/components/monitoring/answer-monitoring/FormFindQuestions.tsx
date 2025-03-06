@@ -1,5 +1,6 @@
 'use client'
 
+import { getAllSupervisors } from "@/api/generics/getAllSupervisors";
 import { getMonitoringQuestions } from "@/api/monitoring/answer-monitoring/getMonitoringQuestions";
 import { getCreditorRelationWithAgingsLooseMonitoring } from "@/api/monitoring/config-monitoring/creditor-relation-loose-monitoring/getCreditorRelationWithAgingLooseMonitoring";
 import { Button } from "@/components/Button";
@@ -14,7 +15,7 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export function FormFindQuestions({ config, creditorsUnique, schedule, setQuestionsValue, setValueIdCreditorUnique, setValueIdAging, isSpecialCreditor }: IFormFindQuestions) {
+export function FormFindQuestions({ config, creditorsUnique, schedule, setQuestionsValue, setValueIdCreditorUnique, setValueIdAging, isSpecialCreditor, setResponsablesList }: IFormFindQuestions) {
 
     const [disableAllButtons, setDisableAllButtons] = useState(false)
     const [agings, setAgings] = useState<IAgingsRelation[]>([])
@@ -78,6 +79,10 @@ export function FormFindQuestions({ config, creditorsUnique, schedule, setQuesti
 
             return
         }
+
+        const responsables = await getAllSupervisors(Number(config[0].Id_Creditor) == 58 ? 18 : Number(data.id_creditor_unique))
+
+        setResponsablesList(responsables)
 
         setValueIdAging(Number(data.id_aging))
 

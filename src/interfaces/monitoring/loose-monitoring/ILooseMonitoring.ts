@@ -1,8 +1,8 @@
 import { ICreditors } from "@/interfaces/generics/ICreditors";
+import { IOperator } from "@/interfaces/generics/IOperator";
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
 import { z } from "zod";
 import { IMonitoringResponse } from "../answer-monitoring/IAnswerMonitoringQuestions";
-import { IOperator } from "@/interfaces/generics/IOperator";
-import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 
 interface ILooseMonitoringContainer {
     creditors: ICreditors[]
@@ -27,6 +27,7 @@ interface ILooseMonitoringTable {
     questions: IMonitoringResponse
     operators: IOperator[]
     headerInfo: ILooseMonitoringHeaderInfo
+    responsableList: ISupervisors[]
 }
 
 interface ILooseHeaderConfigData {
@@ -113,8 +114,29 @@ export const AnswerLooseMonitoringSchema = z.object({
     })),
     file: z.instanceof(File).or(z.null()),
     clientCode: z.string().min(1),
-    operator: z.string().min(1)
+    operator: z.string().min(1).refine((value) => {
+        if (String(Number(value)) == "NaN") {
+            return false
+        }
+
+        if (Number(value) <= 0) {
+            return false
+        }
+
+        return true
+    }),
+    id_responsable: z.string().min(1).refine((value) => {
+        if (String(Number(value)) == "NaN") {
+            return false
+        }
+
+        if (Number(value) <= 0) {
+            return false
+        }
+
+        return true
+    })
 })
 
 export type AnswerLooseMonitoringData = z.infer<typeof AnswerLooseMonitoringSchema>
-export type { ILooseMonitoringContainer, ILooseMonitoringHeader, ILooseMonitoringTable, ILooseHeaderConfigData, ILooseMonitoringHeaderInfo }
+export type { ILooseHeaderConfigData, ILooseMonitoringContainer, ILooseMonitoringHeader, ILooseMonitoringHeaderInfo, ILooseMonitoringTable };

@@ -18,6 +18,8 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import TableLooseMonitoring from "./TableLooseMonitoring";
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
+import { getAllSupervisors } from "@/api/generics/getAllSupervisors";
 
 export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questions, operators }: ILooseMonitoringHeader) {
 
@@ -26,6 +28,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questio
     const [creditorsUnique, setCreditorsUnique] = useState<{ Id_Unique_Creditor: number, Creditor: string }[]>([])
     const [ocorrences, setOcorrences] = useState<{ Id_Ocorrence: number, Ocorrence: string }[]>([])
     const [agings, setAgings] = useState<IAgings[]>([])
+    const [responsableList, setResponsableList] = useState<ISupervisors[]>([])
     const [notFoundMessage, setNotFoundMessage] = useState("")
     const [disableButton, setDisableButton] = useState(false)
     const [headerInfo, setHeaderInfo] = useState<ILooseMonitoringHeaderInfo>({ creditor: "", creditorUnique: "", ocorrence: "", phase: "" })
@@ -86,6 +89,10 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questio
                 return
             }
 
+            const responsables = await getAllSupervisors(Number(data.creditor) == 58 ? 18 : Number(data.creditorUnique))
+
+            setResponsableList(responsables)
+
             setValueQuestionList(getQuestions.data!)
 
             return
@@ -109,7 +116,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questio
         }
 
         if (data.creditorUnique != "disabled") {
-            const getOcorrences = await getCreditorRelationWithOcorrenceLooseMonitoring(Number(data.creditorUnique))
+            const getOcorrences = await getCreditorRelationWithOcorrenceLooseMonitoring(Number(data.creditor), Number(data.creditorUnique))
 
             setDisableButton(false)
 
@@ -354,6 +361,7 @@ export function HeaderLooseMonitoring({ creditors, setValueQuestionList, questio
                     questions={questions}
                     operators={operators}
                     headerInfo={headerInfo}
+                    responsableList={responsableList}
                 />
             }
         </>

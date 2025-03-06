@@ -7,15 +7,18 @@ import { realizedMonitoring } from "@/api/monitoring/answer-monitoring/realizedM
 import { Button } from "@/components/Button";
 import { FieldForm } from "@/components/FieldForm";
 import { Input } from "@/components/Input";
+import { Option } from "@/components/Option";
+import { SelectField } from "@/components/SelectField";
 import { answerMonitoringData, answerMonitoringSchema } from "@/interfaces/monitoring/answer-monitoring/IAnswerMonitoringData";
 import { IAnswerTable } from "@/interfaces/monitoring/answer-monitoring/IAnswerTable";
 import { zodResolver } from "@hookform/resolvers/zod";
+import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
-export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor, idCreditor }: IAnswerTable) {
+export function TableAnswerMonitoring({ questions, config, idSchedule, idCreditorUnique, idAging, isSpecialCreditor, idCreditor, responsablesList }: IAnswerTable) {
 
     const dialog = useRef<HTMLDialogElement>(null)
 
@@ -44,7 +47,7 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
 
     const router = useRouter()
 
-    const { control, register, handleSubmit, watch, formState: { errors }, setError, reset, setValue, getValues }
+    const { control, register, handleSubmit, watch, formState: { errors }, setError, setValue, getValues }
         = useForm<answerMonitoringData>({
             defaultValues: {
                 observation: "",
@@ -73,7 +76,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                     }
                 }),
                 file: null,
-                clientCode: ""
+                clientCode: "",
+                id_responsable: responsablesList.length == 1 ? String(responsablesList[0].Id_User) : "0"
             },
             resolver: zodResolver(answerMonitoringSchema)
         })
@@ -219,7 +223,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                 idOcorrence: config[0].Id_Ocorrence,
                 idAgenda: idSchedule,
                 idAging: isSpecialCreditor ? idAging : config[0].Id_Aging,
-                isLooseMonitoring: false
+                isLooseMonitoring: false,
+                idResponsable: Number(data.id_responsable)
             },
             answers: [...questionsObject, ...behavioralObject],
             result: {
@@ -458,6 +463,56 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
 
                                     <div className={`my-2 flex flex-col gap-2 w-full`}>
                                         <FieldForm
+                                            name="Responsável da carteira"
+                                            error={errors.id_responsable && "Inválido"}
+                                            styles="w-fit"
+                                        >
+                                            {responsablesList.length == 1 ? (
+                                                <SelectField
+                                                    id="id_responsable"
+                                                    name="id_responsable"
+                                                    styles={classNames("w-[400px]", {
+                                                        "border-red-400": errors.id_responsable
+                                                    })}
+                                                    disabled={true}
+                                                >
+                                                    {responsablesList.map((responsable) => {
+                                                        return (
+                                                            <Option
+                                                                key={responsable.Id_User}
+                                                                value={responsable.Id_User}
+                                                                firstValue={responsable.Name}
+                                                            />
+                                                        )
+                                                    })}
+                                                </SelectField>
+                                            ) : (
+                                                <SelectField
+                                                    id="id_responsable"
+                                                    name="id_responsable"
+                                                    styles={classNames("w-[400px]", {
+                                                        "border-red-400": errors.id_responsable
+                                                    })}
+                                                    onForm={true}
+                                                    register={register}
+                                                    value={watch("id_responsable")}
+                                                >
+                                                    <Option value={"0"} firstValue="Selecione" />
+
+                                                    {responsablesList.map((responsable) => {
+                                                        return (
+                                                            <Option
+                                                                key={responsable.Id_User}
+                                                                value={responsable.Id_User}
+                                                                firstValue={responsable.Name}
+                                                            />
+                                                        )
+                                                    })}
+                                                </SelectField>
+                                            )}
+
+                                        </FieldForm>
+                                        <FieldForm
                                             label="clientCode"
                                             name="Código do Cliente:"
                                             error={errors.clientCode && "Inválido"}
@@ -467,6 +522,9 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                                                 id="clientCode"
                                                 name="clientCode"
                                                 type="text"
+                                                styles={classNames("", {
+                                                    "border-red-400": errors.clientCode
+                                                })}
                                                 onForm={true}
                                                 value={watch("clientCode")}
                                                 register={register}
@@ -482,8 +540,8 @@ export function TableAnswerMonitoring({ questions, config, idSchedule, idCredito
                                         >
                                             <textarea
                                                 id="observation"
-                                                className={`block my-1 w-full h-28 border-2 border-slate-400 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-zinc-700 dark:border-zinc-900
-                                                            ${errors.observation ? "focus:border-[--label-color-error] dark:focus:border-[--label-color-error]" : ""}
+                                                className={`block my-1 w-full h-28 border-2 rounded-md outline-none focus:border-blue-500 p-2 dark:bg-zinc-700
+                                                            ${errors.observation ? "border-[--label-color-error] focus:border-[--label-color-error] dark:border-[--label-color-error] dark:focus:border-[--label-color-error]" : "border-slate-400 dark:border-zinc-900"}
                                                         `}
                                                 {...register("observation")}
                                                 value={watch("observation")}

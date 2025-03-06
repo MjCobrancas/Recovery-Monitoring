@@ -3,6 +3,8 @@ import { IScheduleUser } from "../schedule-monitoring/ISchedules";
 import { IScheduleAnswerId } from "./IAnswerScheduleId";
 import { z } from "zod";
 import { IMonitoringResponse } from "./IAnswerMonitoringQuestions";
+import { Dispatch, SetStateAction } from "react";
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
 
 interface IFormFindQuestions {
     schedule: IScheduleUser[]
@@ -12,6 +14,7 @@ interface IFormFindQuestions {
     setValueIdCreditorUnique: (id_creditor_unique: number) => void
     setValueIdAging: (id_aging: number) => void
     isSpecialCreditor: boolean
+    setResponsablesList: Dispatch<SetStateAction<ISupervisors[]>>
 }
 
 export const IFormFindQuestionsSchema = z.object({

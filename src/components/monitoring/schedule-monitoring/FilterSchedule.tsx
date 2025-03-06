@@ -52,20 +52,19 @@ export function FilterSchedule({ creditorsUnique, ocorrences, setFilter }: IFilt
         let lastName = splitedName.slice(1).join(' ')
 
         setDisableButton(true)
-        setDidFilter(true)
-
         const scheduleFilter = await getAllSchedule(Number(data.creditor), Number(data.ocorrences), 0, firstName, lastName, String(data.data))
 
         setDisableButton(false)
 
         if (!scheduleFilter.status) {
-            toast.error("Não há nenhum dado com esses filtros!", {
+            toast.error("Não foi possível buscar dados baseados nesses filtros!", {
                 duration: 5000
             })
 
             return
         }
 
+        setDidFilter(true)
         setFilter(scheduleFilter.agendas.data)
 
         toast.success("Sucesso ao filtrar os dados!", {
@@ -210,7 +209,7 @@ export function FilterSchedule({ creditorsUnique, ocorrences, setFilter }: IFilt
                 type="reset"
                 value="Remover filtros"
                 onClick={() => resetFilter()}
-                disabled={!didFilter}
+                disabled={!didFilter || disableButton}
                 className={`h-11 w-18 text-md font-medium ml-2 p-2 border border-red-400 text-red-500 
                             rounded-md hover:bg-red-400 hover:text-white duration-200 cursor-pointer
                              disabled:bg-slate-300 disabled:border-slate-400 disabled:cursor-not-allowed

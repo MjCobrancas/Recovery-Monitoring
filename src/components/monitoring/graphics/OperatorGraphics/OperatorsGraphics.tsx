@@ -73,7 +73,7 @@ export function OperatorsGraphics({ graphics, countOcorrence, countAging, handle
                                                     <button
                                                         key={indexAging}
                                                         data-active={indexOcorrence == countOcorrence && indexAging == countAging}
-                                                        className={classNames("relative w-[200px] h-[150px] px-9 z-30 flex flex-1 flex-col justify-center gap-1 py-4 text-left border-l-[1px] data-[active=true]:bg-muted/50", {
+                                                        className={classNames("relative w-[200px] h-[150px] px-9 z-30 flex flex-1 flex-col justify-center gap-1 py-4 text-left border-l-[1px] data-[active=true]:bg-slate-100 dark:data-[active=true]:bg-muted/50", {
                                                             "border-r-[1px]": graphics.creditor.ocorrences.length - 1 == indexOcorrence && indexOcorrence < maxNumber
                                                         })}
                                                         onClick={() => handleSetCount(indexOcorrence, indexAging)}

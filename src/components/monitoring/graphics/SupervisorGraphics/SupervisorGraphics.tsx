@@ -62,7 +62,7 @@ export function SupervisorGraphics({ graphicsSupervisor, countCreditor, setValue
                                     <button
                                         key={index}
                                         data-active={index == countCreditor}
-                                        className={classNames("relative w-[200px] border-l-[1px] z-30 flex flex-1 flex-col justify-center gap-1 py-8 text-left data-[active=true]:bg-muted/50", {
+                                        className={classNames("relative w-[200px] border-l-[1px] z-30 flex flex-1 flex-col justify-center gap-1 py-8 text-left data-[active=true]:bg-slate-100 dark:data-[active=true]:bg-muted/50", {
                                             "border-r-[1px]": graphicsSupervisor.creditors.length - 1 == index && index < maxNumber 
                                         })}
                                         onClick={() => setValueCountCreditor(index)}

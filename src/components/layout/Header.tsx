@@ -88,6 +88,12 @@ export function Header() {
             className={`fixed w-full text-right z-[999] duration-300 p-4 pb-0 bg-[--bg-main] dark:bg-[--bg-dark-main] print:hidden`}
         >
             <div className="h-[35px] flex justify-end items-start">
+                <Ancora 
+                    title='Alterar senha'
+                    toGo='/change-password'
+                    styles='dark:text-white'
+                />
+
                 <button
                     type="button"
                     onClick={() => toggleTheme()}

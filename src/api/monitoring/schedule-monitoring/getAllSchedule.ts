@@ -31,7 +31,7 @@ export async function getAllSchedule(id_creditor: number = 0, id_ocorrence: numb
                 quantity: listed.data.quantityDataNumbers as ISchedulesQuantity,
             }
 
-            if (listed.errors.length > 0) {
+            if (listed.errors.length || listed.data.data.length == 0) {
                 return {
                     agendas: {
                         data: [],

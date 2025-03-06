@@ -9,12 +9,12 @@ export default async function page() {
     const creditors: ICreditorGetAllCreditors[] = await getAllCreditors()
 
     return (
-        <PaperBlock>
+        <PaperBlock styles="relative">
             <TextPrincipal text="Prepare a monitoria" />
 
             <ContainerConfigMonitoring creditors={creditors} />
 
-            <Ancora title="Voltar" toGo={`${process.env.MANAGEMENT_DOMAIN}/register`} styles="ml-1 mb-1 w-16" />
+            <Ancora title="Voltar" toGo={`${process.env.MANAGEMENT_DOMAIN}/register`} styles="absolute left-1 bottom-1 ml-1 mb-1 w-16" />
         </PaperBlock>
     )
 }

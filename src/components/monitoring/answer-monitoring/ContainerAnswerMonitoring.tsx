@@ -6,12 +6,14 @@ import { useState } from "react";
 import { FormFindQuestions } from "./FormFindQuestions";
 import { TableAnswerMonitoring } from "./TableAnswerMonitoring";
 import { Toaster } from "react-hot-toast";
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
 
 export function ContainerAnswerMonitoring({ config, idSchedule, schedule, creditorsUnique, isSpecialCreditor }: IAnswerMonitoringContainer) {
 
     const [questions, setQuestions] = useState<IMonitoringResponse | null>(null)
     const [idCreditorUnique, setIdCreditorUnique] = useState(0)
     const [idAging, setIdAging] = useState(0)
+    const [responsablesList, setResponsablesList] = useState<ISupervisors[]>([])
 
     function setQuestionsValue(data: IMonitoringResponse | null) {
         setQuestions(data)
@@ -45,6 +47,7 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
                 setValueIdCreditorUnique={setValueIdCreditorUnique}
                 isSpecialCreditor={isSpecialCreditor}
                 setValueIdAging={setValueIdAging}
+                setResponsablesList={setResponsablesList}
             />
 
             {questions != null && (
@@ -56,6 +59,7 @@ export function ContainerAnswerMonitoring({ config, idSchedule, schedule, credit
                     idCreditorUnique={idCreditorUnique}
                     idAging={idAging}
                     isSpecialCreditor={isSpecialCreditor}
+                    responsablesList={responsablesList}
                 />
             )}
             

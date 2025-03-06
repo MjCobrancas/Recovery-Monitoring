@@ -13,7 +13,7 @@ export default async function Home() {
     const operators: IOperator[] = await getAllInactiveOperators()
 
     return (
-        <PaperBlock styles={``}>
+        <PaperBlock styles={`relative`}>
             <TextPrincipal text="Monitoria Avulsa" />
 
             <ContainerLooseMonitoring 
@@ -24,7 +24,7 @@ export default async function Home() {
             <Ancora 
                 title="Voltar"
                 toGo="/monitoring/schedule-monitoring"
-                styles="w-fit mx-1 mb-1"
+                styles="absolute left-1 bottom-1 w-fit mx-1 mb-1"
             />
         </PaperBlock>        
     )

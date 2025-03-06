@@ -257,5 +257,11 @@ export const actionRoutes: Array<ActionRoutes> = [
         level: 9,
         permissions: [1, 2, 3, 4],
         route: "/workout/prepare-avaliation"
+    },
+
+    {
+        level: 0,
+        permissions: [1, 2, 3, 4, 5],
+        route: "/change-password"
     }
 ]

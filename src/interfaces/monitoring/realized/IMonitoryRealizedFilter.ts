@@ -2,6 +2,7 @@ import { IBackOffices } from "@/interfaces/generics/IBackOffices";
 import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique";
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences";
 import { IMonitoryAllUsers } from "./IContainerMonitoryRealized";
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
 
 interface IMonitoryRealizedFilterProps {
     creditorsUnique: ICreditorsUnique[]
@@ -14,7 +15,8 @@ interface IMonitoryRealizedFilterProps {
     reloadTable: boolean
     setValueReloadTable: (value: boolean) => void
     isDidFilter: boolean
-    supervisor: IBackOffices[]
+    avaliators: IBackOffices[]
+    supervisors: ISupervisors[]
 }
 
 interface IMonitoringObjectFilter {
@@ -23,6 +25,7 @@ interface IMonitoringObjectFilter {
     id_aging: number
     negotiator_name: string
     negotiator_last_name: string
+    id_avaliator: number
     id_supervisor: number
     date_init: string
     date_end: string
@@ -31,6 +34,7 @@ interface IMonitoringObjectFilter {
 
 interface IMonitoryRealizedForm {
     supervisor: string
+    avaliator: string
     credor: string
     ocorrence: string
     name: string

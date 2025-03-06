@@ -1,3 +1,4 @@
+import { ISupervisors } from "@/interfaces/generics/ISupervisors";
 import { IMonitoringResponse } from "./IAnswerMonitoringQuestions";
 import { IScheduleAnswerId } from "./IAnswerScheduleId";
 
@@ -9,6 +10,7 @@ interface IAnswerTable {
     idAging: number
     isSpecialCreditor: boolean
     idCreditor: number
+    responsablesList: ISupervisors[]
 }
 
 export type { IAnswerTable };

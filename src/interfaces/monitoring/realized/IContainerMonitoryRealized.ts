@@ -1,13 +1,15 @@
 import { IBackOffices } from "@/interfaces/generics/IBackOffices"
 import { ICreditorsUnique } from "@/interfaces/generics/ICreditorsUnique"
 import { IGetAllOcorrences } from "@/interfaces/generics/IOcorrences"
+import { ISupervisors } from "@/interfaces/generics/ISupervisors"
 
 interface IContainerMonitoryRealizedProps {
     monitoryUsers: IMonitoryAllUsers[]
     creditorsUnique: ICreditorsUnique[]
     ocorrences: IGetAllOcorrences
     backOffices: IBackOffices[]
-    supervisor: IBackOffices[]
+    avaliators: IBackOffices[]
+    supervisors: ISupervisors[]
 }
 
 interface IMonitoryAllUsers {
@@ -23,6 +25,7 @@ interface IMonitoryAllUsers {
     Observation: string
     Is_Loose_Monitoring: boolean
     Evaluator_Name: string
+    Responsable_Name: string
     Id_Form: number
     Grade_Value: number
     Grade_Value_Behavioral: number

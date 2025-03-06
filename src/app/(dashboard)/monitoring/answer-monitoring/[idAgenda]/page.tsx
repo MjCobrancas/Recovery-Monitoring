@@ -19,7 +19,7 @@ export default async function Home({ params }: { params: { idAgenda: string } })
     const isSpecialCreditor = await getVerifyIsSpecialCreditor(scheduleId[0].Id_Creditor)
 
     return (
-        <PaperBlock>
+        <PaperBlock styles="relative">
             <TextPrincipal 
                 text={`Monitoria ${params.idAgenda ? params.idAgenda : ""}`}
                 styles={`max-md:text-[2rem] mb-4`}
@@ -36,7 +36,7 @@ export default async function Home({ params }: { params: { idAgenda: string } })
             <Ancora
                 title="Voltar"
                 toGo="/monitoring/schedule-monitoring"
-                styles={`ml-1 mb-1 w-16`}
+                styles={`absolute left-1 bottom-1 ml-1 mb-1 w-16`}
             />
         </PaperBlock>
     )

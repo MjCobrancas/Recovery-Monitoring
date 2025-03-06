@@ -14,11 +14,11 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter, supervisor, creditorsUnique }: IMonitoryRealizedFilterProps) {
+export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValueDisableButtons, setValueMonitoryRealized, monitoryUsers, setValueDidFilter, reloadTable, setValueReloadTable, isDidFilter, avaliators, creditorsUnique, supervisors }: IMonitoryRealizedFilterProps) {
 
     const router = useRouter()
 
-    const [lastObject, setLastObject] = useState<IMonitoringObjectFilter>({ id_creditor: 0, id_ocorrence: 0, id_aging: 0, date_init: getDateToday(), date_end: getDateToday(), feedback: "", id_supervisor: 0, negotiator_name: "", negotiator_last_name: "" })
+    const [lastObject, setLastObject] = useState<IMonitoringObjectFilter>({ id_creditor: 0, id_ocorrence: 0, id_aging: 0, date_init: getDateToday(), date_end: getDateToday(), feedback: "", id_avaliator: 0, negotiator_name: "", negotiator_last_name: "", id_supervisor: 0 })
 
     const { register, handleSubmit, watch, formState: { errors }, setError, reset } = useForm<IMonitoryRealizedForm>({
         defaultValues: {
@@ -27,6 +27,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
             credor: "0",
             ocorrence: "0",
             supervisor: "0",
+            avaliator: "0",
             name: "",
             feedback: ""
         }
@@ -41,7 +42,7 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
                 setValueReloadTable(false)
 
                 if (isDidFilter) {
-                    const getFiltredValues = await getMonitoringUsers(lastObject.id_creditor, lastObject.id_ocorrence, lastObject.id_aging, lastObject.negotiator_name, lastObject.negotiator_last_name, lastObject.feedback, lastObject.date_init, lastObject.date_end, lastObject.id_supervisor)
+                    const getFiltredValues = await getMonitoringUsers(lastObject.id_creditor, lastObject.id_ocorrence, lastObject.id_aging, lastObject.negotiator_name, lastObject.negotiator_last_name, lastObject.feedback, lastObject.date_init, lastObject.date_end, lastObject.id_avaliator)
 
                     if (!getFiltredValues.status) {
                         return
@@ -104,17 +105,18 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
             id_creditor: Number(data.credor),
             id_ocorrence: Number(data.ocorrence),
             id_aging: 0,
-            id_supervisor: Number(data.supervisor),
+            id_avaliator: Number(data.avaliator),
             negotiator_name: name.trim(),
             negotiator_last_name: lastName?.trim() || "",
             date_init: String(data.Data),
             date_end: String(data.DataEnd),
-            feedback: String(data.feedback)
+            feedback: String(data.feedback),
+            id_supervisor: Number(data.supervisor)
         }
 
         setLastObject(object)
 
-        const getFiltredValues = await getMonitoringUsers(Number(data.credor), Number(data.ocorrence), 0, name.trim(), lastName?.trim() || "", String(data.feedback), String(data.Data), String(data.DataEnd), Number(data.supervisor))
+        const getFiltredValues = await getMonitoringUsers(Number(data.credor), Number(data.ocorrence), 0, name.trim(), lastName?.trim() || "", String(data.feedback), String(data.Data), String(data.DataEnd), Number(data.avaliator), Number(data.supervisor))
 
         setValueDisableButtons(false)
 
@@ -268,6 +270,31 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
             <div className="flex justify-center items-center">
                 <div className={`flex gap-2`}>
                     <FieldForm
+                        name="Avaliador"
+                        obrigatory={false}
+                    >
+                        <SelectField
+                            id="avaliator"
+                            name="avaliator"
+                            onForm={true}
+                            register={register}
+                            value={watch("avaliator")}
+                        >
+                            <Option value={"0"} firstValue="Selecione" />
+
+                            {avaliators.map((value, index) => {
+                                return (
+                                    <Option
+                                        key={index}
+                                        value={value.Id_User}
+                                        firstValue={value.Name + " " + value.Last_Name}
+                                    />
+                                )
+                            })}
+                        </SelectField>
+                    </FieldForm>
+
+                    <FieldForm
                         label="supervisor"
                         name="Supervisor:"
                         obrigatory={false}
@@ -284,16 +311,15 @@ export function MonitoryRealizedFilter({ ocorrences, disableAllButtons, setValue
                         >
                             <Option value={"0"} firstValue={"Selecione"} />
 
-                            {supervisor.map((value, index) => {
+                            {supervisors.map((supervisor) => {
                                 return (
-                                    <Option
-                                        key={index}
-                                        value={value.Id_User}
-                                        firstValue={value.Name + " " + value.Last_Name}
+                                    <Option 
+                                        key={supervisor.Id_User}
+                                        value={supervisor.Id_User}
+                                        firstValue={supervisor.Name}
                                     />
                                 )
                             })}
-
                         </SelectField>
                     </FieldForm>
 

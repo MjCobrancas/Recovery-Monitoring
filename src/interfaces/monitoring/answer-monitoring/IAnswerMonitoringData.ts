@@ -17,7 +17,18 @@ export const answerMonitoringSchema = z.object({
         answer: z.boolean()
     })),
     file: z.instanceof(File).or(z.null()),
-    clientCode: z.string().min(1)
+    clientCode: z.string().min(1),
+    id_responsable: z.string().min(1).refine((value) => {
+        if (String(Number(value)) == "NaN") {
+            return false
+        }
+
+        if (Number(value) <= 0) {
+            return false
+        }
+
+        return true
+    })
 })
 
 export type answerMonitoringData = z.infer<typeof answerMonitoringSchema>

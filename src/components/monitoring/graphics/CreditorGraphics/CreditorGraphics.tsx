@@ -56,7 +56,7 @@ export function CreditorGraphics({ graphics, count, setCount }: ICreditorGraphic
                                 <button
                                     key={index}
                                     data-active={index == count}
-                                    className={classNames("flex flex-1 flex-col justify-center relative w-[200px] py-8 z-30 gap-1 border-l-[1px] text-left data-[active=true]:bg-muted/50", {
+                                    className={classNames("flex flex-1 flex-col justify-center relative w-[200px] py-8 z-30 gap-1 border-l-[1px] text-left data-[active=true]:bg-slate-100 dark:data-[active=true]:bg-muted/50", {
                                         "border-r-[1px]": index == graphics.creditor.ocorrences.length - 1 && index < 4
                                     })}
                                     onClick={() => setCount(index)}
