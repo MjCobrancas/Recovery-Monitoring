@@ -36,7 +36,6 @@ export function ContainerCreditorGraphics({ creditorsUniqueList, graphics }: ICo
                 setCount={setValueCount}
             />
         </>
-
     )
 
 }

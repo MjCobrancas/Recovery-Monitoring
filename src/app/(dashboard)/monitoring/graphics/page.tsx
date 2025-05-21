@@ -1,4 +1,5 @@
 import { getAllCreditorsUnique } from "@/api/generics/getAllCreditorsUnique";
+import { getAllOperators } from "@/api/generics/getAllOperators";
 import { getMonitoringGraphics } from "@/api/monitoring/graphics/getMonitoringGraphics";
 import { ContainerMonitoringGraphics } from "@/components/monitoring/graphics/ContainerMonitoringGraphics";
 import { PaperBlock } from "@/components/PaperBlock";
@@ -10,10 +11,11 @@ export default async function Page() {
 
     const graphics = await getMonitoringGraphics()
     const creditorsUniqueList: ICreditorsUnique[] = await getAllCreditorsUnique()
+    const operators = await getAllOperators()
 
     return (
         <PaperBlock>
-            <TextPrincipal text="Gráfico das monitorias" />
+            <TextPrincipal text="Gráficos das monitorias" />
 
             {graphics.data == null ? (
                 <p>Não foi possível encontrar os gráficos</p>
@@ -21,6 +23,7 @@ export default async function Page() {
                 <ContainerMonitoringGraphics 
                     graphics={graphics.data!} 
                     creditorsUniqueList={creditorsUniqueList}    
+                    operators={operators}
                 />
             )}
 

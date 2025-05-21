@@ -3,7 +3,7 @@
 import { ITokenUserInitialValues } from "@/interfaces/Generics";
 import { GetUserToken } from "@/utils/GetUserToken";
 
-export async function uploadAudioMonitoring(idForm: string, idUser: number, file: any) {
+export async function uploadAudioMonitoring(idForm: string, idUser: number, file: FormData) {
     const userParse: ITokenUserInitialValues = GetUserToken();
   
     console.log("IdForm:", idForm)

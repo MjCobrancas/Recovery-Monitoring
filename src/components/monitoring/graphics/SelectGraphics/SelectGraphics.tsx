@@ -24,7 +24,7 @@ export function SelectGraphics({ graphicType, setValueGraphicType }: ISelectGrap
                     OnClick={() => handleSetGraphic("graphic-creditor")}
                 />
 
-                <ButtonGraphics 
+                <ButtonGraphics
                     title="Gráficos dos Operadores"
                     description="Visualize o desempenho dos operadores por carteira"
                     graphicType={graphicType}
@@ -32,7 +32,15 @@ export function SelectGraphics({ graphicType, setValueGraphicType }: ISelectGrap
                     OnClick={() => handleSetGraphic("graphic-operators")}
                 />
 
-                <ButtonGraphics 
+                <ButtonGraphics
+                    title="Gráfico do operador"
+                    description="Visualize o desempenho geral do operador"
+                    graphicType={graphicType}
+                    setGraphicType={"graphic-operator-total"}
+                    OnClick={() => handleSetGraphic("graphic-operator-total")}
+                />
+
+                <ButtonGraphics
                     title="Gráficos dos Supervisores"
                     description="Visualize a quantidade de Monitorias realizadas dos supervisores por carteira"
                     graphicType={graphicType}

@@ -6,8 +6,9 @@ import { ContainerCreditorGraphics } from "./CreditorGraphics/ContainerCreditorG
 import { ContainerGraphicsOperators } from "./OperatorGraphics/ContainerGraphicsOperators";
 import { SelectGraphics } from "./SelectGraphics/SelectGraphics";
 import { ContainerGraphicsSupervisor } from "./SupervisorGraphics/ContainerGraphicsSupervisor";
+import { ContainerGraphicOperatorTotal } from "./OperatorGraphicTotal/ContainerGraphicOperatorTotal";
 
-export function ContainerMonitoringGraphics({ graphics, creditorsUniqueList }: IContainerMonitoringGraphicsProps) {
+export function ContainerMonitoringGraphics({ graphics, creditorsUniqueList, operators }: IContainerMonitoringGraphicsProps) {
 
     const [graphicType, setGraphicType] = useState("graphic-creditor")
 
@@ -32,6 +33,12 @@ export function ContainerMonitoringGraphics({ graphics, creditorsUniqueList }: I
             {graphicType == "graphic-operators" && (
                 <ContainerGraphicsOperators 
                     creditorsUniqueList={creditorsUniqueList}
+                />
+            )}
+
+            {graphicType == "graphic-operator-total" && (
+                <ContainerGraphicOperatorTotal 
+                    operators={operators}
                 />
             )}
 
