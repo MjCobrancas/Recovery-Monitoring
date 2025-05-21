@@ -1,5 +1,6 @@
 import { getAllCreditors } from "@/api/generics/getAllCreditors";
 import { getAllInactiveOperators } from "@/api/generics/getAllInactiveOperators";
+import { getAllUsers } from "@/api/generics/getAllUsers";
 import { Ancora } from "@/components/Ancora";
 import { ContainerLooseMonitoring } from "@/components/monitoring/loose-monitoring/ContainerLooseMonitoring";
 import { PaperBlock } from "@/components/PaperBlock";
@@ -10,7 +11,7 @@ import { IOperator } from "@/interfaces/generics/IOperator";
 export default async function Home() {
 
     const creditors: ICreditors[] = await getAllCreditors()
-    const operators: IOperator[] = await getAllInactiveOperators()
+    const operators: IOperator[] = await getAllUsers()
 
     return (
         <PaperBlock styles={`relative`}>

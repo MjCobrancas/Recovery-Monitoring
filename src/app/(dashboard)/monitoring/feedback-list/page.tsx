@@ -1,4 +1,4 @@
-import { getAllOperators } from "@/api/generics/getAllOperators";
+import { getAllUsers } from "@/api/generics/getAllUsers";
 import { getMonitoringFeedbacks } from "@/api/monitoring/feedback/getMonitoringFeedbacks";
 import { getResponsablesOnMonitoringFeedbacks } from "@/api/monitoring/feedback/getResponsablesOnMonitoringFeedbacks";
 import { ContainerFeedbackList } from "@/components/monitoring/feedback-list/ContainerFeedbackList";
@@ -11,7 +11,7 @@ export default async function Page() {
 
     const feedbacks = await getMonitoringFeedbacks(getDateToday(), getDateToday())
     const responsables = await getResponsablesOnMonitoringFeedbacks()
-    const operators = await getAllOperators()
+    const operators = await getAllUsers(true)
 
     return (
         <PaperBlock styles="min-h-[100vh]">

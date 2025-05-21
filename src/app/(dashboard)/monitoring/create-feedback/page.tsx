@@ -1,4 +1,4 @@
-import { getAllOperators } from "@/api/generics/getAllOperators";
+import { getAllUsers } from "@/api/generics/getAllUsers";
 import { ContainerCreateFeedback } from "@/components/monitoring/create-feedback/ContainerCreateFeedback";
 import { PaperBlock } from "@/components/PaperBlock";
 import { TextPrincipal } from "@/components/TextPrincipal";
@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 export default async function Page() {
 
-    const operators = await getAllOperators()
+    const operators = await getAllUsers(true)
 
     return (
         <PaperBlock styles="min-h-[100vh]">
